@@ -9,7 +9,8 @@ private:
   int server_socket;
 
 public:
-  NetServer(int port);
+  NetServer(){}
+  NetServer(int port){}
 };
 
 #endif

@@ -22,6 +22,7 @@ private:
   int color;
 
 public:
+  Block();
   void FillSolved(std::vector<Parameter>);
 };
 

@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <block.hpp>
+#include <serializer.hpp>
 
 #ifndef DBHELPER
 #define DBHELPER
@@ -15,10 +16,8 @@ private:
   std::string RequestQuery(std::string);
 
 public:
-  DBHelper(std::string address, std::string username, std::string password,
-           std::string database)
-      : db_address(address), db_username(username), db_password(password),
-        db_database(database) {}
+  DBHelper();
+  DBHelper(std::string address, std::string username, std::string password, std::string database);
   Block RequestBlock(std::string name);
   std::vector<Block> RequestAllBlocks();
   void LogData(std::string data);

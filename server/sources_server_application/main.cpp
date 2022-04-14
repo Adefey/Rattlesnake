@@ -3,6 +3,6 @@
 #include <server_application.hpp>
 
 int main(int argc, char **argv) {
-  ServerApplication freezing_brightness_of_fate;
+  ServerApplication *application = new ServerApplication;
   return EXIT_SUCCESS;
 }

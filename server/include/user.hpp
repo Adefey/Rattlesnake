@@ -11,6 +11,7 @@ struct User {
   User(NetSocket socket, std::vector<std::string> scheme,
        std::vector<Parameter> vars)
       : user_socket(socket), block_scheme(scheme), variables(vars) {}
+  User(){}
 };
 
 #endif

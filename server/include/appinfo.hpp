@@ -16,6 +16,7 @@ public:
     static std::string GetDBBlockTable();
     static std::string GetDBLogTable();
     static size_t GetMaxMachinesCount();
-}
+    static size_t GetRefreshPeriod();
+};
 
 #endif

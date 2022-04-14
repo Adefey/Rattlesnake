@@ -1,6 +1,5 @@
 #include <block.hpp>
 #include <boost/asio.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <dbhelper.hpp>
 #include <netserver.hpp>
 #include <parser.hpp>
@@ -11,13 +10,13 @@
 #include <string>
 #include <machine_factory.hpp>
 #include <memory>
+#include <appinfo.hpp>
 
 #ifndef SERVERAPPLICATION
 #define SERVERAPPLICATION
 
 class ServerApplication {
 private:
-  boost::asio::deadline_timer timer;
   DBHelper db_helper;
   std::queue<User> waiting_users;
   std::queue<User> executing_users;

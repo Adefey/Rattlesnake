@@ -1,0 +1,29 @@
+ // Copyright 2022 Adefe
+
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+#include <server_application.hpp>
+
+using ::testing::AtLeast;
+using ::testing::DoAll;
+using ::testing::Return;
+using ::testing::SetArgReferee;
+
+class MockMachineFactory : public MachineFactory {
+public:
+  MOCK_METHOD((std::string), MakeStartString, ());
+  MOCK_METHOD(void, LaunchProcess, (std::string));
+  MOCK_METHOD((std::string), ProcessMachine, ());
+};
+
+TEST(MachineFactoryTest, ProcessMachineTest) {
+    MockMachineFactory mock_machine_factory;
+    mock_machine_factory.ProcessMachine();
+    EXPECT_CALL(mock_machine_factory, MakeStartString()).Times(AtLeast(1));
+    EXPECT_CALL(mock_machine_factory, LaunchProcess("")).Times(AtLeast(1));
+}
+
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
