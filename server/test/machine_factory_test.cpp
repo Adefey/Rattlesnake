@@ -6,7 +6,6 @@
 TEST(MachineFactoryTest, ProcessMachineTest) {
   MachineFactory machine_factory;
   User u;
-  // EXPECT_NO_THROW(machine_factory.ProcessMachine(std::unique_ptr<User>(u)));
-  //   EXPECT_NE(machine_factory.ProcessMachine(std::unique_ptr<User> u),
-  //   std::string(""));
+  EXPECT_NO_THROW(machine_factory.ProcessMachine(u));
+  EXPECT_NE(machine_factory.ProcessMachine(u), std::string(""));
 }

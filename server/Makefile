@@ -27,7 +27,7 @@ clean_dirs:
 	rm -f $(ResultServerApp)*
 	rm -f $(Libraries)*
 	find $(Test) -type f -not -name "appinfo_test.cpp" -not -name "dbhelper_test.cpp" -not -name "machine_factory_test.cpp" -not -name "machine_test.cpp" -not -name "server_application_test.cpp" -not -name "test_machine.cpp" -not -name "test_server.cpp" -delete
-	rm -f $(Test)report*
+	rm -rf $(Test)report*
 
 check:
 	@echo "-------------START FORMATTING FILES-------------"
@@ -90,8 +90,8 @@ $(Test)machine.o : $(SourcesMachine)machine.cpp
 	$(Compiler) $(Flags) -c $(SourcesMachine)machine.cpp -o $(Test)machine.o $(TestFlags)
 
 run_tests:
-	valgrind $(Test)$(ServerApp)TEST
-	valgrind $(Test)$(Machine)TEST
+	valgrind $(Test)$(ServerApp)TEST --leak-check=full || true
+	valgrind $(Test)$(Machine)TEST --leak-check=full || true
 
 make_report:
 	lcov -t $(Test)$(ServerApp)TEST -o $(Test)coverage_server.info -c -d $(Test)

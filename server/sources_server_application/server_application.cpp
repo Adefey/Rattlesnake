@@ -9,7 +9,7 @@ void ServerApplication::ProcessEvents()
 //Точка входа подключений
 {}
 
-void ServerApplication::ProcessUser(std::unique_ptr<User> user)
+void ServerApplication::ProcessUser(const User &user)
 //Обработать запрос на обработку блок-схемы
 {}
 

@@ -11,7 +11,7 @@ TEST(ServerApplicationTest, ProcessEventsTest) {
 TEST(ServerApplicationTest, ProcessUserTest) {
   ServerApplication server;
   User u;
-  // EXPECT_NO_THROW(server.ProcessUser(std::unique_ptr<User>(u)));
+  EXPECT_NO_THROW(server.ProcessUser(u));
 }
 
 TEST(ServerApplicationTest, ProcessStatTest) {
