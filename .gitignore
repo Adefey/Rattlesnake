@@ -1,7 +1,0 @@
-project/binaries/*
-project/result/*
-project/libraries/*
-tests/*
-!tests/main_single.cpp
-!tests/main_multi.cpp
-!tests/test.txt

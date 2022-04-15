@@ -26,6 +26,7 @@ clean_dirs:
 	rm -f $(ResultMachine)*
 	rm -f $(ResultServerApp)*
 	rm -f $(Libraries)*
+	find $(Test) -type f -not -name "dbhelper_test.cpp" -not -name "machine_factory_test.cpp" -not -name "machine_test.cpp" -not -name "server_application_test.cpp" -not -name "test_machine.cpp" -not -name "test_server.cpp" -delete
 
 check:
 	@echo "-------------START FORMATTING FILES-------------"
@@ -57,30 +58,30 @@ $(Binaries)main_machine.o : $(SourcesMachine)main_machine.cpp
 $(Binaries)machine.o : $(SourcesMachine)machine.cpp
 	$(Compiler) $(Flags) -c $(SourcesMachine)machine.cpp -o $(Binaries)machine.o
 
-
-
-
-
 make_test_binaries: $(SourcesCommon)appinfo.cpp $(SourcesCommon)block.cpp $(SourcesCommon)dbhelper.cpp $(SourcesCommon)machine_factory.cpp
 	$(Compiler) $(Flags) -c $(SourcesCommon)appinfo.cpp -o $(Test)appinfo.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(SourcesCommon)block.cpp -o $(Test)block.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(SourcesCommon)dbhelper.cpp -o $(Test)dbhelper.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(SourcesCommon)machine_factory.cpp -o $(Test)machine_factory.o $(TestFlags)
+	$(Compiler) $(Flags) -c $(Test)dbhelper_test.cpp -o $(Test)dbhelper_test.o $(TestFlags)
+	$(Compiler) $(Flags) -c $(Test)machine_factory_test.cpp -o $(Test)machine_factory_test.o $(TestFlags)
+	$(Compiler) $(Flags) -c $(Test)machine_test.cpp -o $(Test)machine_test.o $(TestFlags)
+	$(Compiler) $(Flags) -c $(Test)server_application_test.cpp -o $(Test)server_application_test.o $(TestFlags)
 
-make_test_server: $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)machine_factory.o $(Test)test_server.o $(Test)server_application.o
-	$(Compiler) $(Flags) $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)machine_factory.o $(Test)test_server.o $(Test)server_application.o -o $(Test)$(ServerApp) $(TestFlags)
+make_test_server: $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)machine_factory.o $(Test)test_server.o $(Test)server_application.o $(Test)dbhelper_test.o $(Test)machine_factory_test.o  $(Test)server_application_test.o
+	$(Compiler) $(Flags) $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)machine_factory.o $(Test)test_server.o $(Test)server_application.o $(Test)dbhelper_test.o $(Test)machine_factory_test.o $(Test)server_application_test.o -o $(Test)$(ServerApp)TEST $(TestFlags)
 
-$(Test)test_server.o : $(SourcesServerApp)test_server.cpp
-	$(Compiler) $(Flags) -c $(SourcesServerApp)main_server.cpp -o $(Test)test_server.o $(TestFlags)
+$(Test)test_server.o : $(Test)test_server.cpp
+	$(Compiler) $(Flags) -c $(Test)test_server.cpp -o $(Test)test_server.o $(TestFlags)
 
 $(Test)server_application.o : $(SourcesServerApp)server_application.cpp
 	$(Compiler) $(Flags) -c $(SourcesServerApp)server_application.cpp -o $(Test)server_application.o $(TestFlags)
 
-make_test_machine: $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)test_machine.o $(Test)machine.o
-	$(Compiler) $(Flags) $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)test_machine.o $(Test)machine.o -o $(Test)$(Machine) $(TestFlags)
+make_test_machine: $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)test_machine.o $(Test)machine.o $(Test)machine_test.o
+	$(Compiler) $(Flags) $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)test_machine.o $(Test)machine.o $(Test)machine_test.o -o $(Test)$(Machine)TEST $(TestFlags)
 
-$(Test)test_machine.o : $(SourcesMachine)test_machine.cpp
-	$(Compiler) $(Flags) -c $(SourcesMachine)test_machine.cpp -o $(Test)test_machine.o $(TestFlags)
+$(Test)test_machine.o : $(Test)test_machine.cpp
+	$(Compiler) $(Flags) -c $(Test)test_machine.cpp -o $(Test)test_machine.o $(TestFlags)
 
 $(Test)machine.o : $(SourcesMachine)machine.cpp
 	$(Compiler) $(Flags) -c $(SourcesMachine)machine.cpp -o $(Test)machine.o $(TestFlags)
