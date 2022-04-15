@@ -1,7 +1,3 @@
-server/binaries/
-server/libraries/
-server/result_server_application
-server/result_machine
 server/test/*
 !server/test/*.cpp
 
