@@ -1,7 +1,0 @@
-BasedOnStyle: Google
-ColumnLimit: 100
-UseTab: Never
-SpaceAfterTemplateKeyword: false
-AllowShortFunctionsOnASingleLine: Empty
-DerivePointerAlignment: false
-PointerAlignment: Left

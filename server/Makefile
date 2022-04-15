@@ -1,32 +1,29 @@
 #Paths
-ProjectPath=./project/
-ServerPath=./project/server
-ServerAppSources=./project/server/sources_server_application/
-MachineSources=./project/server/sources_machine/
-ServerHeaders=/headers/
-Binaries=/binaries/
-Libraries=/libraries/
-Result=/result/
-Tests=/test/
-CommonScripts=./scripts/
+Binaries=./binaries/
+Include=./include/
+Libraries=./libraries/
+ResultMachine=./result_machine/
+ResultServerApp=./result_server_application/
+Scripts=./scripts/
+SourcesMachine=./sources_machine/
+SourcesServerApp=./sources_server_app/
+Test=./test/
 #Names
-Server=RattlesnakeServer
+ServerApp=RattlesnakeServer
 Machine=RattlesnakeMachine
 #Compilation
 Compiler=g++
 Flags=-I $(Headers) -Ofast -std=c++2a -Wall -Werror -Wpedantic
 Archiver=ar
-#Testing
-TestFolder=./tests/results/
 
 all: clean_dirs check
 
 clean_dirs:
-	@echo "-------------START CLEANUP OF $(Result) AND $(Libraries)-------------"
+	@echo "-------------START CLEANUP OF $(Result), $(ResultMachine), $(ResultServerApp) AND $(Libraries)-------------"
 	rm -f $(Binaries)*
-	rm -f $(Result)*
+	rm -f $(ResultMachine)*
+	rm -f $(ResultServerApp)*
 	rm -f $(Libraries)*
-	find $(Tests) -type f -not -name "main_single.cpp" -not -name "main_multi.cpp" -not -name "test.txt" -delete
 
 check:
 	@echo "-------------START FORMATTING FILES-------------"
