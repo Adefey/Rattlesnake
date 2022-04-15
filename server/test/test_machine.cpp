@@ -1,3 +1,7 @@
+/*
+ * Компилируется с machine_test
+ */
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <machine.hpp>

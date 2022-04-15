@@ -1,3 +1,8 @@
+/*
+ * Компилируется с appinfo_test, dbhelper_test, machine_factory_test,
+ * server_application_test
+ */
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <server_application.hpp>

@@ -14,12 +14,12 @@ class MachineFactory {
 
 private:
   std::vector<std::string> machines_online;
-  std::string MakeStartString(std::unique_ptr<User> user);
+  std::string MakeStartString(const User &user);
   void LaunchProcess(const std::string &launch_string);
 
 public:
   MachineFactory();
-  std::string ProcessMachine(std::unique_ptr<User> user);
+  std::string ProcessMachine(const User &user);
   //запускает в докере
 };
 

@@ -29,7 +29,7 @@ public:
   ServerApplication();
   void ProcessEvents();
   //Точка входа подключений
-  void ProcessUser(std::unique_ptr<User> user);
+  void ProcessUser(const User &user);
   //Обработать запрос на обработку блок-схемы
   void ProcessStat();
   //Обработать запрос на сбор статистики

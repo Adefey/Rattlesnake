@@ -28,3 +28,13 @@ jobs:
           sudo apt install -f
       - name: build and test all
         run: sudo make
+      - name: save server report artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: report_server
+          path: ./server/test/report_server/
+      - name: save machine report artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: report_machine
+          path: ./server/test/report_machine/
