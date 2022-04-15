@@ -1,4 +1,4 @@
-#include "Parser.hpp"
+#include "parser.hpp"
 
 bool Parser::ToInt(std::string value, int& result) {}
 

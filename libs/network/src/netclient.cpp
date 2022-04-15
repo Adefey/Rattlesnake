@@ -1,3 +1,3 @@
-#include "NetClient.hpp"
+#include "netclient.hpp"
 
 bool NetClient::SetServerAddress(const char* address) {}

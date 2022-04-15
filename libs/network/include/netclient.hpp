@@ -3,7 +3,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-#include "NetSocket.hpp"
+#include "netsocket.hpp"
 
 class NetClient {
  public:

@@ -1,4 +1,4 @@
-#include "NetLibraryServer.hpp"
+#include "netlibraryserver.hpp"
 
 bool NetLibraryServer::SendData(NetSocket socket, std::string data) {}
 

@@ -1,4 +1,4 @@
-#include "NetSocket.hpp"
+#include "netsocket.hpp"
 
 bool NetSocket::CreateSocket() {}
 

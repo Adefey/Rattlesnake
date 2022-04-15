@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "NetSocket.hpp"
+#include "netsocket.hpp"
 
 class INetLibrary {
  public:

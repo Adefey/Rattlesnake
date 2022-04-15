@@ -1,7 +1,7 @@
 #pragma once
 
-#include "INetLibrary.hpp"
-#include "NetServer.hpp"
+#include "inetlibrary.hpp"
+#include "netserver.hpp"
 
 class NetLibraryServer : public INetLibrary {
  public:

@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "NetSocket.hpp"
+#include "netsocket.hpp"
 
 class NetServer {
  public:
