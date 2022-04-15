@@ -18,7 +18,7 @@ Flags=-I $(Include) -I ../libs/network/include/ -I ../libs/data_processing/inclu
 TestFlags=-lgtest -lpthread -coverage -lgcov
 Archiver=ar
 
-all: clean_dirs check make_binaries make_server_app make_machine make_test_binaries make_test_server make_test_machine
+all: clean_dirs check make_binaries make_server_app make_machine make_test_binaries make_test_server make_test_machine run_tests make_report
 
 clean_dirs:
 	@echo "-------------START CLEANUP OF $(Result), $(ResultMachine), $(ResultServerApp) AND $(Libraries)-------------"
@@ -27,6 +27,7 @@ clean_dirs:
 	rm -f $(ResultServerApp)*
 	rm -f $(Libraries)*
 	find $(Test) -type f -not -name "appinfo_test.cpp" -not -name "dbhelper_test.cpp" -not -name "machine_factory_test.cpp" -not -name "machine_test.cpp" -not -name "server_application_test.cpp" -not -name "test_machine.cpp" -not -name "test_server.cpp" -delete
+	rm -f $(Test)report*
 
 check:
 	@echo "-------------START FORMATTING FILES-------------"
@@ -87,3 +88,13 @@ $(Test)test_machine.o : $(Test)test_machine.cpp
 
 $(Test)machine.o : $(SourcesMachine)machine.cpp
 	$(Compiler) $(Flags) -c $(SourcesMachine)machine.cpp -o $(Test)machine.o $(TestFlags)
+
+run_tests:
+	valgrind $(Test)$(ServerApp)TEST
+	valgrind $(Test)$(Machine)TEST
+
+make_report:
+	lcov -t $(Test)$(ServerApp)TEST -o $(Test)coverage_server.info -c -d $(Test)
+	genhtml -o $(Test)report_server $(Test)coverage_server.info
+	lcov -t $(Test)$(Machine)TEST -o $(Test)coverage_machine.info -c -d $(Test)
+	genhtml -o $(Test)report_machine $(Test)coverage_machine.info

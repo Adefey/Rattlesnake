@@ -1,25 +1,12 @@
-/*
-#include <gmock/gmock.h>
+// Copyright 2022 Adefe
+
 #include <gtest/gtest.h>
 #include <server_application.hpp>
 
-using ::testing::AtLeast;
-using ::testing::DoAll;
-using ::testing::Return;
-using ::testing::SetArgReferee;
-
-class MockMachineFactory : public MachineFactory {
-public:
-  MOCK_METHOD((std::string), MakeStartString, ());
-  MOCK_METHOD(void, LaunchProcess, (std::string));
-  MOCK_METHOD((std::string), ProcessMachine, ());
-};
-
 TEST(MachineFactoryTest, ProcessMachineTest) {
-  MockMachineFactory mock_machine_factory;
-  mock_machine_factory.ProcessMachine();
-  EXPECT_CALL(mock_machine_factory, MakeStartString()).Times(AtLeast(1));
-  EXPECT_CALL(mock_machine_factory, LaunchProcess("")).Times(AtLeast(1));*
+  MachineFactory machine_factory;
+  User u;
+  // EXPECT_NO_THROW(machine_factory.ProcessMachine(std::unique_ptr<User>(u)));
+  //   EXPECT_NE(machine_factory.ProcessMachine(std::unique_ptr<User> u),
+  //   std::string(""));
 }
-
-*/

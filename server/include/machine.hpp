@@ -16,6 +16,7 @@ class Machine {
 
 private:
   User user;
+  NetServer net_server;
   void ProcessOneBlock(const std::string &launch_string);
   std::string MakeProcessStartString(const std::string &block_name);
 

@@ -4,33 +4,35 @@
 #include <server_application.hpp>
 
 TEST(AppInfoTest, GetDBAddressTest) {
-  EXPECT_EQ(AppInfo::GetDBAddress(), "addr_here");
+  EXPECT_NO_THROW(AppInfo::GetDBAddress());
+  EXPECT_NE(AppInfo::GetDBAddress(), "");
 }
 
 TEST(AppInfoTest, GetDBUsernameTest) {
-  EXPECT_EQ(AppInfo::GetDBUsername(), "User");
+  EXPECT_NO_THROW(AppInfo::GetDBUsername());
+  EXPECT_NE(AppInfo::GetDBAddress(), "");
 }
 
 TEST(AppInfoTest, GetDBPasswordTest) {
-  EXPECT_EQ(AppInfo::GetDBPassword(), "password");
+  EXPECT_NO_THROW(AppInfo::GetDBPassword());
 }
 
 TEST(AppInfoTest, GetDBDatabaseTest) {
-  EXPECT_EQ(AppInfo::GetDBDatabase(), "Rattlesnake");
+  EXPECT_NO_THROW(AppInfo::GetDBDatabase());
 }
 
 TEST(AppInfoTest, GetDBBlockTableTest) {
-  EXPECT_EQ(AppInfo::GetDBBlockTable(), "Blocks");
+  EXPECT_NO_THROW(AppInfo::GetDBBlockTable());
 }
 
 TEST(AppInfoTest, GetDBLogTableTest) {
-  EXPECT_EQ(AppInfo::GetDBLogTable(), "Log");
+  EXPECT_NO_THROW(AppInfo::GetDBLogTable());
 }
 
 TEST(AppInfoTest, GetMaxMachinesCountTest) {
-  EXPECT_EQ(AppInfo::GetMaxMachinesCount(), 10);
+  EXPECT_NO_THROW(AppInfo::GetMaxMachinesCount());
 }
 
 TEST(AppInfoTest, GetRefreshPeriodTest) {
-  EXPECT_EQ(AppInfo::GetRefreshPeriod(), 20);
+  EXPECT_NO_THROW(AppInfo::GetRefreshPeriod());
 }
