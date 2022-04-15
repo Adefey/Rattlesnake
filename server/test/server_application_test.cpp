@@ -1,7 +1,7 @@
-  // Copyright 2022 Adefe
+// Copyright 2022 Adefe
 
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 #include <server_application.hpp>
 
 using ::testing::AtLeast;
@@ -26,22 +26,22 @@ public:
 };
 
 TEST(ServerApplicationTest, ProcessUserTest) {
-    MockServerApplication mock_server_application;
-    mock_server_application.ProcessUser();
-    EXPECT_CALL(mock_server_application, MakeStartString()).Times(AtLeast(1));
-    EXPECT_CALL(mock_server_application, LaunchProcess("")).Times(AtLeast(1));
-    EXPECT_CALL(mock_server_application, ProcessMachine()).Times(AtLeast(1));
+  MockServerApplication mock_server_application;
+  mock_server_application.ProcessUser();
+  EXPECT_CALL(mock_server_application, MakeStartString()).Times(AtLeast(1));
+  EXPECT_CALL(mock_server_application, LaunchProcess("")).Times(AtLeast(1));
+  EXPECT_CALL(mock_server_application, ProcessMachine()).Times(AtLeast(1));
 
-    EXPECT_CALL(mock_server_application, RequestQuery("")).Times(AtLeast(1));
-    EXPECT_CALL(mock_server_application, RequestBlock("")).Times(AtLeast(1));
+  EXPECT_CALL(mock_server_application, RequestQuery("")).Times(AtLeast(1));
+  EXPECT_CALL(mock_server_application, RequestBlock("")).Times(AtLeast(1));
 }
 
 TEST(ServerApplicationTest, ProcessStatTest) {
-    MockServerApplication mock_server_application;
-    mock_server_application.ProcessStat();
+  MockServerApplication mock_server_application;
+  mock_server_application.ProcessStat();
 
-    EXPECT_CALL(mock_server_application, RequestQuery("")).Times(AtLeast(1));
-    EXPECT_CALL(mock_server_application, RequestAllBlocks()).Times(AtLeast(1));
+  EXPECT_CALL(mock_server_application, RequestQuery("")).Times(AtLeast(1));
+  EXPECT_CALL(mock_server_application, RequestAllBlocks()).Times(AtLeast(1));
 }
 
 int main(int argc, char **argv) {

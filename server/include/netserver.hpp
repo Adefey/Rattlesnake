@@ -5,12 +5,13 @@
 typedef int NetSocket;
 
 class NetServer {
+
 private:
   int server_socket;
 
 public:
-  NetServer(){}
-  NetServer(int port){}
+  NetServer() : server_socket(0) {}
+  NetServer(int port) : server_socket(port) {}
 };
 
 #endif

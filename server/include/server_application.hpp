@@ -1,21 +1,24 @@
-#include <block.hpp>
+#include <memory>
+#include <queue>
+#include <string>
+#include <vector>
+
 #include <boost/asio.hpp>
+
+#include <appinfo.hpp>
+#include <block.hpp>
 #include <dbhelper.hpp>
+#include <machine_factory.hpp>
 #include <netserver.hpp>
 #include <parser.hpp>
-#include <queue>
 #include <serializer.hpp>
 #include <user.hpp>
-#include <vector>
-#include <string>
-#include <machine_factory.hpp>
-#include <memory>
-#include <appinfo.hpp>
 
 #ifndef SERVERAPPLICATION
 #define SERVERAPPLICATION
 
 class ServerApplication {
+
 private:
   DBHelper db_helper;
   std::queue<User> waiting_users;
@@ -26,10 +29,12 @@ private:
 
 public:
   ServerApplication();
-  void ProcessEvents(); //Точка входа подключений
-  void ProcessUser(
-      std::unique_ptr<User> user); //Обработать запрос на обработку блок-схемы
-  void ProcessStat(); //Обработать запрос на сбор статистики
+  void ProcessEvents();
+  //Точка входа подключений
+  void ProcessUser(std::unique_ptr<User> user);
+  //Обработать запрос на обработку блок-схемы
+  void ProcessStat();
+  //Обработать запрос на сбор статистики
 };
 
 #endif

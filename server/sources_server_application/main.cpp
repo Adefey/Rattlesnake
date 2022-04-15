@@ -4,5 +4,6 @@
 
 int main(int argc, char **argv) {
   ServerApplication *application = new ServerApplication;
+  application->ProcessEvents();
   return EXIT_SUCCESS;
 }

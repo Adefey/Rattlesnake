@@ -22,5 +22,5 @@ function check_log() {
 }
 
 print_header "RUN clang-format"
-check_log "clang-format -i -style=file ./include/* ./sources_machine/* ./sources_server_application/* ./test/*" "Can't open for reading"
+check_log "clang-format -i -style=file ./include/* ./sources_machine/* ./sources_common/* ./sources_server_application/* ./test/*" "Can't open for reading"
 

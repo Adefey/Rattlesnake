@@ -1,7 +1,7 @@
- // Copyright 2022 Adefe
+// Copyright 2022 Adefe
 
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 #include <server_application.hpp>
 
 using ::testing::AtLeast;
@@ -17,10 +17,10 @@ public:
 };
 
 TEST(MachineFactoryTest, ProcessMachineTest) {
-    MockMachineFactory mock_machine_factory;
-    mock_machine_factory.ProcessMachine();
-    EXPECT_CALL(mock_machine_factory, MakeStartString()).Times(AtLeast(1));
-    EXPECT_CALL(mock_machine_factory, LaunchProcess("")).Times(AtLeast(1));
+  MockMachineFactory mock_machine_factory;
+  mock_machine_factory.ProcessMachine();
+  EXPECT_CALL(mock_machine_factory, MakeStartString()).Times(AtLeast(1));
+  EXPECT_CALL(mock_machine_factory, LaunchProcess("")).Times(AtLeast(1));
 }
 
 int main(int argc, char **argv) {

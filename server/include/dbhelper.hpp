@@ -1,6 +1,8 @@
 #include <mysql/mysql.h>
-#include <vector>
+
 #include <string>
+#include <vector>
+
 #include <block.hpp>
 #include <serializer.hpp>
 
@@ -8,19 +10,21 @@
 #define DBHELPER
 
 class DBHelper {
+
 private:
   std::string db_address;
   std::string db_username;
   std::string db_password;
   std::string db_database;
-  std::string RequestQuery(std::string);
+  std::string RequestQuery(const std::string &command);
 
 public:
   DBHelper();
-  DBHelper(std::string address, std::string username, std::string password, std::string database);
-  Block RequestBlock(std::string name);
+  DBHelper(const std::string &address, const std::string &username,
+           const std::string &password, const std::string &database);
+  Block RequestBlock(const std::string &name);
   std::vector<Block> RequestAllBlocks();
-  void LogData(std::string data);
+  void LogData(const std::string &data);
 };
 
 #endif

@@ -1,7 +1,7 @@
 // Copyright 2022 Adefe
 
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 #include <server_application.hpp>
 
 using ::testing::AtLeast;
@@ -18,25 +18,24 @@ public:
 };
 
 TEST(DBHelperTest, RequestBlockTest) {
-    MockDBHelper mock_dbhelper;
-    mock_dbhelper.RequestBlock("");
-    EXPECT_CALL(mock_dbhelper, RequestQuery("")).Times(AtLeast(1));
+  MockDBHelper mock_dbhelper;
+  mock_dbhelper.RequestBlock("");
+  EXPECT_CALL(mock_dbhelper, RequestQuery("")).Times(AtLeast(1));
 }
 
 TEST(DBHelperTest, RequestAllBlocksTest) {
-    MockDBHelper mock_dbhelper;
-    mock_dbhelper.RequestAllBlocks();
-    EXPECT_CALL(mock_dbhelper, RequestQuery("")).Times(AtLeast(1));
+  MockDBHelper mock_dbhelper;
+  mock_dbhelper.RequestAllBlocks();
+  EXPECT_CALL(mock_dbhelper, RequestQuery("")).Times(AtLeast(1));
 }
 
 TEST(DBHelperTest, LogDataTest) {
-    MockDBHelper mock_dbhelper;
-    mock_dbhelper.LogData("");
-    EXPECT_CALL(mock_dbhelper, RequestQuery("")).Times(AtLeast(1));
+  MockDBHelper mock_dbhelper;
+  mock_dbhelper.LogData("");
+  EXPECT_CALL(mock_dbhelper, RequestQuery("")).Times(AtLeast(1));
 }
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-

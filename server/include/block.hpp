@@ -1,5 +1,5 @@
-#include <vector>
 #include <string>
+#include <vector>
 
 #ifndef BLOCK
 #define BLOCK
@@ -7,11 +7,12 @@
 struct Parameter {
   std::string var_name;
   std::string var_value;
-  Parameter(std::string name, std::string value)
+  Parameter(const std::string &name, const std::string &value)
       : var_name(name), var_value(value) {}
 };
 
 class Block {
+
 private:
   std::string solver_path;
   std::vector<Parameter> given_vars;
@@ -23,7 +24,7 @@ private:
 
 public:
   Block();
-  void FillSolved(std::vector<Parameter>);
+  void FillSolved(const std::vector<Parameter>);
 };
 
 #endif

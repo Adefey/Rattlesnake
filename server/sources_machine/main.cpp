@@ -3,5 +3,6 @@
 
 int main(int argc, char **argv) {
   Machine *machine = new Machine;
+  machine->ProcessAllBlocks();
   return EXIT_SUCCESS;
 }
