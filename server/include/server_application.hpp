@@ -3,8 +3,6 @@
 #include <string>
 #include <vector>
 
-#include <boost/asio.hpp>
-
 #include <appinfo.hpp>
 #include <block.hpp>
 #include <dbhelper.hpp>
