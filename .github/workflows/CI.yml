@@ -2,7 +2,7 @@ name: CI
 on: [push, pull_request]
 jobs:
   Build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: Ubuntu 20.04
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -21,13 +21,3 @@ jobs:
           sudo apt install -f
       - name: build and test all
         run: sudo make
-      - name: save report artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: report
-          path: ./tests/report/
-      - name: save speedtest artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: speedtests
-          path: ./tests/results/
