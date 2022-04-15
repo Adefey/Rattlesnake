@@ -9,6 +9,7 @@ jobs:
         run: |
           sudo apt install gcc g++
           sudo apt-get install libgtest-dev cmake make
+          sudo apt-get install qt5-default
           cd /usr/src/googletest/googletest
           sudo mkdir build
           cd build
