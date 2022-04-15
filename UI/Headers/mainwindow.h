@@ -6,7 +6,7 @@
 #include <QMainWindow>
 #include <QGridLayout>
 #include <QToolBar>
-#include <splitter.h>
+#include "UI.h"
 
 class MainWindow : public QMainWindow
 {

@@ -8,7 +8,7 @@ Scheme::~Scheme() {
 
 }
 
-void Scheme::add_block(Block block) {
+void Scheme::add_block(Block block, size_t position) {
     int test;
     test = 0;
 }

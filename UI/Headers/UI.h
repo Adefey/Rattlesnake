@@ -1,5 +1,7 @@
-#include"Scheme.h"
-#include<QWidget>
+#include "Scheme.h"
+#include "listofblocks.h"
+#include <QWidget>
+#include "splitter.h"
 
 #ifndef UI_H
 #define UI_H
