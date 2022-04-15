@@ -1,0 +1,10 @@
+/media/work/tp/first_sem/Rattlesnake/libs/build/CMakeFiles/rebuild_cache.dir
+/media/work/tp/first_sem/Rattlesnake/libs/build/CMakeFiles/edit_cache.dir
+/media/work/tp/first_sem/Rattlesnake/libs/build/data_processing/CMakeFiles/rebuild_cache.dir
+/media/work/tp/first_sem/Rattlesnake/libs/build/data_processing/CMakeFiles/edit_cache.dir
+/media/work/tp/first_sem/Rattlesnake/libs/build/data_processing/CMakeFiles/data_processing_test.dir
+/media/work/tp/first_sem/Rattlesnake/libs/build/data_processing/CMakeFiles/data_processing.dir
+/media/work/tp/first_sem/Rattlesnake/libs/build/network/CMakeFiles/rebuild_cache.dir
+/media/work/tp/first_sem/Rattlesnake/libs/build/network/CMakeFiles/network_test.dir
+/media/work/tp/first_sem/Rattlesnake/libs/build/network/CMakeFiles/edit_cache.dir
+/media/work/tp/first_sem/Rattlesnake/libs/build/network/CMakeFiles/network.dir

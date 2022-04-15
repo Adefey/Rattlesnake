@@ -1,0 +1,2 @@
+/usr/bin/ar qc libdata_processing.a  CMakeFiles/data_processing.dir/src/Block.cpp.o CMakeFiles/data_processing.dir/src/Parser.cpp.o CMakeFiles/data_processing.dir/src/Serializer.cpp.o
+/usr/bin/ranlib libdata_processing.a

@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../data_processing/include/Block.hpp
+string
+-
+vector
+-
+
+../data_processing/include/Parser.hpp
+string
+-
+vector
+-
+Block.hpp
+../data_processing/include/Block.hpp
+
+../data_processing/include/Serializer.hpp
+string
+-
+vector
+-
+Block.hpp
+../data_processing/include/Block.hpp
+
+/media/work/tp/first_sem/Rattlesnake/libs/data_processing/src/Block.cpp
+Block.hpp
+-
+
+/media/work/tp/first_sem/Rattlesnake/libs/data_processing/src/Parser.cpp
+Parser.hpp
+/media/work/tp/first_sem/Rattlesnake/libs/data_processing/src/Parser.hpp
+
+/media/work/tp/first_sem/Rattlesnake/libs/data_processing/src/Serializer.cpp
+Serializer.hpp
+/media/work/tp/first_sem/Rattlesnake/libs/data_processing/src/Serializer.hpp
+
