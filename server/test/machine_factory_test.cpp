@@ -22,8 +22,3 @@ TEST(MachineFactoryTest, ProcessMachineTest) {
   EXPECT_CALL(mock_machine_factory, MakeStartString()).Times(AtLeast(1));
   EXPECT_CALL(mock_machine_factory, LaunchProcess("")).Times(AtLeast(1));
 }
-
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}

@@ -7,17 +7,18 @@ ResultServerApp=./result_server_application/
 Scripts=./scripts/
 SourcesMachine=./sources_machine/
 SourcesCommon=./sources_common/
-SourcesServerApp=./sources_server_app/
+SourcesServerApp=./sources_server_application/
 Test=./test/
 #Names
 ServerApp=RattlesnakeServer
 Machine=RattlesnakeMachine
 #Compilation
 Compiler=g++
-Flags=-I $(Headers) -Ofast -std=c++2a -Wall -Werror -Wpedantic
+Flags=-I $(Include) -Ofast -std=c++2a -Wall -Werror -Wpedantic
+TestFlags=-lgtest -lpthread -coverage -lgcov
 Archiver=ar
 
-all: clean_dirs check make_server_app make_machine test_server test_machine
+all: clean_dirs check make_binaries make_server_app make_machine make_test_binaries make_test_server make_test_machine
 
 clean_dirs:
 	@echo "-------------START CLEANUP OF $(Result), $(ResultMachine), $(ResultServerApp) AND $(Libraries)-------------"
@@ -32,5 +33,54 @@ check:
 	@echo "-------------START CHECKING FILES-------------"
 	$(Scripts)check.sh
 
-make_server_app: $(Binaries)
+make_binaries:	$(SourcesCommon)appinfo.cpp $(SourcesCommon)block.cpp $(SourcesCommon)dbhelper.cpp $(SourcesCommon)machine_factory.cpp
+	$(Compiler) $(Flags) -c $(SourcesCommon)appinfo.cpp -o $(Binaries)appinfo.o
+	$(Compiler) $(Flags) -c $(SourcesCommon)block.cpp -o $(Binaries)block.o
+	$(Compiler) $(Flags) -c $(SourcesCommon)dbhelper.cpp -o $(Binaries)dbhelper.o
+	$(Compiler) $(Flags) -c $(SourcesCommon)machine_factory.cpp -o $(Binaries)machine_factory.o
 
+make_server_app: $(Binaries)appinfo.o $(Binaries)block.o $(Binaries)dbhelper.o $(Binaries)machine_factory.o $(Binaries)main_server.o $(Binaries)server_application.o
+	$(Compiler) $(Flags) $(Binaries)appinfo.o $(Binaries)block.o $(Binaries)dbhelper.o $(Binaries)machine_factory.o $(Binaries)main_server.o $(Binaries)server_application.o -o $(ResultServerApp)$(ServerApp);
+
+$(Binaries)main_server.o : $(SourcesServerApp)main_server.cpp
+	$(Compiler) $(Flags) -c $(SourcesServerApp)main_server.cpp -o $(Binaries)main_server.o
+
+$(Binaries)server_application.o : $(SourcesServerApp)server_application.cpp
+	$(Compiler) $(Flags) -c $(SourcesServerApp)server_application.cpp -o $(Binaries)server_application.o
+
+make_machine: $(Binaries)appinfo.o $(Binaries)block.o $(Binaries)dbhelper.o $(Binaries)main_machine.o $(Binaries)machine.o
+	$(Compiler) $(Flags) $(Binaries)appinfo.o $(Binaries)block.o $(Binaries)dbhelper.o $(Binaries)main_machine.o $(Binaries)machine.o -o $(ResultMachine)$(Machine);
+
+$(Binaries)main_machine.o : $(SourcesMachine)main_machine.cpp
+	$(Compiler) $(Flags) -c $(SourcesMachine)main_machine.cpp -o $(Binaries)main_machine.o
+
+$(Binaries)machine.o : $(SourcesMachine)machine.cpp
+	$(Compiler) $(Flags) -c $(SourcesMachine)machine.cpp -o $(Binaries)machine.o
+
+
+
+
+
+make_test_binaries: $(SourcesCommon)appinfo.cpp $(SourcesCommon)block.cpp $(SourcesCommon)dbhelper.cpp $(SourcesCommon)machine_factory.cpp
+	$(Compiler) $(Flags) -c $(SourcesCommon)appinfo.cpp -o $(Test)appinfo.o $(TestFlags)
+	$(Compiler) $(Flags) -c $(SourcesCommon)block.cpp -o $(Test)block.o $(TestFlags)
+	$(Compiler) $(Flags) -c $(SourcesCommon)dbhelper.cpp -o $(Test)dbhelper.o $(TestFlags)
+	$(Compiler) $(Flags) -c $(SourcesCommon)machine_factory.cpp -o $(Test)machine_factory.o $(TestFlags)
+
+make_test_server: $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)machine_factory.o $(Test)test_server.o $(Test)server_application.o
+	$(Compiler) $(Flags) $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)machine_factory.o $(Test)test_server.o $(Test)server_application.o -o $(Test)$(ServerApp) $(TestFlags)
+
+$(Test)test_server.o : $(SourcesServerApp)test_server.cpp
+	$(Compiler) $(Flags) -c $(SourcesServerApp)main_server.cpp -o $(Test)test_server.o $(TestFlags)
+
+$(Test)server_application.o : $(SourcesServerApp)server_application.cpp
+	$(Compiler) $(Flags) -c $(SourcesServerApp)server_application.cpp -o $(Test)server_application.o $(TestFlags)
+
+make_test_machine: $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)test_machine.o $(Test)machine.o
+	$(Compiler) $(Flags) $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)test_machine.o $(Test)machine.o -o $(Test)$(Machine) $(TestFlags)
+
+$(Test)test_machine.o : $(SourcesMachine)test_machine.cpp
+	$(Compiler) $(Flags) -c $(SourcesMachine)test_machine.cpp -o $(Test)test_machine.o $(TestFlags)
+
+$(Test)machine.o : $(SourcesMachine)machine.cpp
+	$(Compiler) $(Flags) -c $(SourcesMachine)machine.cpp -o $(Test)machine.o $(TestFlags)
