@@ -1,8 +1,8 @@
 ServerFolder=./server/
-ClientFolder=./client/
-TypesAndUtilsFolder=./types_and_utils/
+ClientFolder=./UI/
+LibsFolder=./libs/
 
-all: make_server make_utils  make_client
+all: make_utils make_server make_client
 
 make_utils:
 	cd $(LibsFolder) && rm -rf build/ && mkdir build && cd build/ && pwd && cmake .. && cmake --build . && ./data_processing/data_processing_test && ./network/network_test &&cd ../.. &&
