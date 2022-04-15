@@ -1,0 +1,4 @@
+/root/Rattlesnake/UI/build/CMakeFiles/edit_cache.dir
+/root/Rattlesnake/UI/build/CMakeFiles/rebuild_cache.dir
+/root/Rattlesnake/UI/build/CMakeFiles/UITest.dir
+/root/Rattlesnake/UI/build/CMakeFiles/UI.dir

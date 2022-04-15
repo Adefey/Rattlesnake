@@ -1,0 +1,1 @@
+/usr/local/bin/c++ -DQT_NO_VERSION_TAGGING -fPIC CMakeFiles/UITest.dir/Tests/Tests.cpp.o -o UITest  /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.15.2 -lpthread libUI.a /usr/lib/x86_64-linux-gnu/libQt5Gui.so.5.15.2 /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.15.2 

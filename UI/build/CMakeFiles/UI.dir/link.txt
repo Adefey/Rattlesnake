@@ -1,0 +1,2 @@
+/usr/bin/ar qc libUI.a CMakeFiles/UI.dir/Sources/QTlistofblocks.cpp.o CMakeFiles/UI.dir/Sources/Scheme.cpp.o CMakeFiles/UI.dir/Sources/UI.cpp.o CMakeFiles/UI.dir/Sources/listofblocks.cpp.o CMakeFiles/UI.dir/Sources/mainwindow.cpp.o CMakeFiles/UI.dir/Sources/qtrequiredvariables.cpp.o CMakeFiles/UI.dir/Sources/qtscheme.cpp.o CMakeFiles/UI.dir/Sources/splitter.cpp.o CMakeFiles/UI.dir/Sources/uiblock.cpp.o
+/usr/bin/ranlib libUI.a

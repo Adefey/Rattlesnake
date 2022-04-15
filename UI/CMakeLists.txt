@@ -24,7 +24,6 @@ find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 add_executable(UITest ${TESTS})
+set (CMAKE_CXX_FLAGS "-DQT_NO_VERSION_TAGGING -fPIC")
 target_include_directories(UITest PRIVATE Headers)
-target_link_libraries(UITest PUBLIC ${GTEST_LIBRARIES})
-
-#add_subdirectory(Tests)
+target_link_libraries(UITest PUBLIC ${GTEST_LIBRARIES} ${Qt5Core_LIBRARIES} ${Qt5Widgets_LIBRARIES} pthread UI)
