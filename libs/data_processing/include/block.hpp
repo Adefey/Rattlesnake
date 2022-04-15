@@ -4,16 +4,37 @@
 #include <vector>
 
 struct Parameter {
-  std::string var_name;
-  std::string var_value;
-  Parameter(std::string name, std::string value) : var_name(name), var_value(value) {}
+  Parameter();
+  Parameter(std::string name, std::string value);
+
+  std::string param_name;
+  std::string param_value;
 };
 
 class Block {
  public:
-  void FillSolved(std::vector<Parameter>);
   Block();
-  void print_any();
+  Block(std::string solver_path, std::vector<Parameter>& given_vars,
+        std::vector<Parameter>& solved_vars, std::string name, std::string description,
+        std::string author_name, int color);
+
+  std::vector<std::string> GetFieldsNames() const;
+
+  std::string GetSolverPath() const;
+
+  std::vector<Parameter> GetGivenVars() const;
+
+  std::vector<Parameter> GetSolvedVars() const;
+
+  std::string GetName() const;
+
+  std::string GetDescription() const;
+
+  std::string GetAuthorName() const;
+
+  int GetColor() const;
+
+  void FillSolved(std::vector<Parameter>& solved_vars);
 
  private:
   std::string solver_path_;

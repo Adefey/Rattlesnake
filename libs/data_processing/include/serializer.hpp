@@ -6,6 +6,7 @@
 #include "block.hpp"
 
 class Serializer {
+ public:
   static std::string ToString(int value);
   static std::string ToString(double value);
   static std::string ToJsonString(Block value);

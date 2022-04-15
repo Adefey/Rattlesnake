@@ -6,6 +6,7 @@
 #include "block.hpp"
 
 class Parser {
+ public:
   static bool ToInt(std::string value, int& result);
   static bool ToDouble(std::string value, double& result);
   static bool ParseBlockFromJsonString(std::string val, Block& result);
