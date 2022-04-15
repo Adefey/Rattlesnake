@@ -15,7 +15,7 @@ jobs:
           sudo cmake CMakeLists.txt
           sudo make
           sudo cp ./lib/libgtest*.a /usr/lib
-          sudo cd /usr/src/googletest/googlemock/
+          cd /usr/src/googletest/googlemock/
           sudo mkdir build
           sudo cmake ..
           sudo make
