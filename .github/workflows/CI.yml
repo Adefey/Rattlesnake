@@ -9,12 +9,17 @@ jobs:
       - name: install env
         run: |
           sudo apt update
-          sudo apt-get install libgtest-dev lcov cmake make libbsd-dev valgrind cppcheck clang-tidy python clang-format
+          sudo apt-get install libgtest-dev libgmock-dev lcov cmake make libbsd-dev valgrind cppcheck clang-tidy python clang-format libboost-all-dev
           sudo pip install cpplint
           cd /usr/src/gtest
           sudo cmake CMakeLists.txt
           sudo make
           sudo cp ./lib/libgtest*.a /usr/lib
+          cd /usr/src/googletest/googlemock/
+          mkdir build
+          sudo cmake ..
+          sudo make
+          cp googlemock/*.a /usr/lib
           cd ~
           wget https://github.com/sharkdp/hyperfine/releases/download/v1.4.0/hyperfine_1.4.0_amd64.deb
           sudo dpkg -i hyperfine_1.4.0_amd64.deb
