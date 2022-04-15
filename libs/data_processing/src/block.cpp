@@ -12,18 +12,34 @@ Block::Block(std::string solver_path, std::vector<Parameter>& given_vars,
              std::vector<Parameter>& solved_vars, std::string name, std::string description,
              std::string author_name, int color) {}
 
-std::vector<std::string> Block::GetFieldsNames() const {}
+std::vector<std::string> Block::GetFieldsNames() const {
+  return std::vector<std::string>();
+}
 
-std::string Block::GetSolverPath() const {}
+std::string Block::GetSolverPath() const {
+  return "";
+}
 
-std::vector<Parameter> Block::GetGivenVars() const {}
+std::vector<Parameter> Block::GetGivenVars() const {
+  return std::vector<Parameter>();
+}
 
-std::vector<Parameter> Block::GetSolvedVars() const {}
+std::vector<Parameter> Block::GetSolvedVars() const {
+  return std::vector<Parameter>();
+}
 
-std::string Block::GetName() const {}
+std::string Block::GetName() const {
+  return "";
+}
 
-std::string Block::GetDescription() const {}
+std::string Block::GetDescription() const {
+  return "";
+}
 
-std::string Block::GetAuthorName() const {}
+std::string Block::GetAuthorName() const {
+  return "";
+}
 
-int Block::GetColor() const {}
+int Block::GetColor() const {
+  return 0;
+}
