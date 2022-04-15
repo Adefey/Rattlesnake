@@ -3,7 +3,6 @@
 ServerApplication::ServerApplication() {
   db_helper = DBHelper(AppInfo::GetDBAddress(), AppInfo::GetDBUsername(),
                        AppInfo::GetDBPassword(), AppInfo::GetDBDatabase());
-  net_server = NetServer(1);
 }
 
 void ServerApplication::ProcessEvents()

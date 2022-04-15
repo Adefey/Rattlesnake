@@ -9,7 +9,7 @@ jobs:
       - name: install env
         run: |
           sudo apt update
-          sudo apt-get install libgtest-dev libgmock-dev lcov cmake make libbsd-dev valgrind cppcheck clang-tidy python clang-format libboost-all-dev
+          sudo apt-get install libgtest-dev libgmock-dev lcov cmake make libbsd-dev valgrind cppcheck clang-tidy python clang-format libboost-all-dev qt5-default
           sudo pip install cpplint
           cd /usr/src/gtest
           sudo cmake CMakeLists.txt
