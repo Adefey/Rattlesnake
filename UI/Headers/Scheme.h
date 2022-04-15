@@ -1,7 +1,7 @@
-#include"Block.h"
-#include<vector>
-#include<QLayout>
-#include"qtscheme.h"
+#include "block.hpp"
+#include <vector>
+#include <QLayout>
+#include "qtscheme.h"
 
 #ifndef CHEME_H
 #define CHEME_H

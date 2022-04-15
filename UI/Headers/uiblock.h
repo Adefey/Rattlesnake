@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef UIBLOCK_H
 #define UIBLOCK_H
 
