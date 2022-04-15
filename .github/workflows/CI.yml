@@ -26,4 +26,3 @@ jobs:
           sudo cd build/
           sudo cmake ..
           sudo cmake --build .
-        run: sudo make
