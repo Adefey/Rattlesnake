@@ -4,25 +4,21 @@ jobs:
   Build-and-test:
     runs-on: Ubuntu 20.04
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: install env
+      - uses: actions/checkout@v2
+      - name: Installation
         run: |
-          sudo apt update
-          sudo apt-get install libgtest-dev lcov cmake make libbsd-dev valgrind cppcheck clang-tidy python clang-format
-          sudo pip install cpplint
-          cd /usr/src/gtest
-          sudo cmake CMakeLists.txt
-          sudo make
-          sudo cp ./lib/libgtest*.a /usr/lib
-          cd ~
-          wget https://github.com/sharkdp/hyperfine/releases/download/v1.4.0/hyperfine_1.4.0_amd64.deb
-          sudo dpkg -i hyperfine_1.4.0_amd64.deb
-          sudo apt install -f
-      - name: build and test all
-        run: |
-          sudo cd UI
+          sudo apt install gcc g++
+          sudo apt-get install libgtest-dev cmake make
+          cd /usr/src/googletest/googletest
           sudo mkdir build
-          sudo cd build/
+          cd build
+          sudo cmake ..
+          sudo make
+          sudo cp ./lib/libgtest*.a /usr/lib/
+      - name: build
+        run: |
+          cd /home/runner/work/Rattlesnake/Rattlesnake
+          mkdir -p build
+          cd build/
           sudo cmake ..
           sudo cmake --build .
