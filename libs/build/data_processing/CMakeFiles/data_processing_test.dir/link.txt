@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/data_processing_test.dir/test/main.cpp.o  -o data_processing_test  libdata_processing.a /usr/lib/x86_64-linux-gnu/libgtest.a -lpthread 
