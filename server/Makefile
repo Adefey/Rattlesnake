@@ -14,7 +14,7 @@ ServerApp=RattlesnakeServer
 Machine=RattlesnakeMachine
 #Compilation
 Compiler=g++
-Flags=-I $(Include) -Ofast -std=c++2a -Wall -Werror -Wpedantic
+Flags=-I $(Include) -I ../путь_миши -L $(Libraries) -L ../путь_миши -Ofast -std=c++2a -Wall -Werror -Wpedantic
 TestFlags=-lgtest -lpthread -coverage -lgcov
 Archiver=ar
 
@@ -26,7 +26,7 @@ clean_dirs:
 	rm -f $(ResultMachine)*
 	rm -f $(ResultServerApp)*
 	rm -f $(Libraries)*
-	find $(Test) -type f -not -name "dbhelper_test.cpp" -not -name "machine_factory_test.cpp" -not -name "machine_test.cpp" -not -name "server_application_test.cpp" -not -name "test_machine.cpp" -not -name "test_server.cpp" -delete
+	find $(Test) -type f -not -name "appinfo_test.cpp" -not -name "dbhelper_test.cpp" -not -name "machine_factory_test.cpp" -not -name "machine_test.cpp" -not -name "server_application_test.cpp" -not -name "test_machine.cpp" -not -name "test_server.cpp" -delete
 
 check:
 	@echo "-------------START FORMATTING FILES-------------"
@@ -36,12 +36,16 @@ check:
 
 make_binaries:	$(SourcesCommon)appinfo.cpp $(SourcesCommon)block.cpp $(SourcesCommon)dbhelper.cpp $(SourcesCommon)machine_factory.cpp
 	$(Compiler) $(Flags) -c $(SourcesCommon)appinfo.cpp -o $(Binaries)appinfo.o
+	$(Archiver) -crv $(Libraries)libappinfo.a $(Binaries)appinfo.o
 	$(Compiler) $(Flags) -c $(SourcesCommon)block.cpp -o $(Binaries)block.o
+	$(Archiver) -crv $(Libraries)libblock.a $(Binaries)block.o
 	$(Compiler) $(Flags) -c $(SourcesCommon)dbhelper.cpp -o $(Binaries)dbhelper.o
+	$(Archiver) -crv $(Libraries)libdbhelper.a $(Binaries)dbhelper.o
 	$(Compiler) $(Flags) -c $(SourcesCommon)machine_factory.cpp -o $(Binaries)machine_factory.o
+	$(Archiver) -crv $(Libraries)libmachine_factory.a $(Binaries)machine_factory.o
 
 make_server_app: $(Binaries)appinfo.o $(Binaries)block.o $(Binaries)dbhelper.o $(Binaries)machine_factory.o $(Binaries)main_server.o $(Binaries)server_application.o
-	$(Compiler) $(Flags) $(Binaries)appinfo.o $(Binaries)block.o $(Binaries)dbhelper.o $(Binaries)machine_factory.o $(Binaries)main_server.o $(Binaries)server_application.o -o $(ResultServerApp)$(ServerApp);
+	$(Compiler) $(Flags) $(Binaries)block.o  $(Binaries)main_server.o $(Binaries)server_application.o -o $(ResultServerApp)$(ServerApp) -lappinfo -ldbhelper -lmachine_factory -lblock
 
 $(Binaries)main_server.o : $(SourcesServerApp)main_server.cpp
 	$(Compiler) $(Flags) -c $(SourcesServerApp)main_server.cpp -o $(Binaries)main_server.o
@@ -50,7 +54,7 @@ $(Binaries)server_application.o : $(SourcesServerApp)server_application.cpp
 	$(Compiler) $(Flags) -c $(SourcesServerApp)server_application.cpp -o $(Binaries)server_application.o
 
 make_machine: $(Binaries)appinfo.o $(Binaries)block.o $(Binaries)dbhelper.o $(Binaries)main_machine.o $(Binaries)machine.o
-	$(Compiler) $(Flags) $(Binaries)appinfo.o $(Binaries)block.o $(Binaries)dbhelper.o $(Binaries)main_machine.o $(Binaries)machine.o -o $(ResultMachine)$(Machine);
+	$(Compiler) $(Flags) $(Binaries)block.o  $(Binaries)main_machine.o $(Binaries)machine.o -o $(ResultMachine)$(Machine) -lappinfo -ldbhelper -lblock
 
 $(Binaries)main_machine.o : $(SourcesMachine)main_machine.cpp
 	$(Compiler) $(Flags) -c $(SourcesMachine)main_machine.cpp -o $(Binaries)main_machine.o
@@ -63,13 +67,14 @@ make_test_binaries: $(SourcesCommon)appinfo.cpp $(SourcesCommon)block.cpp $(Sour
 	$(Compiler) $(Flags) -c $(SourcesCommon)block.cpp -o $(Test)block.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(SourcesCommon)dbhelper.cpp -o $(Test)dbhelper.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(SourcesCommon)machine_factory.cpp -o $(Test)machine_factory.o $(TestFlags)
+	$(Compiler) $(Flags) -c $(Test)appinfo_test.cpp -o $(Test)appinfo_test.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(Test)dbhelper_test.cpp -o $(Test)dbhelper_test.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(Test)machine_factory_test.cpp -o $(Test)machine_factory_test.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(Test)machine_test.cpp -o $(Test)machine_test.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(Test)server_application_test.cpp -o $(Test)server_application_test.o $(TestFlags)
 
 make_test_server: $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)machine_factory.o $(Test)test_server.o $(Test)server_application.o $(Test)dbhelper_test.o $(Test)machine_factory_test.o  $(Test)server_application_test.o
-	$(Compiler) $(Flags) $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)machine_factory.o $(Test)test_server.o $(Test)server_application.o $(Test)dbhelper_test.o $(Test)machine_factory_test.o $(Test)server_application_test.o -o $(Test)$(ServerApp)TEST $(TestFlags)
+	$(Compiler) $(Flags) $(Test)appinfo.o $(Test)block.o $(Test)dbhelper.o $(Test)machine_factory.o $(Test)test_server.o $(Test)server_application.o $(Test)appinfo_test.o $(Test)dbhelper_test.o $(Test)machine_factory_test.o $(Test)server_application_test.o  -o $(Test)$(ServerApp)TEST $(TestFlags)
 
 $(Test)test_server.o : $(Test)test_server.cpp
 	$(Compiler) $(Flags) -c $(Test)test_server.cpp -o $(Test)test_server.o $(TestFlags)

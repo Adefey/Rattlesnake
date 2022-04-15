@@ -1,5 +1,4 @@
-// Copyright 2022 Adefe
-
+/*
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <server_application.hpp>
@@ -43,3 +42,5 @@ TEST(ServerApplicationTest, ProcessStatTest) {
   EXPECT_CALL(mock_server_application, RequestQuery("")).Times(AtLeast(1));
   EXPECT_CALL(mock_server_application, RequestAllBlocks()).Times(AtLeast(1));
 }
+
+*/
