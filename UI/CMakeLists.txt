@@ -23,6 +23,8 @@ target_include_directories(UI PRIVATE Headers)
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
-#add_executable(Rattlesnake main.cpp)
+add_executable(UITest ${TESTS})
+target_include_directories(UITest PRIVATE Headers)
+target_link_libraries(UITest PUBLIC ${GTEST_LIBRARIES})
 
-add_subdirectory(Tests)
+#add_subdirectory(Tests)
