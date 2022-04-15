@@ -14,12 +14,13 @@ jobs:
           cd /usr/src/gtest
           sudo cmake CMakeLists.txt
           sudo make
-          sudo cp ./lib/libgtest*.a /usr/lib
-          cd /usr/src/googletest/googlemock/
-          sudo mkdir build
-          sudo cmake ..
-          sudo make
-          sudo cp googlemock/*.a /usr/lib
+          git clone https://github.com/google/googletest.git
+          cd googletest
+          mkdir build && cd build
+          sudo cmake .. -DBUILD_SHARED_LIBS=ON -DINSTALL_GTEST=ON -DCMAKE_INSTALL_PREFIX:PATH=/usr
+          sudo make -j8
+          sudo make install
+          sudo ldconfig
           cd ~
           wget https://github.com/sharkdp/hyperfine/releases/download/v1.4.0/hyperfine_1.4.0_amd64.deb
           sudo dpkg -i hyperfine_1.4.0_amd64.deb
