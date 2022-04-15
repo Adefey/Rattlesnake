@@ -1,35 +1,14 @@
-#Paths
-ServerPath=./project/server
-MachinePath=./project/machine
-Sources=/sources/
-Headers=/headers/
-Binaries=/binaries/
-Libraries=/libraries/
-Result=/result/
-Tests=/test/
-CommonScripts=./scripts/
-#Names
-Server=RattlesnakeServer
-Machine=RattlesnakeMachine
-#Compilation
-Compiler=g++
-Flags=-I $(Headers) -Ofast -std=c++2a -Wall -Werror -Wpedantic
-Archiver=ar
-#Testing
-TestFolder=./tests/results/
+ServerFolder=./server/
+ClientFolder=./client/
+TypesAndUtilsFolder=./types_and_utils/
 
-all: clean_dirs check
+all: make_server make_utils  make_client
 
-clean_dirs:
-	@echo "-------------START CLEANUP OF $(Result) AND $(Libraries)-------------"
-	rm -f $(Binaries)*
-	rm -f $(Result)*
-	rm -f $(Libraries)*
-	find $(Tests) -type f -not -name "main_single.cpp" -not -name "main_multi.cpp" -not -name "test.txt" -delete
+make_utils:
+	make -C $(TypesAndUtilsFolder)
 
-check:
-	@echo "-------------START FORMATTING FILES-------------"
-	$(Scripts)prepare.sh
-	@echo "-------------START CHECKING FILES-------------"
-	$(Scripts)check.sh
+make_server:
+	make -C $(ServerFolder)
 
+make_client:
+	make -C $(ClientFolder)
