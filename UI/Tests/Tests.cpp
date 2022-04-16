@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 #include <stdio.h>
+
 #include <string>
 #include <vector>
+
 
 #include "UI.h"
 #include "listofblocks.h"
@@ -11,6 +13,7 @@
 #include "qtscheme.h"
 #include "Scheme.h"
 #include "uiblock.h"
+
 
 #include "block.hpp"
 
@@ -82,6 +85,7 @@ TEST(scheme_addblock, BaseCase) {
   EXPECT_EQ(scheme.blocks[0].GetName(), name);
   EXPECT_EQ(scheme.blocks[0].GetAuthorName(), author);
   EXPECT_EQ(scheme.blocks[0].GetGivenVars()[0].param_name, dens);
+
 }
 
 int main(int argc, char **argv) {
