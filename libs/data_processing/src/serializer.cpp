@@ -16,10 +16,10 @@ std::string Serializer::ToJsonString(Parameter value) {
   return "";
 }
 
-std::string Serializer::ToJsonString(std::vector<Block> value) {
+std::string Serializer::ToJsonString(std::string key, std::vector<Block>& values) {
   return "";
 }
 
-std::string Serializer::ToJsonString(std::vector<Parameter> value) {
+std::string Serializer::ToJsonString(std::string key, std::vector<Parameter>& values) {
   return "";
 }

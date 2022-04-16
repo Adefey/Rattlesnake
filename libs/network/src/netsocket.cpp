@@ -1,5 +1,11 @@
 #include "netsocket.hpp"
 
+NetSocket::NetSocket() {}
+
+NetSocket::NetSocket(int socket) {}
+
+NetSocket::~NetSocket() {}
+
 bool NetSocket::CreateSocket() {
   return false;
 }

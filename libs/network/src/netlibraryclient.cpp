@@ -1,5 +1,9 @@
 #include "netlibraryclient.hpp"
 
+NetLibraryClient::NetLibraryClient() = default;
+
+NetLibraryClient::~NetLibraryClient() noexcept = default;
+
 bool NetLibraryClient::SendData(NetSocket socket, std::string data) {
   return false;
 }
