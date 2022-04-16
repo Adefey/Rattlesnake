@@ -76,6 +76,39 @@ TEST(scheme_addblock, BaseCase) {
   Block test_block = {path, givenvars, solvedvars, name, description, author, color};
 
   Scheme scheme;
+  std::vector<Block> blocks_of_scheme;
+  blocks_of_scheme.push_back(test_block);
+  scheme.blocks = blocks_of_scheme;
+  scheme.delete_block(0);
+
+  EXPECT_EQ(scheme.blocks.size(), 0);
+}
+
+TEST(scheme_deleteblock, BaseCase) {
+  std::string dens = "density";
+  std::string two = "2";
+  std::string vol = "volume";
+  std::string three = "3";
+  std::string mas = "mass";
+  std::string six = "6";
+  Parameter density = {dens, two};
+  Parameter volume = {vol, three};
+  Parameter mass = {mas, six};
+  std::vector<Parameter> givenvars;
+  std::vector<Parameter> solvedvars;
+
+  givenvars.push_back(density);
+  givenvars.push_back(volume);
+  solvedvars.push_back(mass);
+  std::string path = "path";
+  std::string name = "test block";
+  std::string description = "It is a test block";
+  std::string author = "Me";
+  int color = 10;
+
+  Block test_block = {path, givenvars, solvedvars, name, description, author, color};
+
+  Scheme scheme;
   scheme.add_block(test_block, 0);
 
   ASSERT_EQ(scheme.blocks.size(), 1);
@@ -83,6 +116,7 @@ TEST(scheme_addblock, BaseCase) {
   EXPECT_EQ(scheme.blocks[0].GetAuthorName(), author);
   EXPECT_EQ(scheme.blocks[0].GetGivenVars()[0].param_name, dens);
 }
+
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
