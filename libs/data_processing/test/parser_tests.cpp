@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include <iostream>
 #include <string>
 
 #include "parser.hpp"
@@ -53,4 +54,41 @@ TEST(parser_tests, string_to_double_test) {
   correct_string = "-171582.88";
   EXPECT_TRUE(Parser::ToDouble(correct_string, double_result));
   EXPECT_EQ(double_result, -171582.88);
+}
+
+TEST(parser_tests, parse_param) {
+  Parameter param;
+
+  std::string incorrect_string = "";
+  EXPECT_FALSE(Parser::ParseParameterFromJsonString(incorrect_string, param));
+
+  std::string correct_string = "{\"key\":\"value\"}";
+  EXPECT_TRUE(Parser::ParseParameterFromJsonString(correct_string, param));
+  EXPECT_EQ(param.param_name, "key");
+  EXPECT_EQ(param.param_value, "value");
+
+  incorrect_string = "{}";
+  EXPECT_FALSE(Parser::ParseParameterFromJsonString(incorrect_string, param));
+
+  incorrect_string = "{\"key\";\"value\"}";
+  EXPECT_FALSE(Parser::ParseParameterFromJsonString(incorrect_string, param));
+}
+
+TEST(parser_tests, parse_params) {
+  std::vector<Parameter> params;
+
+  std::string incorrect_string = "";
+  EXPECT_FALSE(Parser::ParseParametersFromJsonString(incorrect_string, params));
+
+  incorrect_string = "{[{\"key\";\"value\"},{\"key\";\"value\"},{\"key\";\"value\"}]}";
+  EXPECT_FALSE(Parser::ParseParametersFromJsonString(incorrect_string, params));
+
+  params.clear();
+  std::string correct_string = "{[{\"key\":\"value\"},{\"key\":\"value\"},{\"key\":\"value\"}]}";
+  EXPECT_TRUE(Parser::ParseParametersFromJsonString(correct_string, params));
+  ASSERT_EQ(params.size(), 3);
+  for (size_t i = 0; i < 3; ++i) {
+    EXPECT_EQ(params[i].param_name, "key");
+    EXPECT_EQ(params[i].param_value, "value");
+  }
 }
