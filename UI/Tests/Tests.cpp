@@ -117,6 +117,15 @@ TEST(scheme_deleteblock, BaseCase) {
   EXPECT_EQ(scheme.blocks[0].GetGivenVars()[0].param_name, dens);
 }
 
+TEST(list_of_blocks, NoThrowLOB) {
+  ListOfBlocks list_of_blocks;
+  EXPECT_NO_THROW(list_of_blocks.make_qt_frames());
+}
+
+TEST(scheme, NoThrowSCH) {
+  Scheme scheme;
+  EXPECT_NO_THROW(scheme.make_qt_frames());
+}
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
