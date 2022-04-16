@@ -1,13 +1,14 @@
 #pragma once
 
-#include <sys/socket.h>
 #include <netinet/in.h>
+#include <sys/socket.h>
 
 #include "netsocket.hpp"
 
 class NetClient {
  public:
   bool SetServerAddress(const char* address);
+  NetClient();
 
  private:
   NetSocket client_socket_;
