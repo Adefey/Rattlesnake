@@ -1,12 +1,10 @@
 #ifndef QTREQUIREDVARIABLES_H
 #define QTREQUIREDVARIABLES_H
 
-
-class QTRequiredVariables
-{
+class QTRequiredVariables {
 public:
-    QTRequiredVariables();
-    ~QTRequiredVariables();
+  QTRequiredVariables();
+  ~QTRequiredVariables();
 };
 
 #endif // QTREQUIREDVARIABLES_H

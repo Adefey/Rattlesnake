@@ -1,14 +1,14 @@
 #ifndef QTLISTOFBLOCKS_H
 #define QTLISTOFBLOCKS_H
 
-#include <QWidget>
 #include <QObject>
+#include <QWidget>
+#include "uiblock.h"
 
-class QTListofBlocks
-{
+class QTListofBlocks {
 public:
-    QTListofBlocks();
-    ~QTListofBlocks();
+  QTListofBlocks();
+  ~QTListofBlocks();
 };
 
 #endif // QTLISTOFBLOCKS_H
