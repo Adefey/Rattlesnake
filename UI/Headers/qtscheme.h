@@ -3,12 +3,12 @@
 
 #include <QObject>
 #include <QWidget>
+#include "uiblock.h"
 
-class QTScheme
-{
+class QTScheme {
 public:
-    QTScheme();
-    ~QTScheme();
+  QTScheme();
+  ~QTScheme();
 };
 
 #endif // QTSCHEME_H

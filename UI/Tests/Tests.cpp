@@ -14,7 +14,7 @@
 
 #include "block.hpp"
 
-TEST(scheme_getreqvars, BaseCase) {
+TEST(scheme_getreqvars, OneBlockCase) {
   std::string dens = "density";
   std::string two = "2";
   std::string vol = "volume";
@@ -51,7 +51,66 @@ TEST(scheme_getreqvars, BaseCase) {
   EXPECT_EQ(scheme.environment_variables[1].param_value, three);
 }
 
-TEST(scheme_addblock, BaseCase) {
+TEST(scheme_getreqvars, TwoBlocksCase) {
+  std::string dens = "density";
+  std::string two = "2";
+  std::string vol = "volume";
+  std::string three = "3";
+  std::string mas = "mass";
+  std::string six = "6";
+  Parameter density = {dens, two};
+  Parameter volume = {vol, three};
+  Parameter mass = {mas, six};
+  std::vector<Parameter> givenvars1;
+  std::vector<Parameter> solvedvars1;
+
+  givenvars1.push_back(density);
+  givenvars1.push_back(volume);
+  solvedvars1.push_back(mass);
+  std::string path1 = "path";
+  std::string name1 = "test block";
+  std::string description1 = "It is a test block";
+  std::string author1 = "Me";
+  int color1 = 10;
+
+  Block test_block1 = {path1, givenvars1, solvedvars1, name1, description1, author1, color1};
+
+  std::string rad = "side";
+  std::string four = "4";
+  std::string ar = "area";
+  std::string sixteen = "16";
+  Parameter side = {rad, four};
+  Parameter area = {ar, sixteen};
+  std::vector<Parameter> givenvars2;
+  std::vector<Parameter> solvedvars2;
+
+  givenvars2.push_back(side);
+  solvedvars2.push_back(area);
+  std::string path2 = "path2";
+  std::string name2 = "test block2";
+  std::string description2 = "It is a test block2";
+  std::string author2 = "Me";
+  int color2 = 11;
+
+  Block test_block2 = {path2, givenvars2, solvedvars2, name2, description2, author2, color2};
+
+  Scheme scheme;
+  std::vector<Block> blocks_of_scheme;
+  blocks_of_scheme.push_back(test_block1);
+  blocks_of_scheme.push_back(test_block2);
+  scheme.blocks = blocks_of_scheme;
+  scheme.environment_variables = scheme.get_required_vars();
+  
+  ASSERT_EQ(scheme.environment_variables.size(), 3);
+  EXPECT_EQ(scheme.environment_variables[0].param_name, dens);
+  EXPECT_EQ(scheme.environment_variables[0].param_value, two);
+  EXPECT_EQ(scheme.environment_variables[1].param_name, vol);
+  EXPECT_EQ(scheme.environment_variables[1].param_value, three);
+  EXPECT_EQ(scheme.environment_variables[2].param_name, rad);
+  EXPECT_EQ(scheme.environment_variables[2].param_value, sixteen);
+}
+
+TEST(scheme_deleteblock, OneBlockCase) {
   std::string dens = "density";
   std::string two = "2";
   std::string vol = "volume";
@@ -84,7 +143,62 @@ TEST(scheme_addblock, BaseCase) {
   EXPECT_EQ(scheme.blocks.size(), 0);
 }
 
-TEST(scheme_deleteblock, BaseCase) {
+TEST(scheme_deleteblock, TwoBlocksCase) {
+  std::string dens = "density";
+  std::string two = "2";
+  std::string vol = "volume";
+  std::string three = "3";
+  std::string mas = "mass";
+  std::string six = "6";
+  Parameter density = {dens, two};
+  Parameter volume = {vol, three};
+  Parameter mass = {mas, six};
+  std::vector<Parameter> givenvars1;
+  std::vector<Parameter> solvedvars1;
+
+  givenvars1.push_back(density);
+  givenvars1.push_back(volume);
+  solvedvars1.push_back(mass);
+  std::string path1 = "path";
+  std::string name1 = "test block";
+  std::string description1 = "It is a test block";
+  std::string author1 = "Me";
+  int color1 = 10;
+
+  Block test_block1 = {path1, givenvars1, solvedvars1, name1, description1, author1, color1};
+
+  std::string rad = "side";
+  std::string four = "4";
+  std::string ar = "area";
+  std::string sixteen = "16";
+  Parameter side = {rad, four};
+  Parameter area = {ar, sixteen};
+  std::vector<Parameter> givenvars2;
+  std::vector<Parameter> solvedvars2;
+
+  givenvars2.push_back(side);
+  solvedvars2.push_back(area);
+  std::string path2 = "path2";
+  std::string name2 = "test block2";
+  std::string description2 = "It is a test block2";
+  std::string author2 = "Me";
+  int color2 = 11;
+
+  Block test_block2 = {path2, givenvars2, solvedvars2, name2, description2, author2, color2};
+
+  Scheme scheme;
+  std::vector<Block> blocks_of_scheme;
+  blocks_of_scheme.push_back(test_block1);
+  blocks_of_scheme.push_back(test_block2);
+  scheme.blocks = blocks_of_scheme;
+  scheme.delete_block(0);
+
+  EXPECT_EQ(scheme.blocks.size(), 1);
+  scheme.delete_block(0);
+  EXPECT_EQ(scheme.blocks.size(), 0);
+}
+
+TEST(scheme_addblock, BaseCase) {
   std::string dens = "density";
   std::string two = "2";
   std::string vol = "volume";

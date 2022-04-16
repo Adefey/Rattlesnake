@@ -1,15 +1,13 @@
-#include"QTlistofblocks.h"
+#include "QTlistofblocks.h"
 
 #ifndef LISTOFBLOCKS_H
 #define LISTOFBLOCKS_H
 
-
-class ListOfBlocks
-{
+class ListOfBlocks {
 public:
-    ListOfBlocks();
-    ~ListOfBlocks();
-    QTListofBlocks make_qt_frames();
+  ListOfBlocks();
+  ~ListOfBlocks();
+  QTListofBlocks make_qt_frames();
 };
 
 #endif // LISTOFBLOCKS_H

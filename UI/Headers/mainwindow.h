@@ -3,20 +3,18 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QGridLayout>
-#include <QToolBar>
 #include "UI.h"
+#include <QGridLayout>
+#include <QMainWindow>
+#include <QToolBar>
 
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
+class MainWindow : public QMainWindow {
+  Q_OBJECT
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    QToolBar* createTopToolBar();
+  explicit MainWindow(QWidget *parent = nullptr);
+  QToolBar *createTopToolBar();
 
 signals:
-
 };
 
 #endif // MAINWINDOW_H

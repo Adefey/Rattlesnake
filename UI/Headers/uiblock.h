@@ -1,19 +1,17 @@
 #ifndef UIBLOCK_H
 #define UIBLOCK_H
 
-#include <QWidget>
 #include <QFrame>
-#include <QLabel>
 #include <QGridLayout>
+#include <QLabel>
+#include <QWidget>
 
-class UIBlock : public QWidget
-{
-    Q_OBJECT
+class UIBlock : public QWidget {
+  Q_OBJECT
 public:
-    explicit UIBlock(QWidget *parent = nullptr);
+  explicit UIBlock(QWidget *parent = nullptr);
 
 signals:
-
 };
 
 #endif // UIBLOCK_H
