@@ -47,4 +47,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: RattlesnakeMachine
-          path: ./server/result_server_application/RattlesnakeMachine
+          path: ./server/result_machine/RattlesnakeMachine
