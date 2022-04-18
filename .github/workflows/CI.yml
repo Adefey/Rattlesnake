@@ -38,3 +38,13 @@ jobs:
         with:
           name: report_machine
           path: ./server/test/report_machine/
+      - name: save server application
+        uses: actions/upload-artifact@v3
+        with:
+          name: RattlesnakeServer
+          path: ./server/result_server_application/RattlesnakeServer
+      - name: save machine application
+        uses: actions/upload-artifact@v3
+        with:
+          name: RattlesnakeMachine
+          path: ./server/result_server_application/RattlesnakeMachine
