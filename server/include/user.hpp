@@ -9,9 +9,9 @@
 
 struct User {
   NetSocket user_socket;
-  std::vector<std::string> block_scheme;
+  std::vector<Block> block_scheme;
   std::vector<Parameter> variables;
-  User(NetSocket socket, const std::vector<std::string> &scheme,
+  User(NetSocket socket, const std::vector<Block> &scheme,
        const std::vector<Parameter> &vars)
       : user_socket(socket), block_scheme(scheme), variables(vars) {}
   User() : block_scheme({}), variables({}) {}

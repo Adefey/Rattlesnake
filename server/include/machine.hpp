@@ -1,4 +1,4 @@
-#include <string>
+ #include <string>
 #include <vector>
 
 #include <appinfo.hpp>
@@ -17,13 +17,15 @@ class Machine {
 private:
   User user;
   NetServer net_server;
-  void ProcessOneBlock(const std::string &launch_string);
+  std::string ProcessOneBlock(const std::string &launch_string);
   std::string MakeProcessStartString(const std::string &block_name);
+  void SyncVariables(std::vector<Parameter>);
 
 public:
   Machine();
-  Machine(const std::string &start_params);
+  Machine(const std::string &start_param_scheme, const std::string &start_param_vars);
   std::string ProcessAllBlocks();
+  ~Machine();
 };
 
 #endif
