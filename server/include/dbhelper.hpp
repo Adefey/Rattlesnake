@@ -1,8 +1,10 @@
 #include <mysql/mysql.h>
 
+#include <stdexcept>
 #include <string>
 #include <vector>
 
+#include <appinfo.hpp>
 #include <block.hpp>
 #include <serializer.hpp>
 

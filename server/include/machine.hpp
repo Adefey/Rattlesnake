@@ -26,7 +26,6 @@ public:
   Machine(const std::string &start_param_scheme,
           const std::string &start_param_vars);
   std::string ProcessAllBlocks();
-  ~Machine() { delete User; }
 };
 
 #endif

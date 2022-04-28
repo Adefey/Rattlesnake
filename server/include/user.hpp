@@ -3,6 +3,8 @@
 
 #include <block.hpp>
 #include <netserver.hpp>
+#include <parser.hpp>
+#include <serializer.hpp>
 
 #ifndef USER
 #define USER
