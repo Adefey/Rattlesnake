@@ -1,4 +1,4 @@
- #include <string>
+#include <string>
 #include <vector>
 
 #include <appinfo.hpp>
@@ -23,9 +23,10 @@ private:
 
 public:
   Machine();
-  Machine(const std::string &start_param_scheme, const std::string &start_param_vars);
+  Machine(const std::string &start_param_scheme,
+          const std::string &start_param_vars);
   std::string ProcessAllBlocks();
-  ~Machine();
+  ~Machine() { delete User; }
 };
 
 #endif
