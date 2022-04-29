@@ -1,3 +1,4 @@
 server/test/*
 !server/test/*.cpp
 libs/build/*
+server/deploy/

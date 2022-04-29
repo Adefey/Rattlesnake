@@ -9,6 +9,7 @@ SourcesMachine=./sources_machine/
 SourcesCommon=./sources_common/
 SourcesServerApp=./sources_server_application/
 Test=./test/
+Deploy=./deploy/
 #Names
 ServerApp=RattlesnakeServer
 Machine=RattlesnakeMachine
@@ -98,3 +99,8 @@ make_report:
 	genhtml -o $(Test)report_server $(Test)coverage_server.info
 	lcov -t $(Test)$(Machine)TEST -o $(Test)coverage_machine.info -c -d $(Test)
 	genhtml -o $(Test)report_machine $(Test)coverage_machine.info
+
+deploy: make_server_app make_machine
+	cp $(ResultMachine)$(Machine) ${Deploy}server/$(Machine)
+	cp $(ResultServerApp)$(ServerApp) ${Deploy}server/$(ServerApp)
+	sudo docker-compose -f ${Deploy}docker-compose.yml up --force-recreate

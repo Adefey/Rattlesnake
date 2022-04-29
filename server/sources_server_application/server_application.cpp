@@ -5,9 +5,11 @@ ServerApplication::ServerApplication() {
                        AppInfo::GetDBPassword(), AppInfo::GetDBDatabase());
 }
 
-void ServerApplication::ProcessEvents()
-//Точка входа подключений
-{}
+void ServerApplication::ProcessEvents() {
+  //Точка входа подключений
+  std::cout << "Server launched\n";
+  std::cout << system("uname -a");
+}
 
 void ServerApplication::ProcessUser(const User &user)
 //Обработать запрос на обработку блок-схемы
