@@ -1,4 +1,6 @@
 server/test/*
 !server/test/*.cpp
 libs/build/*
-server/deploy/
+server/deploy/mariadb/*
+server/deploy/server/RattlesnakeMachine
+server/deploy/server/RattlesnakeServer

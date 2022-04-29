@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+
+  rattlesnake_server:
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./server:/home
+    ports:
+      - 14565:14565
+    depends_on:
+      - mariadb
+    env_file:
+      - ./server/cfg.txt
+
+  mariadb:
+    image: mariadb:latest
+    volumes:
+      - ./mariadb:/var/lib/mysql
+    env_file:
+      - ./mariadb/mariadb_env.txt
+    expose:
+      - 3306
+
