@@ -10,8 +10,6 @@ services:
       - ./server:/home
     ports:
       - 14565:14565
-    depends_on:
-      - mariadb
     env_file:
       - ./server/cfg.txt
 

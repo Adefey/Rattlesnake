@@ -1,8 +1,8 @@
-FROM alpine:latest
+FROM archlinux:latest
 
-RUN apk add --no-cache mysql-client python3 boost-dev
+RUN y | pacman -Syyuu --noconfirm base base-devel python mariadb-clients mariadb-libs
 
 COPY . /home
 
-CMD ls -la /home &&\
-    /home/RattlesnakeServer
+CMD [ "/bin/bash", "-l", "-c", "/home/RattlesnakeServer" ]
+
