@@ -21,4 +21,3 @@ services:
       - ./mariadb/mariadb_env.txt
     expose:
       - 3306
-

@@ -15,7 +15,7 @@ ServerApp=RattlesnakeServer
 Machine=RattlesnakeMachine
 #Compilation
 Compiler=g++
-Flags=-I $(Include) -I ../libs/network/include/ -I ../libs/data_processing/include/ -L $(Libraries) -L /usr/lib/ -L ../libs/build/data_processing/ -L ../libs/build/network/ -O0 -std=c++2a -Wall -Werror -Wpedantic
+Flags=-I $(Include) -I ../libs/network/include/ -I ../libs/data_processing/include/ -L $(Libraries) -L /usr/lib/ -L ../libs/build/data_processing/ -L ../libs/build/network/ -Ofast -std=c++2a -Wall -Werror -Wpedantic
 TestFlags=-lgtest -lpthread -coverage -lgcov
 Archiver=ar
 

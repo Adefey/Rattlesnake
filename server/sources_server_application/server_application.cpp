@@ -33,7 +33,8 @@ void ServerApplication::ProcessEvents() {
       }
       }
     }
-    usleep(AppInfo::GetRefreshPeriod() * 1000 * 100);
+    break;
+    //  usleep(AppInfo::GetRefreshPeriod() * 1000 * 100);
   }
 }
 

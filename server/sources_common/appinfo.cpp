@@ -1,12 +1,10 @@
 #include <appinfo.hpp>
 
-const std::string AppInfo::config_path = "cfg.txt";
-
 std::string AppInfo::GetProperty(const std::string &propertyName) {
   std::ifstream reader;
   reader.open(config_path);
   if (reader.fail()) {
-    return "NOOPEN";
+    throw std::runtime_error("Unable to open file");
   }
   std::string line = "";
   while (std::getline(reader, line)) {
@@ -18,7 +16,7 @@ std::string AppInfo::GetProperty(const std::string &propertyName) {
     }
   }
   reader.close();
-  return "NODATA";
+  throw std::runtime_error("Unable to connect");
 }
 
 std::string AppInfo::GetDBAddress() { return GetProperty("DBAddress"); }

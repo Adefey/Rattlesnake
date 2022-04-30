@@ -29,9 +29,9 @@ class ServerApplication {
 
 private:
   DBHelper db_helper;
-  std::queue<User> waiting_users;
-  std::queue<User> executing_users;
-  std::queue<User> ready_users;
+  //  std::queue<User> waiting_users; убрать
+  //  std::queue<User> executing_users;
+  //  std::queue<User> ready_users;
   MachineFactory machine_factory;
   NetLibraryServer net_server;
   QUERY SelectQuery(const std::string &query);
