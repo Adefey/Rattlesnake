@@ -15,7 +15,7 @@ ServerApp=RattlesnakeServer
 Machine=RattlesnakeMachine
 #Compilation
 Compiler=g++
-Flags=-I $(Include) -I ../libs/network/include/ -I ../libs/data_processing/include/ -L $(Libraries) -L /usr/lib/ -L ../libs/build/data_processing/ -L ../libs/build/network/ -Ofast -std=c++2a -Wall -Werror -Wpedantic
+Flags=-I $(Include) -I ../libs/network/include/ -I ../libs/data_processing/include/ -L $(Libraries) -L /usr/lib/ -L ../libs/build/data_processing/ -L ../libs/build/network/ -O0 -std=c++2a -Wall -Werror -Wpedantic
 TestFlags=-lgtest -lpthread -coverage -lgcov
 Archiver=ar
 
@@ -103,4 +103,4 @@ make_report:
 deploy: make_server_app make_machine
 	cp $(ResultMachine)$(Machine) ${Deploy}server/$(Machine)
 	cp $(ResultServerApp)$(ServerApp) ${Deploy}server/$(ServerApp)
-	sudo docker-compose -f ${Deploy}docker-compose.yml up --force-recreate
+	sudo docker-compose -f ${Deploy}docker-compose.yml up --build
