@@ -1,25 +1,146 @@
 #include "parser.hpp"
 
-bool Parser::ToInt(std::string value, int& result) {
-  return false;
+#include "json.hpp"
+
+bool Parser::ToInt(const std::string& value, int& result) {
+  result = 0;
+  try {
+    result = std::stoi(value);
+  } catch (std::invalid_argument const& ex) {
+    return false;
+  } catch (std::out_of_range const& ex) {
+    return false;
+  }
+  return true;
 }
 
-bool Parser::ToDouble(std::string value, double& result) {
-  return false;
+bool Parser::ToDouble(const std::string& value, double& result) {
+  result = 0;
+  try {
+    result = std::stod(value);
+  } catch (std::invalid_argument const& ex) {
+    return false;
+  } catch (std::out_of_range const& ex) {
+    return false;
+  }
+  return true;
 }
 
-bool Parser::ParseParameterFromJsonString(std::string val, Parameter& result) {
-  return false;
+void from_json(const nlohmann::json& json_value, Parameter& parameter) {
+  if (json_value.find("param_name") != json_value.end()) {
+    json_value.at("param_name").get_to(parameter.param_name);
+  }
+  if (json_value.find("param_value") != json_value.end()) {
+    json_value.at("param_value").get_to(parameter.param_value);
+  }
+}
+
+void from_json(const nlohmann::json& json_value, Block& block) {
+  std::string solver_path;
+  std::vector<Parameter> given_vars;
+  std::vector<Parameter> solved_vars;
+  std::string name;
+  std::string description;
+  std::string author_name;
+  int color = -1;
+
+  if (json_value.find("solver_path") != json_value.end()) {
+    json_value.at("solver_path").get_to(solver_path);
+  }
+  if (json_value.find("given_vars") != json_value.end()) {
+    json_value.at("given_vars").get_to(given_vars);
+  }
+  if (json_value.find("solved_vars") != json_value.end()) {
+    json_value.at("solved_vars").get_to(solved_vars);
+  }
+  if (json_value.find("name") != json_value.end()) {
+    json_value.at("name").get_to(name);
+  }
+  if (json_value.find("description") != json_value.end()) {
+    json_value.at("description").get_to(description);
+  }
+  if (json_value.find("author_name") != json_value.end()) {
+    json_value.at("author_name").get_to(author_name);
+  }
+  if (json_value.find("color") != json_value.end()) {
+    json_value.at("color").get_to(color);
+  }
+  block = Block(solver_path, given_vars, solved_vars, name, description, author_name, color);
+}
+
+bool Parser::ParseParameterFromJsonString(const std::string& val, Parameter& result) {
+  nlohmann::json json_value = nlohmann::json::parse(val, nullptr, false);
+
+  if (json_value.is_discarded()) {
+    return false;
+  }
+  if (json_value.find("param_name") == json_value.end() ||
+      json_value.find("param_value") == json_value.end()) {
+    return false;
+  }
+
+  json_value.get_to(result);
+  return true;
 }
 
 bool Parser::ParseParametersFromJsonString(std::string val, std::vector<Parameter>& result) {
-  return false;
+  nlohmann::json json_value = nlohmann::json::parse(val, nullptr, false);
+
+  if (json_value.is_discarded()) {
+    return false;
+  }
+
+  if (!result.empty()) {
+    result.clear();
+  }
+
+  for (auto& el : json_value) {
+    Parameter tmp;
+    if (ParseParameterFromJsonString(to_string(el), tmp)) {
+      result.push_back(tmp);
+    }
+  }
+
+  return !result.empty();
 }
 
 bool Parser::ParseBlockFromJsonString(std::string val, Block& result) {
-  return false;
+  nlohmann::json json_value = nlohmann::json::parse(val, nullptr, false);
+
+  if (json_value.is_discarded()) {
+    return false;
+  }
+  if (json_value.find("solver_path") == json_value.end() ||
+      json_value.find("given_vars") == json_value.end() ||
+      json_value.find("solved_vars") == json_value.end() ||
+      json_value.find("name") == json_value.end() ||
+      json_value.find("description") == json_value.end() ||
+      json_value.find("author_name") == json_value.end() ||
+      json_value.find("color") == json_value.end()) {
+    return false;
+  }
+
+  json_value.get_to(result);
+  return true;
 }
 
 bool Parser::ParseBlocksFromJsonString(std::string val, std::vector<Block>& result) {
-  return false;
+  nlohmann::json json_value = nlohmann::json::parse(val, nullptr, false);
+
+  if (json_value.is_discarded()) {
+    return false;
+  }
+
+  if (!result.empty()) {
+    result.clear();
+  }
+
+  for (auto& el : json_value) {
+    Block tmp;
+    if (ParseBlockFromJsonString(to_string(el), tmp)) {
+      result.push_back(tmp);
+    }
+  }
+
+  return !result.empty();
 }

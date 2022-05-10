@@ -18,7 +18,7 @@ class Block {
         std::vector<Parameter>& solved_vars, std::string name, std::string description,
         std::string author_name, int color);
 
-  std::vector<std::string> GetFieldsNames() const;
+  static std::vector<std::string> GetFieldsNames();
 
   std::string GetSolverPath() const;
 

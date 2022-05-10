@@ -1,45 +1,74 @@
 #include "block.hpp"
 
-Parameter::Parameter() {}
+#include <utility>
 
-Parameter::Parameter(std::string name, std::string value) {}
+Parameter::Parameter() {
+  param_name = "";
+  param_value = "";
+}
 
-Block::Block() {}
+Parameter::Parameter(std::string name, std::string value) {
+  param_name = std::move(name);
+  param_value = std::move(value);
+}
 
-void Block::FillSolved(std::vector<Parameter>& solved_vars) {}
+Block::Block() {
+  solver_path_ = "";
+  name_ = "";
+  description_ = "";
+  author_name_ = "";
+  color_ = -1;
+}
+
+void Block::FillSolved(std::vector<Parameter>& solved_vars) {
+  solved_vars_.clear();
+  for (const auto& param : solved_vars) {
+    solved_vars_.emplace_back(param);
+  }
+}
 
 Block::Block(std::string solver_path, std::vector<Parameter>& given_vars,
              std::vector<Parameter>& solved_vars, std::string name, std::string description,
-             std::string author_name, int color) {}
+             std::string author_name, int color) {
+  solver_path_ = std::move(solver_path);
+  given_vars_ = std::vector<Parameter>(given_vars);
+  solved_vars_ = std::vector<Parameter>(solved_vars);
+  name_ = std::move(name);
+  description_ = std::move(description);
+  author_name_ = std::move(author_name);
+  color_ = color;
+}
 
-std::vector<std::string> Block::GetFieldsNames() const {
-  return std::vector<std::string>();
+std::vector<std::string> Block::GetFieldsNames() {
+  std::vector<std::string> result{
+      {"solver_path", "given_vars", "solved_vars", "name", "description", "author_name", "color"}};
+  return result;
 }
 
 std::string Block::GetSolverPath() const {
-  return "";
+  return solver_path_;
 }
 
 std::vector<Parameter> Block::GetGivenVars() const {
-  return std::vector<Parameter>();
+  return given_vars_;
 }
 
 std::vector<Parameter> Block::GetSolvedVars() const {
-  return std::vector<Parameter>();
+  return solved_vars_;
 }
 
 std::string Block::GetName() const {
-  return "";
+  return name_;
 }
 
 std::string Block::GetDescription() const {
-  return "";
+  return description_;
 }
 
 std::string Block::GetAuthorName() const {
-  return "";
+  return author_name_;
 }
 
 int Block::GetColor() const {
-  return 0;
+  return color_;
 }

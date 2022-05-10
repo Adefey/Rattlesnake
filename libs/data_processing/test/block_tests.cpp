@@ -1,22 +1,21 @@
 #include <gtest/gtest.h>
 
 #include <string>
-#include <iostream>
 
 #include "block.hpp"
 
 TEST(block_tests, get_fields_names_test) {
   Block empty_block;
-  std::vector<std::string> block_fields = empty_block.GetFieldsNames();
+  std::vector<std::string> block_fields = Block::GetFieldsNames();
 
   std::vector<std::string> block_fields_true;
-  block_fields_true.push_back("solver_path");
-  block_fields_true.push_back("given_vars");
-  block_fields_true.push_back("solved_vars");
-  block_fields_true.push_back("name");
-  block_fields_true.push_back("description");
-  block_fields_true.push_back("author_name");
-  block_fields_true.push_back("color");
+  block_fields_true.emplace_back("solver_path");
+  block_fields_true.emplace_back("given_vars");
+  block_fields_true.emplace_back("solved_vars");
+  block_fields_true.emplace_back("name");
+  block_fields_true.emplace_back("description");
+  block_fields_true.emplace_back("author_name");
+  block_fields_true.emplace_back("color");
 
   ASSERT_EQ(block_fields.size(), block_fields_true.size());
 
@@ -31,7 +30,7 @@ TEST(block_tests, empty_block_fields_test) {
   Block empty_block;
 
   std::string solver_path = empty_block.GetSolverPath();
-  std::string empty_string = "";
+  std::string empty_string;
   EXPECT_EQ(solver_path, empty_string);
 
   std::string name = empty_block.GetName();
@@ -57,9 +56,9 @@ TEST(block_tests, fill_solved_params_test) {
   Block empty_block;
 
   std::vector<Parameter> params;
-  params.push_back(Parameter());
-  params.push_back(Parameter());
-  params.push_back(Parameter());
+  params.emplace_back(Parameter());
+  params.emplace_back(Parameter());
+  params.emplace_back(Parameter());
 
   empty_block.FillSolved(params);
 
