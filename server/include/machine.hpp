@@ -1,3 +1,7 @@
+#include <cstdio>
+
+#include <algorithm>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -9,6 +13,8 @@
 #include <serializer.hpp>
 #include <user.hpp>
 
+#define BUF_SIZE 128
+
 #ifndef MACHINE
 #define MACHINE
 
@@ -19,7 +25,7 @@ private:
   NetServer net_server;
   std::string ProcessOneBlock(const std::string &launch_string);
   std::string MakeProcessStartString(const std::string &block_name);
-  void SyncVariables(std::vector<Parameter>);
+  void SyncVariables(std::vector<Parameter> params);
 
 public:
   Machine();
