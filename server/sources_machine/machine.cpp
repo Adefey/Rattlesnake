@@ -57,7 +57,22 @@ std::string Machine::MakeProcessStartString(const std::string &block_name) {
   return result;
 }
 
-Machine::Machine() {}
+Machine::Machine() {
+  char cwd[1024];
+  getcwd(cwd, sizeof(cwd));
+  std::string pwd = std::string(cwd);
+  std::string cmd =
+      " docker run -v " + pwd + ":/home -w /home/ -t -i python python -V";
+  FILE *dummy;
+  //  Процесс создается и закрывается. Это надо чтобы питон скачался, если его
+  //  нет
+  if (!(dummy = popen(cmd.c_str(), "r"))) {
+    throw std::runtime_error("Cannot make process");
+  }
+  if (pclose(dummy)) {
+    throw std::runtime_error("Cannot start");
+  }
+}
 
 Machine::Machine(const std::string &start_param_scheme,
                  const std::string &start_param_vars) {

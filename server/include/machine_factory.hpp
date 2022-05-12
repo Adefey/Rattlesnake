@@ -1,3 +1,6 @@
+#include <unistd.h>
+
+#include <cstdio>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>

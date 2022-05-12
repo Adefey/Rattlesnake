@@ -4,6 +4,17 @@ MachineFactory::MachineFactory() {
   char cwd[1024];
   getcwd(cwd, sizeof(cwd));
   pwd = std::string(cwd);
+  std::string cmd =
+      " docker run -v " + pwd + ":/home -w /home/ -t -i ubuntu uname -a";
+  FILE *dummy;
+  //  Процесс создается и закрывается. Это надо чтобы убунту скачалась, если ее
+  //  нет
+  if (!(dummy = popen(cmd.c_str(), "r"))) {
+    throw std::runtime_error("Cannot make process");
+  }
+  if (pclose(dummy)) {
+    throw std::runtime_error("Cannot start");
+  }
 }
 
 std::string MachineFactory::MakeStartString(const User &user) {
