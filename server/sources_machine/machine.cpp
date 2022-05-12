@@ -40,7 +40,7 @@ std::string Machine::MakeProcessStartString(const std::string &block_name) {
   std::string result = "python ";
   for (size_t i = 0; i < user.block_scheme.size(); ++i) {
     if (user.block_scheme[i].GetName() == block_name) {
-      result += user.block_scheme[i].GetSolverPath() + " ";
+      result += "./blocks/" + user.block_scheme[i].GetName() + ".py ";
       std::vector<Parameter> given_vars = user.block_scheme[i].GetGivenVars();
       for (auto variable : given_vars) {
         for (auto existing_variable : user.variables) {
