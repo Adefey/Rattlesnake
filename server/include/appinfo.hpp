@@ -1,3 +1,6 @@
+#include <cstring>
+#include <fstream>
+#include <iostream>
 #include <string>
 
 #include <parser.hpp>
@@ -8,7 +11,8 @@
 class AppInfo {
 
 private:
-  std::string config_path = "cfg.txt";
+  inline static const std::string config_path = "cfg.txt";
+  static std::string GetProperty(const std::string &propertyName);
 
 public:
   static std::string GetDBAddress();

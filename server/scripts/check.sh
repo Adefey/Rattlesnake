@@ -23,12 +23,12 @@ function check_log() {
 
 
 print_header "RUN cppcheck"
-check_log "cppcheck --enable=all --inconclusive --error-exitcode=1 ./include/* ./sources_machine/* ./sources_common/* ./sources_server_application/* ./test/* --suppress=missingIncludeSystem --suppress=noExplicitConstructor" "\(information\)"
+check_log "cppcheck --enable=all --inconclusive --error-exitcode=1 ./include/* ./sources_machine/* ./sources_common/* ./sources_server_application/* ./test/* --suppress=missingIncludeSystem --suppress=unmatchedSuppression --suppress=useStlAlgorithm" "\(information\)"
 
 print_header "RUN clang-tidy"
 check_log "clang-tidy ./include/* ./sources_machine/* ./sources_common/* ./sources_server_application/* ./test/* -warnings-as-errors=* -extra-arg=-std=c++2a -- -I./include -I ../libs/network/include/ -I ../libs/data_processing/include/" "Error (?:reading|while processing)"
 
 print_header "RUN cpplint"
-check_log "cpplint --extensions=cpp,hpp --filter=-build/header_guard,-legal/copyright,-runtime/explicit,-whitespace/blank_line,-whitespace/comments,-whitespace/indent ./include/* ./sources_machine/* ./sources_common/* ./sources_server_application/* ./test/*" "Can't open for reading"
+check_log "cpplint --extensions=cpp,hpp --filter=-build/header_guard,-legal/copyright,-runtime/explicit,-whitespace/blank_line,-whitespace/comments,-whitespace/indent,-runtime/string ./include/* ./sources_machine/* ./sources_common/* ./sources_server_application/* ./test/*" "Can't open for reading"
 
 print_header "SUCCESS"

@@ -1,3 +1,10 @@
+#include <unistd.h>
+
+#include <cstdio>
+#include <cstdlib>
+#include <filesystem>
+#include <fstream>
+#include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
@@ -7,15 +14,16 @@
 #include <serializer.hpp>
 #include <user.hpp>
 
+#define BUF_SIZE 128
+
 #ifndef MACHINEFACTORY
 #define MACHINEFACTORY
 
 class MachineFactory {
 
 private:
-  std::vector<std::string> machines_online;
   std::string MakeStartString(const User &user);
-  void LaunchProcess(const std::string &launch_string);
+  std::string pwd;
 
 public:
   MachineFactory();

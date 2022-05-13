@@ -1,0 +1,8 @@
+DBAddress=localhost
+DBUsername=amon
+DBPassword=14565
+DBDatabase=rattlesnake
+DBBlockTable=blocks
+DBLogTable=logs
+MaxMachinesCount=20
+RefreshPeriod=20
