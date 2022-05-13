@@ -9,13 +9,13 @@ TEST(parser_tests, string_to_int_test) {
   int int_result = 0;
   EXPECT_FALSE(Parser::ToInt(empty_string, int_result));
 
-  std::string incorrect_string = "123m,z";
+  std::string incorrect_string = "as123m,z";
   EXPECT_FALSE(Parser::ToInt(incorrect_string, int_result));
 
   incorrect_string = "0131231231231231231";
   EXPECT_FALSE(Parser::ToInt(incorrect_string, int_result));
 
-  incorrect_string = "1.42";
+  incorrect_string = ".1.42";
   EXPECT_FALSE(Parser::ToInt(incorrect_string, int_result));
 
   std::string correct_string = "1582";
@@ -36,10 +36,10 @@ TEST(parser_tests, string_to_double_test) {
   double double_result = 0;
   EXPECT_FALSE(Parser::ToDouble(empty_string, double_result));
 
-  std::string incorrect_string = "123m,z";
+  std::string incorrect_string = "as123m,z";
   EXPECT_FALSE(Parser::ToDouble(incorrect_string, double_result));
 
-  incorrect_string = "1..42";
+  incorrect_string = "..1..42";
   EXPECT_FALSE(Parser::ToDouble(incorrect_string, double_result));
 
   std::string correct_string = "1582";
@@ -61,13 +61,13 @@ TEST(parser_tests, parse_param) {
   std::string incorrect_string;
   EXPECT_FALSE(Parser::ParseParameterFromJsonString(incorrect_string, param));
 
-  std::string correct_string = R"({"key":"value"})";
+  std::string correct_string = R"({"param_name":"key","param_value":"value"})";
   EXPECT_TRUE(Parser::ParseParameterFromJsonString(correct_string, param));
   EXPECT_EQ(param.param_name, "key");
   EXPECT_EQ(param.param_value, "value");
 
-  correct_string = "{}";
-  EXPECT_TRUE(Parser::ParseParameterFromJsonString(incorrect_string, param));
+  incorrect_string = "{}";
+  EXPECT_FALSE(Parser::ParseParameterFromJsonString(incorrect_string, param));
 
   incorrect_string = R"({"key";"value"})";
   EXPECT_FALSE(Parser::ParseParameterFromJsonString(incorrect_string, param));
@@ -80,15 +80,16 @@ TEST(parser_tests, parse_params) {
   EXPECT_FALSE(Parser::ParseParametersFromJsonString(incorrect_string, params));
 
   params.clear();
-  std::string correct_string = "values:[]";
-  EXPECT_TRUE(Parser::ParseParametersFromJsonString(correct_string, params));
+  std::string correct_string = "[]";
+  EXPECT_FALSE(Parser::ParseParametersFromJsonString(correct_string, params));
   EXPECT_TRUE(params.empty());
 
-  incorrect_string = R"({values:[{"key";"value"},{"key";"value"},{"key";"value"}]})";
+  incorrect_string = R"([{"key";"value"},{"key";"value"},{"key";"value"}])";
   EXPECT_FALSE(Parser::ParseParametersFromJsonString(incorrect_string, params));
 
   params.clear();
-  correct_string = R"([{"key":"value"},{"key":"value"},{"key":"value"}])";
+  correct_string =
+      R"([{"param_name":"key","param_value":"value"},{"param_name":"key","param_value":"value"},{"param_name":"key","param_value":"value"}])";
   EXPECT_TRUE(Parser::ParseParametersFromJsonString(correct_string, params));
   ASSERT_EQ(params.size(), 3);
   for (size_t i = 0; i < 3; ++i) {
@@ -110,9 +111,7 @@ TEST(parser_tests, parse_block) {
   EXPECT_FALSE(Parser::ParseBlockFromJsonString(incorrect_string, block));
 
   std::string correct_string =
-      "{\"solver_path\":\"path\",\"given_vars\":[{\"key\":\"value\"}],\"solved_vars\":[{}],"
-      "\"name\":\"block_name\",\"description\":\"block_descr\",\"author_name\":\"block_author_"
-      "name\",\"color\":\"11\"}";
+      R"({"solver_path":"path","given_vars":[{"param_name":"key", "param_value":"value"}],"solved_vars":[],"name":"block_name","description":"block_description","author_name":"block_author_name","color":12})";
   EXPECT_TRUE(Parser::ParseBlockFromJsonString(correct_string, block));
 
   EXPECT_EQ(block.GetSolverPath(), "path");
@@ -127,9 +126,9 @@ TEST(parser_tests, parse_block) {
   EXPECT_TRUE(vars.empty());
 
   EXPECT_EQ(block.GetName(), "block_name");
-  EXPECT_EQ(block.GetDescription(), "block_descr");
+  EXPECT_EQ(block.GetDescription(), "block_description");
   EXPECT_EQ(block.GetAuthorName(), "block_author_name");
-  EXPECT_EQ(block.GetColor(), 11);
+  EXPECT_EQ(block.GetColor(), 12);
 }
 
 TEST(parser_tests, parse_blocks) {
@@ -142,13 +141,11 @@ TEST(parser_tests, parse_blocks) {
   EXPECT_FALSE(Parser::ParseBlocksFromJsonString(incorrect_string, blocks));
 
   std::string correct_string =
-      "{\"solver_path\":\"path\",\"given_vars\":[{\"key\":\"value\"}],\"solved_vars\":[{}],"
-      "\"name\":\"block_name\",\"description\":\"block_descr\",\"author_name\":\"block_author_"
-      "name\",\"color\":\"11\"}";
+      R"([{"solver_path":"path","given_vars":[{"param_name":"key", "param_value":"value"}],"solved_vars":[],"name":"block_name","description":"block_description","author_name":"block_author_name","color":12},{"solver_path":"path","given_vars":[{"param_name":"key", "param_value":"value"}],"solved_vars":[],"name":"block_name","description":"block_description","author_name":"block_author_name","color":12}])";
 
   blocks.clear();
-  EXPECT_TRUE(Parser::ParseBlocksFromJsonString(incorrect_string, blocks));
-  ASSERT_EQ(blocks.size(), 1);
+  EXPECT_TRUE(Parser::ParseBlocksFromJsonString(correct_string, blocks));
+  ASSERT_EQ(blocks.size(), 2);
 
   EXPECT_EQ(blocks[0].GetSolverPath(), "path");
 
@@ -162,7 +159,7 @@ TEST(parser_tests, parse_blocks) {
   EXPECT_TRUE(vars.empty());
 
   EXPECT_EQ(blocks[0].GetName(), "block_name");
-  EXPECT_EQ(blocks[0].GetDescription(), "block_descr");
+  EXPECT_EQ(blocks[0].GetDescription(), "block_description");
   EXPECT_EQ(blocks[0].GetAuthorName(), "block_author_name");
-  EXPECT_EQ(blocks[0].GetColor(), 11);
+  EXPECT_EQ(blocks[0].GetColor(), 12);
 }
