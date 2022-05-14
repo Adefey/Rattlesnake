@@ -1,13 +1,14 @@
-FROM archlinux:latest
+FROM ubuntu:latest
 #FROM alpine:latest
 
-RUN pacman -Syyuu --noconfirm \
-    base \
-    base-devel \
-    python \
-    mariadb-clients \
-    mariadb-libs \
-    neofetch
+#RUN pacman -Syyuu --noconfirm \
+#    base \
+#    base-devel \
+#    python \
+#    mariadb-clients \
+#    mariadb-libs \
+#    neofetch \
+#    docker
 
 #RUN apk add --no-cache \
 #    mysql-client \
@@ -18,6 +19,15 @@ RUN pacman -Syyuu --noconfirm \
 #    musl-dev \
 #    mariadb-connector-c-dev \
 #    neofetch
+
+RUN apt update && apt install -y \
+    mariadb-client \
+    python3 \
+    docker \
+    neofetch \
+    systemd \
+    docker.io
+
 
 COPY . /home
 

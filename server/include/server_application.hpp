@@ -21,28 +21,26 @@
 #define SERVERAPPLICATION
 
 enum QUERY {
+  NODATA = 0,
   SENDBLOCKS = 1,
-  PROCESSSCHEME,
+  PROCESSSCHEME = 2,
 };
 
 class ServerApplication {
 
 private:
   DBHelper db_helper;
-  //  std::queue<User> waiting_users; убрать
-  //  std::queue<User> executing_users;
-  //  std::queue<User> ready_users;
   MachineFactory machine_factory;
-  NetLibraryServer net_server;
+  NetServer net_server;
   QUERY SelectQuery(const std::string &query);
 
 public:
   ServerApplication();
   void ProcessEvents();
   //Точка входа подключений
-  void ProcessUser(const User &user);
+  void ProcessUser(User &user, NetMessage &message);
   //Обработать запрос на обработку блок-схемы
-  void ProcessStat();
+  void ProcessStat(User &user);
   //Обработать запрос на сбор статистики
 };
 

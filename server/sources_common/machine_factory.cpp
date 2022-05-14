@@ -1,35 +1,19 @@
 #include <machine_factory.hpp>
 
-MachineFactory::MachineFactory() {
-  char cwd[1024];
-  getcwd(cwd, sizeof(cwd));
-  pwd = std::string(cwd);
-  std::string cmd =
-      " docker run -v " + pwd + ":/home -w /home/ -t -i ubuntu uname -a";
-  FILE *dummy;
-  //  Процесс создается и закрывается. Это надо чтобы убунту скачалась, если ее
-  //  нет
-  if (!(dummy = popen(cmd.c_str(), "r"))) {
-    throw std::runtime_error("Cannot make process");
-  }
-  if (pclose(dummy)) {
-    throw std::runtime_error("Cannot start");
-  }
-}
+MachineFactory::MachineFactory() {}
 
 std::string MachineFactory::MakeStartString(const User &user) {
 
   std::string result =
-      "docker run -v " + pwd +
-      ":/home -w /home/ -t -i ubuntu ./RattlesnakeMachine " +
-      Serializer::ToJsonString((std::vector<Block> &)user.block_scheme) + " " +
-      Serializer::ToJsonString((std::vector<Parameter> &)user.variables);
+      "./RattlesnakeMachine \'" +
+      Serializer::ToJsonString((std::vector<Block> &)user.block_scheme) +
+      "\' \'" +
+      Serializer::ToJsonString((std::vector<Parameter> &)user.variables) + '\'';
   return result;
 }
 
 std::string MachineFactory::ProcessMachine(const User &user) {
   std::string start_string = MakeStartString(user);
-
   std::string result = "";
   char buf[BUF_SIZE];
   FILE *process_output;
@@ -43,7 +27,7 @@ std::string MachineFactory::ProcessMachine(const User &user) {
   }
 
   if (pclose(process_output)) {
-    throw std::runtime_error("Cannot start");
+    throw std::runtime_error("Cannot start or ended bad");
   }
   return result;
 }
