@@ -1,22 +1,15 @@
-#include "Scheme.h"
-#include "listofblocks.h"
-#include "splitter.h"
-#include <QWidget>
-#include "netclient.hpp"
-#include "netlibraryclient.hpp"
-
 #ifndef UI_H
 #define UI_H
 
-class UI : public QWidget {
-public:
-  explicit UI(QWidget *parent = nullptr);
-  ~UI();
-  bool on_start();
+#include <QObject>
+#include <QWidget>
+#include"splitter.h"
 
-private:
-  void on_drag_and_drop();
-  void on_push_run_button();
+class UI : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit UI(QObject *parent = nullptr);
 };
 
 #endif // UI_H

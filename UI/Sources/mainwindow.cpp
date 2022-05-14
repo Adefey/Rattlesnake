@@ -1,19 +1,40 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-  QGridLayout *mainlayout = new QGridLayout(this);
-
-  Splitter *splitter = new Splitter(this);
-  mainlayout->addWidget(splitter);
-  addToolBar(Qt::TopToolBarArea, createTopToolBar());
-  setCentralWidget(splitter);
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+{
+    UI *ui = new UI(this);
+    createTopToolBar();
+    addToolBar(Qt::TopToolBarArea, ptb);
+    setCentralWidget(ui);
 }
 
-QToolBar *MainWindow::createTopToolBar() {
-  QToolBar *ptb = new QToolBar;
-  ptb->addAction("Файл", this, SLOT(slotNoImpl()));
-  ptb->addAction("Правка", this, SLOT(slotNoImpl()));
-  ptb->addAction("Вид", this, SLOT(slotNoImpl()));
-  ptb->addAction("Справка", this, SLOT(slotNoImpl()));
-  return ptb;
+void MainWindow::createTopToolBar()
+{
+    ptb = new QToolBar;
+    ptb->addAction("Файл");
+    ptb->addAction("Правка");
+    ptb->addAction("Вид");
+    ptb->addAction("Справка");
+
+//    QMenu *menu = new QMenu();
+//    QAction *testAction = new QAction("Запуск", this);
+//    menu->addAction(testAction);
+
+//    QToolButton* toolButton = new QToolButton();
+//    toolButton->setMenu(menu);
+//    toolButton->setPopupMode(QToolButton::InstantPopup);
+//    ptb->addWidget(toolButton);
+    QAction *runAction = new QAction(this);
+    QObject::connect(runAction, &QAction::triggered, this, &MainWindow::run);
+    ptb->addAction(runAction);
 }
+
+void MainWindow::run() {
+    qDebug() << "run";
+}
+
+MainWindow::~MainWindow()
+{
+}
+

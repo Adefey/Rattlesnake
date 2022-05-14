@@ -1,20 +1,26 @@
-#pragma once
-
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "UI.h"
-#include <QGridLayout>
 #include <QMainWindow>
+#include <QGridLayout>
 #include <QToolBar>
+#include <QMenu>
+#include <QToolButton>
+#include "UI.h"
 
-class MainWindow : public QMainWindow {
-  Q_OBJECT
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+private:
+    QToolBar *ptb;
+
+public slots:
+    void run();
+
 public:
-  explicit MainWindow(QWidget *parent = nullptr);
-  QToolBar *createTopToolBar();
-
-signals:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+    void createTopToolBar();
 };
-
 #endif // MAINWINDOW_H

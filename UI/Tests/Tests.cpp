@@ -4,13 +4,12 @@
 #include <vector>
 
 #include "UI.h"
-#include "listofblocks.h"
 #include "mainwindow.h"
-#include "QTlistofblocks.h"
-#include "qtrequiredvariables.h"
-#include "qtscheme.h"
-#include "Scheme.h"
-#include "uiblock.h"
+#include "qtlistofblocks.h"
+#include "requiredvariables.h"
+#include "schemewidget.h"
+#include "blockwidget.h"
+#include "newblockwidget.h"
 
 #include "block.hpp"
 
