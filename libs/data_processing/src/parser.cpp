@@ -83,7 +83,7 @@ bool Parser::ParseParameterFromJsonString(const std::string& val, Parameter& res
   return true;
 }
 
-bool Parser::ParseParametersFromJsonString(std::string val, std::vector<Parameter>& result) {
+bool Parser::ParseParametersFromJsonString(const std::string& val, std::vector<Parameter>& result) {
   nlohmann::json json_value = nlohmann::json::parse(val, nullptr, false);
 
   if (json_value.is_discarded()) {
@@ -104,7 +104,7 @@ bool Parser::ParseParametersFromJsonString(std::string val, std::vector<Paramete
   return !result.empty();
 }
 
-bool Parser::ParseBlockFromJsonString(std::string val, Block& result) {
+bool Parser::ParseBlockFromJsonString(const std::string& val, Block& result) {
   nlohmann::json json_value = nlohmann::json::parse(val, nullptr, false);
 
   if (json_value.is_discarded()) {
@@ -124,7 +124,7 @@ bool Parser::ParseBlockFromJsonString(std::string val, Block& result) {
   return true;
 }
 
-bool Parser::ParseBlocksFromJsonString(std::string val, std::vector<Block>& result) {
+bool Parser::ParseBlocksFromJsonString(const std::string& val, std::vector<Block>& result) {
   nlohmann::json json_value = nlohmann::json::parse(val, nullptr, false);
 
   if (json_value.is_discarded()) {

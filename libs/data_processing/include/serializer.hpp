@@ -9,8 +9,8 @@ class Serializer {
  public:
   static std::string ToString(int value);
   static std::string ToString(double value);
-  static std::string ToJsonString(Block value);
-  static std::string ToJsonString(std::vector<Block>& values);
-  static std::string ToJsonString(Parameter value);
-  static std::string ToJsonString(std::vector<Parameter>& values);
+  static std::string ToJsonString(const Block& value);
+  static std::string ToJsonString(const std::vector<Block>& values);
+  static std::string ToJsonString(const Parameter& value);
+  static std::string ToJsonString(const std::vector<Parameter>& values);
 };

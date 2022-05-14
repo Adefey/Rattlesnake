@@ -1,25 +1,21 @@
 #include "netlibraryserver.hpp"
 
-NetLibraryServer::NetLibraryServer() = default;
-
-NetLibraryServer::~NetLibraryServer() noexcept = default;
-
-bool NetLibraryServer::SendData(NetSocket socket, std::string data) {
-  return false;
+bool NetLibraryServer::SendBlocksJson(NetSocket& receiver, const std::string& blocks) {
+  std::string header = "ListOfBlocks";
+  NetMessage msg(header, blocks);
+  bool is_sent = SendData(receiver, msg);
+  receiver.CloseSocket();
+  return is_sent;
 }
 
-bool NetLibraryServer::SendBlocksJson(NetServer server, std::string blocks) {
-  return false;
+bool NetLibraryServer::SendResultsJson(NetSocket& receiver, const std::string& results) {
+  std::string header = "ResultsOfScheme";
+  NetMessage msg(header, results);
+  bool is_sent = SendData(receiver, msg);
+  receiver.CloseSocket();
+  return is_sent;
 }
 
-bool NetLibraryServer::SendResultsJson(NetServer server, std::string results) {
-  return false;
-}
-
-std::string NetLibraryServer::ReceiveData(NetSocket socket) {
-  return "";
-}
-
-std::string NetLibraryServer::ReceiveBlocksJson(NetServer server) {
-  return "";
+bool NetLibraryServer::ReceiveMessage(NetSocket& receiver, NetMessage& msg) {
+  return ReceiveData(receiver, msg);
 }

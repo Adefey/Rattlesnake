@@ -3,13 +3,20 @@
 class NetSocket {
  public:
   NetSocket();
-  explicit NetSocket(int socket);
 
-  void SetSocket(int socket);
+  NetSocket(const NetSocket&) = delete;
+  NetSocket(NetSocket&&) = delete;
+
+  NetSocket& operator=(const NetSocket&) = delete;
+  NetSocket& operator=(NetSocket&&) = delete;
+
+  ~NetSocket();
+
   int GetSocket() const;
   bool CreateSocket();
+  void SetSocket(const int& socket);
   void CloseSocket();
-  ~NetSocket();
+  bool IsSocketOpen() const;
 
  private:
   int socket_;
