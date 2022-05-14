@@ -9,19 +9,18 @@ ServerApplication::ServerApplication() {
 void ServerApplication::ProcessEvents() {
   //Точка входа подключений
   std::cout << "Server launched\n" << '\n';
-  std::cout << "Адрес СУБД:"<< AppInfo::GetDBAddress() << '\n';
-  std::cout << "Юзер СУБД:"<< AppInfo::GetDBUsername() << '\n';
-  std::cout << "Пароль СУБД:"<< AppInfo::GetDBPassword() << '\n';
-  std::cout << "База данных СУБД:"<< AppInfo::GetDBDatabase() << '\n';
-  std::cout << "Таблица блоков СУБД:"<< AppInfo::GetDBBlockTable() << '\n';
-  std::cout << "Таблица логов СУБД:"<< AppInfo::GetDBLogTable() << '\n';
-  std::cout << "Максимальное число онлайн машин:"<< AppInfo::GetMaxMachinesCount() << '\n';
-  std::cout << "Интервал обновления:"<< AppInfo::GetRefreshPeriod() << '\n';
+  std::cout << "Адрес СУБД:" << AppInfo::GetDBAddress() << '\n';
+  std::cout << "Юзер СУБД:" << AppInfo::GetDBUsername() << '\n';
+  std::cout << "Пароль СУБД:" << AppInfo::GetDBPassword() << '\n';
+  std::cout << "База данных СУБД:" << AppInfo::GetDBDatabase() << '\n';
+  std::cout << "Таблица блоков СУБД:" << AppInfo::GetDBBlockTable() << '\n';
+  std::cout << "Таблица логов СУБД:" << AppInfo::GetDBLogTable() << '\n';
+  std::cout << "Максимальное число онлайн машин:"
+            << AppInfo::GetMaxMachinesCount() << '\n';
+  std::cout << "Интервал обновления:" << AppInfo::GetRefreshPeriod() << '\n';
   User user;
   while (true) {
     std::cout << "Working..." << '\n';
-    NetMessage message;
-    std::string header = "";
     //
     std::vector<Parameter> a = {};
     std::vector<Parameter> b = {};
@@ -31,8 +30,18 @@ void ServerApplication::ProcessEvents() {
                                       "main2 example", "adefe", 155));
     std::string result = machine_factory.ProcessMachine(user);
     std::cout << result;
+    std::vector<Parameter> res = {};
+    Parser::ParseParametersFromJsonString(result, res);
+    for (size_t i = 0; i < res.size(); ++i) {
+      std::cout << res[i].param_name << " : " << res[i].param_value
+                << std::endl;
+    }
     break;
+    //
     /*
+     *
+     * NetMessage message;
+    std::string header = "";
     if (net_server.AcceptConnection(user.user_socket)) {
       if (!NetLibraryServer::ReceiveMessage(user.user_socket, message)) {
         user.user_socket.CloseSocket();

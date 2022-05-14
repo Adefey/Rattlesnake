@@ -75,7 +75,6 @@ std::string Machine::ProcessAllBlocks() {
     } catch (std::runtime_error const &) {
       return "SCHEME FAILED";
     }
-
     std::vector<Parameter> block_output_vector = {};
     Parser::ParseParametersFromJsonString(block_output, block_output_vector);
     SyncVariables(block_output_vector);

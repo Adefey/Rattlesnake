@@ -1,9 +1,8 @@
 import json
 
 def main():
-    data = {'c':14565, 'd':6}
-    result = json.dumps(data)
-    print(result)
+    data = """[{"param_name":"A","param_value":"1"},{"param_name":"B","param_value":"2"},{"param_name":"C","param_value":"3"}]"""
+    print(data)
 
 
 if __name__=='__main__':

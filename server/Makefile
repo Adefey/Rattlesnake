@@ -34,7 +34,7 @@ check:
 	@echo "-------------START FORMATTING FILES-------------"
 	$(Scripts)prepare.sh
 	@echo "-------------START CHECKING FILES-------------"
-	#$(Scripts)check.sh
+	$(Scripts)check.sh
 
 make_binaries:	$(SourcesCommon)appinfo.cpp $(SourcesCommon)dbhelper.cpp $(SourcesCommon)machine_factory.cpp
 	$(Compiler) $(Flags) -c $(SourcesCommon)appinfo.cpp -o $(Binaries)appinfo.o
