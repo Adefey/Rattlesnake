@@ -3,50 +3,92 @@
 ServerApplication::ServerApplication() {
   db_helper = DBHelper(AppInfo::GetDBAddress(), AppInfo::GetDBUsername(),
                        AppInfo::GetDBPassword(), AppInfo::GetDBDatabase());
+  net_server.InitializeServer(8000);
 }
 
 void ServerApplication::ProcessEvents() {
   //Точка входа подключений
   std::cout << "Server launched\n" << '\n';
-  std::cout << AppInfo::GetDBAddress() << '\n';
-  std::cout << AppInfo::GetDBUsername() << '\n';
-  std::cout << AppInfo::GetDBPassword() << '\n';
-  std::cout << AppInfo::GetDBDatabase() << '\n';
-  std::cout << AppInfo::GetDBBlockTable() << '\n';
-  std::cout << AppInfo::GetDBLogTable() << '\n';
-  std::cout << AppInfo::GetMaxMachinesCount() << '\n';
-  std::cout << AppInfo::GetRefreshPeriod() << '\n';
+  std::cout << "Адрес СУБД:" << AppInfo::GetDBAddress() << '\n';
+  std::cout << "Юзер СУБД:" << AppInfo::GetDBUsername() << '\n';
+  std::cout << "Пароль СУБД:" << AppInfo::GetDBPassword() << '\n';
+  std::cout << "База данных СУБД:" << AppInfo::GetDBDatabase() << '\n';
+  std::cout << "Таблица блоков СУБД:" << AppInfo::GetDBBlockTable() << '\n';
+  std::cout << "Таблица логов СУБД:" << AppInfo::GetDBLogTable() << '\n';
+  std::cout << "Максимальное число онлайн машин:"
+            << AppInfo::GetMaxMachinesCount() << '\n';
+  std::cout << "Интервал обновления:" << AppInfo::GetRefreshPeriod() << '\n';
+  User user;
   while (true) {
-    //Тут будет получение сообщений в цикле
-    std::string data = "";
     std::cout << "Working..." << '\n';
-    // data = net_server.ReceiveData() тут будет, линтер душнит
-    if (true) {
-      switch (SelectQuery(data)) {
-      case SENDBLOCKS: {
-        ProcessStat();
-        break;
-      }
-      case PROCESSSCHEME: {
-        User user;
-        ProcessUser(user);
-      }
-      }
+    //
+    std::vector<Parameter> a = {};
+    std::vector<Parameter> b = {};
+    user.block_scheme.push_back(Block("./blocks/main.py", a, b, "main.py",
+                                      "main example", "adefe", 255));
+    user.block_scheme.push_back(Block("./blocks/main2.py", a, b, "main2.py",
+                                      "main2 example", "adefe", 155));
+    std::string result = machine_factory.ProcessMachine(user);
+    std::cout << result;
+    std::vector<Parameter> res = {};
+    Parser::ParseParametersFromJsonString(result, res);
+    for (size_t i = 0; i < res.size(); ++i) {
+      std::cout << res[i].param_name << " : " << res[i].param_value
+                << std::endl;
     }
     break;
-    //  usleep(AppInfo::GetRefreshPeriod() * 1000 * 100);
+    //
+    /*
+     *
+     * NetMessage message;
+    std::string header = "";
+    if (net_server.AcceptConnection(user.user_socket)) {
+      if (!NetLibraryServer::ReceiveMessage(user.user_socket, message)) {
+        user.user_socket.CloseSocket();
+        continue;
+      } else {
+        header = message.GetHeader();
+      }
+    } else {
+      continue;
+    }
+    switch (SelectQuery(header)) {
+    case SENDBLOCKS: {
+      ProcessStat(user);
+      break;
+    }
+    case PROCESSSCHEME: {
+      ProcessUser(user, message);
+      break;
+    }
+    case NODATA: {
+      break;
+    }
+    }
+    usleep(AppInfo::GetRefreshPeriod());
+    */
   }
 }
 
 QUERY ServerApplication::SelectQuery(const std::string &query) {
-  //Выбор обработчика запроса
-  return SENDBLOCKS;
+  if (query == "BlocksRequest") {
+    return SENDBLOCKS;
+  } else if (query == "SchemeRequest") {
+    return PROCESSSCHEME;
+  } else {
+    return NODATA;
+  }
 }
 
-void ServerApplication::ProcessUser(const User &user)
-//Обработать запрос на обработку блок-схемы
-{}
+void ServerApplication::ProcessUser(User &user, NetMessage &message) {
+  Parser::ParseBlocksFromJsonString(message.GetContent(), user.block_scheme);
+  NetLibraryServer::ReceiveMessage(user.user_socket, message);
+  Parser::ParseParametersFromJsonString(message.GetContent(), user.variables);
+  std::string result = machine_factory.ProcessMachine(user);
+  NetLibraryServer::SendResultsJson(user.user_socket, result);
+}
 
-void ServerApplication::ProcessStat()
-//Обработать запрос на сбор статистики
-{}
+void ServerApplication::ProcessStat(User &user) {
+  std::string result = Serializer::ToJsonString(db_helper.RequestAllBlocks());
+  NetLibraryServer::SendBlocksJson(user.user_socket, result);
+}

@@ -37,10 +37,10 @@ std::string Machine::ProcessOneBlock(const std::string &launch_string) {
 }
 
 std::string Machine::MakeProcessStartString(const std::string &block_name) {
-  std::string result = "python ";
+  std::string result = "python3 ";
   for (size_t i = 0; i < user.block_scheme.size(); ++i) {
     if (user.block_scheme[i].GetName() == block_name) {
-      result += "./blocks/" + user.block_scheme[i].GetName() + ".py ";
+      result += user.block_scheme[i].GetSolverPath();
       std::vector<Parameter> given_vars = user.block_scheme[i].GetGivenVars();
       for (auto variable : given_vars) {
         for (auto existing_variable : user.variables) {
@@ -57,22 +57,7 @@ std::string Machine::MakeProcessStartString(const std::string &block_name) {
   return result;
 }
 
-Machine::Machine() {
-  char cwd[1024];
-  getcwd(cwd, sizeof(cwd));
-  std::string pwd = std::string(cwd);
-  std::string cmd =
-      " docker run -v " + pwd + ":/home -w /home/ -t -i python python -V";
-  FILE *dummy;
-  //  Процесс создается и закрывается. Это надо чтобы питон скачался, если его
-  //  нет
-  if (!(dummy = popen(cmd.c_str(), "r"))) {
-    throw std::runtime_error("Cannot make process");
-  }
-  if (pclose(dummy)) {
-    throw std::runtime_error("Cannot start");
-  }
-}
+Machine::Machine() {}
 
 Machine::Machine(const std::string &start_param_scheme,
                  const std::string &start_param_vars) {
@@ -90,7 +75,6 @@ std::string Machine::ProcessAllBlocks() {
     } catch (std::runtime_error const &) {
       return "SCHEME FAILED";
     }
-
     std::vector<Parameter> block_output_vector = {};
     Parser::ParseParametersFromJsonString(block_output, block_output_vector);
     SyncVariables(block_output_vector);

@@ -7,14 +7,3 @@ TEST(ServerApplicationTest, ProcessEventsTest) {
   ServerApplication server;
   EXPECT_NO_THROW(server.ProcessEvents());
 }
-
-TEST(ServerApplicationTest, ProcessUserTest) {
-  ServerApplication server;
-  User u;
-  EXPECT_NO_THROW(server.ProcessUser(u));
-}
-
-TEST(ServerApplicationTest, ProcessStatTest) {
-  ServerApplication server;
-  EXPECT_NO_THROW(server.ProcessStat());
-}

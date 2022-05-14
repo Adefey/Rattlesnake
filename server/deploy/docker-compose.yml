@@ -3,6 +3,7 @@ version: '3.8'
 services:
 
   rattlesnake_server:
+    privileged: true
     build:
       context: ./server
       dockerfile: ./Dockerfile
@@ -19,5 +20,5 @@ services:
       - ./mariadb:/var/lib/mysql
     env_file:
       - ./mariadb/mariadb_env.txt
-    expose:
-      - 3306
+    ports:
+      - 3306:3306
