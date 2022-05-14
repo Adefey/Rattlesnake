@@ -7,8 +7,8 @@ class NetSocket {
   NetSocket(const NetSocket&) = delete;
   NetSocket(NetSocket&&) = delete;
 
-  NetSocket operator=(const NetSocket&) = delete;
-  NetSocket operator=(NetSocket&&) = delete;
+  NetSocket& operator=(const NetSocket&) = delete;
+  NetSocket& operator=(NetSocket&&) = delete;
 
   ~NetSocket();
 

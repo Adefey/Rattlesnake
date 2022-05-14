@@ -12,8 +12,8 @@ class NetClient {
   NetClient(const NetClient&) = delete;
   NetClient(NetClient&&) = delete;
 
-  NetClient operator=(const NetClient&) = delete;
-  NetClient operator=(NetClient&&) = delete;
+  NetClient& operator=(const NetClient&) = delete;
+  NetClient& operator=(NetClient&&) = delete;
 
   ~NetClient() = default;
 

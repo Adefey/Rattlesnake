@@ -11,8 +11,8 @@ class NetServer {
   NetServer(const NetServer&) = delete;
   NetServer(NetServer&&) = delete;
 
-  NetServer operator=(const NetServer&) = delete;
-  NetServer operator=(NetServer&&) = delete;
+  NetServer& operator=(const NetServer&) = delete;
+  NetServer& operator=(NetServer&&) = delete;
 
   ~NetServer() = default;
 
