@@ -1,29 +1,33 @@
 #include "netlibraryclient.hpp"
 
-NetLibraryClient::NetLibraryClient() = default;
+bool NetLibraryClient::SendBlocksRequest(NetClient& sender) {
+  if (!sender.ConnectToServer()) {
+    return false;
+  }
+  std::string header = "BlocksRequest";
+  std::string content = " ";
+  return SendData(sender.GetClientSocket(), NetMessage(header, content));
+}
 
-NetLibraryClient::~NetLibraryClient() noexcept = default;
+bool NetLibraryClient::SendSchemeJson(NetClient& sender, const std::string& scheme) {
+  if (!sender.ConnectToServer()) {
+    return false;
+  }
+  std::string header = "SchemeRequest";
+  return SendData(sender.GetClientSocket(), NetMessage(header, scheme));
+}
 
-bool NetLibraryClient::SendData(NetSocket socket, std::string data) {
+bool NetLibraryClient::ReceiveBlocksJson(NetClient& receiver, std::string& blocks) {
+  NetMessage result;
+  bool is_receive = ReceiveData(receiver.GetClientSocket(), result);
+  receiver.DisconnectFromServer();
+  if (is_receive) {
+    blocks = result.GetContent();
+    return true;
+  }
   return false;
 }
 
-bool NetLibraryClient::SendBlocksRequest(NetClient client) {
-  return false;
-}
-
-bool NetLibraryClient::SendBlocksJson(NetClient client, std::string blocks) {
-  return false;
-}
-
-bool NetLibraryClient::SendSchemeJson(NetClient client, std::string scheme) {
-  return false;
-}
-
-std::string NetLibraryClient::ReceiveData(NetSocket socket) {
-  return "";
-}
-
-std::string NetLibraryClient::ReceiveBlocksJson(NetClient client) {
-  return "";
+bool NetLibraryClient::ReceiveResultsJson(NetClient& receiver, std::string& results) {
+  return ReceiveBlocksJson(receiver, results);
 }

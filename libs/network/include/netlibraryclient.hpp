@@ -1,18 +1,12 @@
 #pragma once
 
-#include "inetlibrary.hpp"
 #include "netclient.hpp"
+#include "netlibrary.hpp"
 
-class NetLibraryClient : public INetLibrary {
+class NetLibraryClient : public NetLibrary {
  public:
-  NetLibraryClient();
-  bool SendBlocksRequest(NetClient client);
-  bool SendBlocksJson(NetClient client, std::string blocks);
-  bool SendSchemeJson(NetClient client, std::string scheme);
-  std::string ReceiveBlocksJson(NetClient client);
-  ~NetLibraryClient() override;
-
- private:
-  std::string ReceiveData(NetSocket socket) override;
-  bool SendData(NetSocket socket, std::string data) override;
+  static bool SendBlocksRequest(NetClient& sender);
+  static bool SendSchemeJson(NetClient& sender, const std::string& scheme);
+  static bool ReceiveBlocksJson(NetClient& receiver, std::string& blocks);
+  static bool ReceiveResultsJson(NetClient& receiver, std::string& results);
 };

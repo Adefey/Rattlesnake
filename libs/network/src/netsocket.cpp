@@ -1,19 +1,42 @@
 #include "netsocket.hpp"
 
-NetSocket::NetSocket() {}
+#include <sys/socket.h>
+#include <unistd.h>
 
-NetSocket::NetSocket(int socket) {}
+NetSocket::NetSocket() {
+  socket_ = -1;
+}
 
-NetSocket::~NetSocket() {}
+NetSocket::~NetSocket() {
+  if (socket_ != -1) {
+    close(socket_);
+  }
+}
 
 bool NetSocket::CreateSocket() {
-  return false;
+  socket_ = socket(PF_INET, SOCK_STREAM, 0);
+  if (socket_ == -1) {
+    return false;
+  }
+  return true;
 }
 
 int NetSocket::GetSocket() const {
-  return 0;
+  return socket_;
 }
 
-void NetSocket::SetSocket(int socket) {}
+void NetSocket::SetSocket(const int& socket) {
+  CloseSocket();
+  socket_ = socket;
+}
 
-void NetSocket::CloseSocket() {}
+void NetSocket::CloseSocket() {
+  if (socket_ != -1) {
+    close(socket_);
+    socket_ = -1;
+  }
+}
+
+bool NetSocket::IsSocketOpen() const {
+  return socket_ != -1;
+}

@@ -7,8 +7,20 @@
 
 class NetClient {
  public:
-  bool SetServerAddress(const char* address);
   NetClient();
+
+  NetClient(const NetClient&) = delete;
+  NetClient(NetClient&&) = delete;
+
+  NetClient operator=(const NetClient&) = delete;
+  NetClient operator=(NetClient&&) = delete;
+
+  ~NetClient() = default;
+
+  bool SetServerAddress(const char* address, uint16_t port);
+  bool ConnectToServer();
+  void DisconnectFromServer();
+  NetSocket& GetClientSocket();
 
  private:
   NetSocket client_socket_;

@@ -3,10 +3,10 @@
 #include "netlibraryserver.hpp"
 
 TEST(netlibraryserver_tests, all_tests) {
-  NetServer server;
-  NetLibraryServer server_lib;
+  NetSocket receiver;
   std::string data;
-  EXPECT_NO_THROW(server_lib.SendBlocksJson(server, data));
-  EXPECT_NO_THROW(server_lib.SendResultsJson(server, data));
-  EXPECT_NO_THROW(server_lib.ReceiveBlocksJson(server));
+  NetMessage msg;
+  EXPECT_NO_THROW(NetLibraryServer::SendBlocksJson(receiver, data));
+  EXPECT_NO_THROW(NetLibraryServer::SendResultsJson(receiver, data));
+  EXPECT_NO_THROW(NetLibraryServer::ReceiveMessage(receiver, msg));
 }
