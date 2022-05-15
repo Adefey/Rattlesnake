@@ -27,7 +27,7 @@ void LogWidget::answer(std::string result) {
     }
 }
 
-void errorLog(int cs) {
+void LogWidget::errorLog(int cs) {
     switch (cs)
     {
     case 1:
