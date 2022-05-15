@@ -28,7 +28,7 @@ Splitter::Splitter(QWidget *parent, QAction *runAction)
     QObject::connect(runAction, &QAction::triggered, reqv, &RequiredVariables::run);
     QObject::connect(reqv, SIGNAL(send(std::vector<Parameter>*)), sch, SLOT(run(std::vector<Parameter>*)));
     QObject::connect(sch, SIGNAL(resultsRecieved(std::string)), log, SLOT(answer(std::string)));
-    QObject::connect(lstblks, SIGNAL(errorAppeared(int)), log, SLOT(errorLog(int)));
+    QObject::connect(lstblks, SIGNAL(error(int)), log, SLOT(errorLog(int)));
     QObject::connect(sch, SIGNAL(errorAppeared(int)), log, SLOT(errorLog(int)));
 
     Hsplitter->addWidget(requiredVariables);
