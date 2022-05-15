@@ -1,20 +1,30 @@
-#pragma once
-
 #ifndef SPLITTER_H
 #define SPLITTER_H
 
-#include <QFrame>
-#include <QHBoxLayout>
 #include <QMainWindow>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QFrame>
 #include <QSplitter>
-#include <QTlistofblocks.h>
+#include <QAction>
+#include "qtlistofblocks.h"
+#include "schemewidget.h"
+#include "logwidget.h"
+#include "requiredvariables.h"
 
-class Splitter : public QWidget {
-  Q_OBJECT
+class Splitter : public QWidget
+{
+    Q_OBJECT
 
 public:
-  explicit Splitter(QWidget *parent = nullptr);
-  ~Splitter();
+    explicit Splitter(QWidget *parent = nullptr, QAction *runAction = nullptr);
+    virtual ~Splitter() {};
+
+protected:
+    void dragEnterEvent(QDragEnterEvent* event);
+    void dragMoveEvent(QDragMoveEvent* event);
+    void dragLeaveEvent(QDragLeaveEvent* event);
 signals:
+
 };
 #endif // SPLITTER_H
