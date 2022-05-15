@@ -31,3 +31,4 @@ size_t AppInfo::GetMaxMachinesCount() {
 size_t AppInfo::GetRefreshPeriod() {
   return std::stoi(GetProperty("RefreshPeriod"));
 }
+size_t AppInfo::GetPort() { return std::stoi(GetProperty("Port")); }

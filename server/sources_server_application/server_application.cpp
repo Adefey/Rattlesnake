@@ -3,7 +3,8 @@
 ServerApplication::ServerApplication() {
   db_helper = DBHelper(AppInfo::GetDBAddress(), AppInfo::GetDBUsername(),
                        AppInfo::GetDBPassword(), AppInfo::GetDBDatabase());
-  net_server.InitializeServer(8000);
+  int port = AppInfo::GetPort();
+  net_server.InitializeServer(port);
 }
 
 void ServerApplication::ProcessEvents() {
@@ -31,6 +32,7 @@ void ServerApplication::ProcessEvents() {
     std::cout << result << '\n';
     break;
     */
+    usleep(AppInfo::GetRefreshPeriod());
     User user;
     NetMessage message;
     std::string header = "";
@@ -58,11 +60,11 @@ void ServerApplication::ProcessEvents() {
     }
     }
     std::cout << std::endl;
-    usleep(AppInfo::GetRefreshPeriod());
   }
 }
 
 QUERY ServerApplication::SelectQuery(const std::string &query) {
+  std::cout << "Получил запрос: " << query << std::endl;
   if (query == "BlocksRequest") {
     return SENDBLOCKS;
   } else if (query == "SchemeRequest") {
@@ -73,14 +75,34 @@ QUERY ServerApplication::SelectQuery(const std::string &query) {
 }
 
 void ServerApplication::ProcessUser(User &user, NetMessage &message) {
-  Parser::ParseBlocksFromJsonString(message.GetContent(), user.block_scheme);
-  NetLibraryServer::ReceiveMessage(user.user_socket, message);
-  Parser::ParseParametersFromJsonString(message.GetContent(), user.variables);
-  std::string result = machine_factory.ProcessMachine(user);
-  NetLibraryServer::SendResultsJson(user.user_socket, result);
+  std::cout << "Получил запрос на обработку схемы" << std::endl;
+  try {
+    Parser::ParseBlocksFromJsonString(message.GetContent(), user.block_scheme);
+    NetLibraryServer::ReceiveMessage(user.user_socket, message);
+    Parser::ParseParametersFromJsonString(message.GetContent(), user.variables);
+    std::string result = machine_factory.ProcessMachine(user);
+    NetLibraryServer::SendResultsJson(user.user_socket, result);
+  } catch (const std::runtime_error &) {
+    db_helper.LogData("Неудачная попытка обработки схемы");
+    std::cout
+        << "Не выполнен запрос на обработку схемы. Лог на базу данных отправлен"
+        << std::endl;
+    return;
+  }
+  std::cout << "Выполнен запрос на обработку схемы" << std::endl;
 }
 
 void ServerApplication::ProcessStat(User &user) {
-  std::string result = Serializer::ToJsonString(db_helper.RequestAllBlocks());
-  NetLibraryServer::SendBlocksJson(user.user_socket, result);
+  std::cout << "Получил запрос отправку доступных блоков" << std::endl;
+  try {
+    std::string result = Serializer::ToJsonString(db_helper.RequestAllBlocks());
+    NetLibraryServer::SendBlocksJson(user.user_socket, result);
+  } catch (const std::runtime_error &) {
+    db_helper.LogData("Неудачная попытка запроса на отправку доступных блоков");
+    std::cout << "Не выполнен запрос на отправку доступных блоков. Лог на базу "
+                 "данных отправлен"
+              << std::endl;
+    return;
+  }
+  std::cout << "Выполнен запрос на отправку доступных блоков" << std::endl;
 }

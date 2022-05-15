@@ -85,6 +85,6 @@ std::vector<Block> DBHelper::RequestAllBlocks() {
 }
 void DBHelper::LogData(const std::string &data) {
   std::string query =
-      "insert into " + AppInfo::GetDBLogTable() + " values (\'" + data + "\')";
+      "insert " + AppInfo::GetDBLogTable() + "(data) values (\'" + data + "\')";
   RequestQuery(query);
 }
