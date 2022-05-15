@@ -1,5 +1,6 @@
 #include <mysql/mysql.h>
 
+#include <iostream>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -18,13 +19,14 @@ private:
   std::string db_username;
   std::string db_password;
   std::string db_database;
-  std::string RequestQuery(const std::string &command);
+  std::vector<Parameter> Separate(std::string sentence);
+  std::vector<Block> RequestQuery(const std::string &command);
 
 public:
   DBHelper();
   DBHelper(const std::string &address, const std::string &username,
            const std::string &password, const std::string &database);
-  Block RequestBlock(const std::string &name);
+  Block RequestBlock(const std::string &name); // DEPRECATED
   std::vector<Block> RequestAllBlocks();
   void LogData(const std::string &data);
 };

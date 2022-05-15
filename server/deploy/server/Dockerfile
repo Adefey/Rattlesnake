@@ -22,11 +22,13 @@ FROM ubuntu:latest
 
 RUN apt update && apt install -y \
     mariadb-client \
+    mariadb-server \
     python3 \
     docker \
     neofetch \
     systemd \
-    docker.io
+    docker.io \
+    telnet
 
 
 COPY . /home

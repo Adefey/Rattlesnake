@@ -48,3 +48,8 @@ jobs:
         with:
           name: RattlesnakeMachine
           path: ./server/result_machine/RattlesnakeMachine
+      - name: save client application
+        uses: actions/upload-artifact@v3
+        with:
+          name: RattlesnakeClient
+          path: ./UI/build/Rattlesnake
