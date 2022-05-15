@@ -89,6 +89,7 @@ void ServerApplication::ProcessUser(User &user, NetMessage &message) {
         << std::endl;
     return;
   }
+  db_helper.LogData("Удачная попытка обработки схемы");
   std::cout << "Выполнен запрос на обработку схемы" << std::endl;
 }
 
@@ -104,5 +105,6 @@ void ServerApplication::ProcessStat(User &user) {
               << std::endl;
     return;
   }
+  db_helper.LogData("Удачная отправка доступных блоков");
   std::cout << "Выполнен запрос на отправку доступных блоков" << std::endl;
 }
