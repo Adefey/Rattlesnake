@@ -40,7 +40,7 @@ void QTListOfBlocks::updateWidgets() {
 
 int QTListOfBlocks::get_list_of_blocks()
 {
-    emit requestedBlocks();
+    emit requestedBlocks(0);
     std::cout << "1" << std::endl;
     bool accessible_server = NetLibraryClient::SendBlocksRequest(sch->netClient);
     std::cout << "2" << std::endl;
@@ -59,6 +59,7 @@ int QTListOfBlocks::get_list_of_blocks()
         return 0;
     }
     std::cout << "5" << std::endl;
+    emit requestedBlocks(1);
     return 0;
 }
 

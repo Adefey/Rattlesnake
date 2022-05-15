@@ -46,7 +46,7 @@ protected:
     void dragLeaveEvent(QDragLeaveEvent* event);
 
 signals:
-    void requestedBlocks();
+    void requestedBlocks(int);
     void error(int);
 };
 

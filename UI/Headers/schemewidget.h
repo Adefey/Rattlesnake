@@ -19,6 +19,7 @@
 #include <QDragMoveEvent>
 #include <QDragLeaveEvent>
 #include <QDropEvent>
+#include <iostream>
 #include "block.hpp"
 #include "blockwidget.h"
 #include "newblockwidget.h"
@@ -60,6 +61,7 @@ signals:
     void updateSignal(std::vector<Block*> *blocks);
     void resultsRecieved(std::string);
     void errorAppeared(int);
+    void schemeSent();
 };
 
 #endif // SCHEME_H

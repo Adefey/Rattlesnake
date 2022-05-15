@@ -108,15 +108,29 @@ BlockWidget* SchemeWidget::makeWidget(Block *block) {
 void SchemeWidget::run(std::vector<Parameter>* parameters) {
     std::vector<Block> true_blocks;
     for (size_t i = 0; i < blocks.size(); ++i) {
-        true_blocks.push_back(*(blocks[i]));
+        std::vector<Parameter> given = (blocks[i])->GetGivenVars();
+        std::vector<Parameter> solved = (blocks[i])->GetSolvedVars();
+        for (size_t j = 0; j < given.size(); ++j) {
+            given[j].param_name = /*(blocks[i])->GetName() + "::" + */given[j].param_name;
+        }
+        for (size_t j = 0; j < solved.size(); ++j) {
+            solved[j].param_name = /*(blocks[i])->GetName() + "::" + */solved[j].param_name;
+        }
+        Block bl = Block((blocks[i])->GetSolverPath(), given,
+        solved, (blocks[i])->GetName(), (blocks[i])->GetDescription(), (blocks[i])->GetAuthorName(), (blocks[i])->GetColor());
+        true_blocks.push_back(bl);
     }
     std::string jsonBlocks = Serializer::ToJsonString(true_blocks);
+
+    // std::cout << jsonBlocks << std::endl;
+
     std::vector<Parameter> true_parameters = *parameters;
     std::string jsonParams = Serializer::ToJsonString(true_parameters);
     if (!NetLibraryClient::SendSchemeJson(netClient, jsonBlocks, jsonParams)) {
         emit errorAppeared(3);
         return;
     }
+    //emit schemeSent();
     std::string result;
     if (!NetLibraryClient::ReceiveResultsJson(netClient, result)) {
         emit errorAppeared(4);

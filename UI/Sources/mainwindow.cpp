@@ -26,6 +26,7 @@ void MainWindow::createTopToolBar()
 //    toolButton->setPopupMode(QToolButton::InstantPopup);
 //    ptb->addWidget(toolButton);
     runAction = new QAction(this);
+    runAction->setText("Запуск");
     ptb->addAction(runAction);
 }
 

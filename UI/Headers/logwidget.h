@@ -23,10 +23,11 @@ private:
     QPlainTextEdit *txt;
 
 public slots:
-    void sayRequestedBlocks();
-//    void sendingScheme();
+    void sayRequestedBlocks(int a);
+    void sendingScheme();
     void answer(std::string result);
     void errorLog(int cs);
+    void schemeSent();
 
 protected:
     void dragEnterEvent(QDragEnterEvent* event);
