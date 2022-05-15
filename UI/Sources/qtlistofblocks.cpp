@@ -42,11 +42,12 @@ int QTListOfBlocks::get_list_of_blocks()
     emit requestedBlocks();
     bool accessible_server = NetLibraryClient::SendBlocksRequest(sch->netClient);
     if (!accessible_server) {
-        this->close();
+        emit errorAppeared(1);
         return -1;
     }
     std::string jsonBlocks;
     if (!NetLibraryClient::ReceiveBlocksJson(sch->netClient, jsonBlocks)) {
+        emit errorAppeared(2);
         return -1;
     }
     if (!Parser::ParseBlocksFromJsonString(jsonBlocks, blocks)) {

@@ -59,6 +59,7 @@ signals:
     void schemeChanged();
     void updateSignal(std::vector<Block*> *blocks);
     void resultsRecieved(std::string);
+    void errorAppeared(int);
 };
 
 #endif // SCHEME_H

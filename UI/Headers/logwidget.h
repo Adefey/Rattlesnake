@@ -26,6 +26,7 @@ public slots:
     void sayRequestedBlocks();
 //    void sendingScheme();
     void answer(std::string result);
+    void errorLog(int cs);
 
 protected:
     void dragEnterEvent(QDragEnterEvent* event);
