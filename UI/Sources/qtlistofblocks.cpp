@@ -3,7 +3,7 @@
 QTListOfBlocks::QTListOfBlocks(QWidget *parent, SchemeWidget *scheme) : QWidget(parent)
 {
     sch = scheme;
-    int res = get_list_of_blocks(&blocks);
+    int res = get_list_of_blocks();
     if (res) {
         return;
     }
@@ -37,36 +37,21 @@ void QTListOfBlocks::updateWidgets() {
     }
 }
 
-int QTListOfBlocks::get_list_of_blocks(std::vector<Block>* blocks)
+int QTListOfBlocks::get_list_of_blocks()
 {
     emit requestedBlocks();
-    Block *block1 = new Block;
-    Block *block2 = new Block;
-    Block *block3 = new Block;
-    block1->name = "block1";
-    block2->name = "block2";
-    block3->name = "block3";
-    Parameter par1 = {"var1", "val1"};
-    Parameter par2 = {"var2", "val2"};
-    Parameter par3 = {"var3", "val3"};
-    block1->given_vars.push_back(par1);
-    block1->color = 3;
-    block1->given_vars.push_back(par2);
-    block2->given_vars.push_back(par2);
-    block2->given_vars.push_back(par3);
-    block3->given_vars.push_back(par1);
-    block3->given_vars.push_back(par2);
-    block3->given_vars.push_back(par3);
-    block3->given_vars.push_back(par3);
-    block1->solved_vars.push_back(par1);
-    block1->solved_vars.push_back(par2);
-    block2->solved_vars.push_back(par2);
-    block3->solved_vars.push_back(par1);
-    block3->solved_vars.push_back(par2);
-    block3->solved_vars.push_back(par3);
-    blocks->push_back(*block1);
-    blocks->push_back(*block2);
-    blocks->push_back(*block3);
+    bool accessible_server = NetLibraryClient::SendBlocksRequest(sch->netClient);
+    if (!accessible_server) {
+        this->close();
+        return -1;
+    }
+    std::string jsonBlocks;
+    if (!NetLibraryClient::ReceiveBlocksJson(sch->netClient, jsonBlocks)) {
+        return -1;
+    }
+    if (!Parser::ParseBlocksFromJsonString(jsonBlocks, blocks)) {
+        return -1;
+    }
     return 0;
 }
 
@@ -74,16 +59,16 @@ NewBlockWidget* QTListOfBlocks::makeWidget(Block *block) {
     NewBlockWidget *frame = new NewBlockWidget(this, *block);
     QGridLayout *layout = new QGridLayout(frame);
     QLabel *name = new QLabel;
-    name->setText(QString::fromStdString(block->name));
+    name->setText(QString::fromStdString(block->GetName()));
     name->setAlignment(Qt::AlignCenter);
-    for (size_t i = 0; i < block->given_vars.size(); ++i) {
+    for (size_t i = 0; i < block->GetGivenVars().size(); ++i) {
         QLabel *givenVar = new QLabel;
-        givenVar->setText(QString::fromStdString(block->given_vars[i].var_name));
+        givenVar->setText(QString::fromStdString(block->GetGivenVars()[i].param_name));
         layout->addWidget(givenVar, i + 1, 0);
     }
-    for (size_t i = 0; i < block->solved_vars.size(); ++i) {
+    for (size_t i = 0; i < block->GetSolvedVars().size(); ++i) {
         QLabel *givenVar = new QLabel;
-        givenVar->setText(QString::fromStdString(block->solved_vars[i].var_name));
+        givenVar->setText(QString::fromStdString(block->GetSolvedVars()[i].param_name));
         layout->addWidget(givenVar, i + 1, 1);
     }
     layout->addWidget(name, 0, 0);

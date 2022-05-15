@@ -15,12 +15,10 @@ class MainWindow : public QMainWindow
 private:
     QToolBar *ptb;
 
-public slots:
-    void run();
-
 public:
     MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    virtual ~MainWindow() {};
     void createTopToolBar();
+    QAction *runAction;
 };
 #endif // MAINWINDOW_H

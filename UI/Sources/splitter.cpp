@@ -1,6 +1,6 @@
 #include "splitter.h"
 
-Splitter::Splitter(QWidget *parent)
+Splitter::Splitter(QWidget *parent, QAction *runAction)
     : QWidget(parent)
 {
     QHBoxLayout *hbox = new QHBoxLayout(this);
@@ -25,6 +25,9 @@ Splitter::Splitter(QWidget *parent)
 
     QObject::connect(sch, SIGNAL(updateSignal(std::vector<Block*>*)), reqv, SLOT(updateTable(std::vector<Block*>*)));
     QObject::connect(lstblks, SIGNAL(requestedBlocks()), log, SLOT(sayRequestedBlocks()));
+    QObject::connect(runAction, &QAction::triggered, reqv, &RequiredVariables::run);
+    QObject::connect(reqv, SIGNAL(send(std::vector<Parameter>*)), sch, SLOT(run(std::vector<Parameter>*)));
+    QObject::connect(sch, SIGNAL(resultsRecieved(std::string)), log, SLOT(answer(std::string)));
 
     Hsplitter->addWidget(requiredVariables);
     Hsplitter->addWidget(scheme);
@@ -39,10 +42,6 @@ Splitter::Splitter(QWidget *parent)
     Vsplitter->setSizes(sizes2);
 
     hbox->addWidget(Vsplitter);
-}
-
-Splitter::~Splitter()
-{
 }
 
 void Splitter::dragEnterEvent(QDragEnterEvent* event) {

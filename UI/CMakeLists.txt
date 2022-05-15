@@ -31,6 +31,33 @@ target_include_directories(network PRIVATE ../libs/network/include)
 target_include_directories(UI PRIVATE ../libs/network/include)
 target_link_libraries(UI network)
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+file(GLOB_RECURSE HEADERS ../UI/Headers/*.h)
+
+add_executable(Rattlesnake main.cpp ${SOURCES} ${HEADERS})
+
+find_package(Qt5 REQUIRED COMPONENTS Core)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
+
+target_include_directories(Rattlesnake PRIVATE Headers ../libs/data_processing/include)
+target_include_directories(Rattlesnake PRIVATE ../libs/data_processing/include)
+target_include_directories(Rattlesnake PRIVATE ../libs/network/include)
+target_link_libraries(Rattlesnake data_processing)
+target_link_libraries(Rattlesnake network)
+target_link_libraries(Rattlesnake Qt5::Widgets)
+target_link_libraries(Rattlesnake Qt5::Core)
+target_link_libraries(Rattlesnake Qt5::Gui)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${Qt5Widgets_INCLUDE_DIRS})
+include_directories(${Qt5Core_INCLUDE_DIRS})
+
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 

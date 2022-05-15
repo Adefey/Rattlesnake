@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QFrame>
 #include <QSplitter>
+#include <QAction>
 #include "qtlistofblocks.h"
 #include "schemewidget.h"
 #include "logwidget.h"
@@ -16,8 +17,8 @@ class Splitter : public QWidget
     Q_OBJECT
 
 public:
-    explicit Splitter(QWidget *parent = nullptr);
-    ~Splitter();
+    explicit Splitter(QWidget *parent = nullptr, QAction *runAction = nullptr);
+    virtual ~Splitter() {};
 
 protected:
     void dragEnterEvent(QDragEnterEvent* event);

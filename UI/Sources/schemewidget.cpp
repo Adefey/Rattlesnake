@@ -2,6 +2,7 @@
 
 SchemeWidget::SchemeWidget(QWidget *parent) : QWidget(parent)
 {
+    netClient.SetServerAddress("127.0.0.1", 8000);
     QHBoxLayout *mainlayout = new QHBoxLayout(parent);
     QWidget *w = new QWidget(this);
     vbox = new QVBoxLayout(w);
@@ -27,10 +28,10 @@ void SchemeWidget::addBlock(Block *block) {
 void SchemeWidget::correctNames() {
     std::map<std::string, int> names;
     for (size_t i = 0; i < blocks.size(); ++i) {
-        if (names.count(blocks[i]->name) > 0) {
-            names[blocks[i]->name] += 1;
+        if (names.count(blocks[i]->GetName()) > 0) {
+            names[blocks[i]->GetName()] += 1;
         } else {
-            names[blocks[i]->name] = 1;
+            names[blocks[i]->GetName()] = 1;
         }
     }
     auto it = names.begin();
@@ -42,11 +43,21 @@ void SchemeWidget::correctNames() {
         }
     }
     for (int i = blocks.size(); i >= 1 && blocks.size() > 1; --i) {
-        if (names.count(blocks[i - 1]->name) > 0) {
-            int j = names[blocks[i - 1]->name];
-            names[blocks[i - 1]->name] -= 1;
-            blocks[i - 1]->name += "_" + std::to_string(j);
-            qDebug() << QString::fromStdString(blocks[i - 1]->name);
+        if (names.count(blocks[i - 1]->GetName()) > 0) {
+            int j = names[blocks[i - 1]->GetName()];
+            names[blocks[i - 1]->GetName()] -= 1;
+            std::string solver_path = blocks[i - 1]->GetSolverPath();
+            std::vector<Parameter> given_vars = blocks[i - 1]->GetGivenVars();
+            std::vector<Parameter> solved_vars = blocks[i - 1]->GetSolvedVars();
+            std::string name = blocks[i - 1]->GetName();
+            std::string description = blocks[i - 1]->GetDescription();
+            std::string author_name = blocks[i - 1]->GetAuthorName();
+            int color = blocks[i - 1]->GetColor();
+            Block *new_block = new Block(
+                solver_path, given_vars, solved_vars, name, description, author_name, color);
+            delete blocks[i - 1];
+            blocks[i - 1] = new_block;
+            qDebug() << QString::fromStdString(blocks[i - 1]->GetName());
         }
     }
     emit schemeChanged();
@@ -73,16 +84,16 @@ BlockWidget* SchemeWidget::makeWidget(Block *block) {
     BlockWidget *frame = new BlockWidget(this);
     QGridLayout *layout = new QGridLayout(frame);
     QLabel *name = new QLabel;
-    name->setText(QString::fromStdString(block->name));
+    name->setText(QString::fromStdString(block->GetName()));
     name->setAlignment(Qt::AlignCenter);
-    for (size_t i = 0; i < block->given_vars.size(); ++i) {
+    for (size_t i = 0; i < block->GetGivenVars().size(); ++i) {
         QLabel *givenVar = new QLabel;
-        givenVar->setText(QString::fromStdString(block->given_vars[i].var_name));
+        givenVar->setText(QString::fromStdString(block->GetGivenVars()[i].param_name));
         layout->addWidget(givenVar, i + 1, 0);
     }
-    for (size_t i = 0; i < block->solved_vars.size(); ++i) {
+    for (size_t i = 0; i < block->GetSolvedVars().size(); ++i) {
         QLabel *givenVar = new QLabel;
-        givenVar->setText(QString::fromStdString(block->solved_vars[i].var_name));
+        givenVar->setText(QString::fromStdString(block->GetSolvedVars()[i].param_name));
         layout->addWidget(givenVar, i + 1, 1);
     }
     layout->addWidget(name, 0, 0);
@@ -92,6 +103,24 @@ BlockWidget* SchemeWidget::makeWidget(Block *block) {
     frame->setStyleSheet("background-color: #b3b3b3; border: 2px solid black");
     frame->setFrameShape(QFrame::StyledPanel);
     return frame;
+}
+
+void SchemeWidget::run(std::vector<Parameter>* parameters) {
+    std::vector<Block> true_blocks;
+    for (size_t i = 0; i < blocks.size(); ++i) {
+        true_blocks.push_back(*(blocks[i]));
+    }
+    std::string jsonBlocks = Serializer::ToJsonString(true_blocks);
+    std::vector<Parameter> true_parameters = *parameters;
+    std::string jsonParams = Serializer::ToJsonString(true_parameters);
+    if (!NetLibraryClient::SendSchemeJson(netClient, jsonBlocks, jsonParams)) {
+        return;
+    }
+    std::string result;
+    if (!NetLibraryClient::ReceiveResultsJson(netClient, result)) {
+        return;
+    }
+    emit resultsRecieved(result);
 }
 
 void SchemeWidget::paintEvent(QPaintEvent*) {

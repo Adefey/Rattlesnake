@@ -9,7 +9,8 @@ class UI : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UI(QObject *parent = nullptr);
+    explicit UI(QObject *parent = nullptr, QAction *runAction = nullptr);
+    virtual ~UI() {};
 };
 
 #endif // UI_H

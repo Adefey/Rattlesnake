@@ -14,29 +14,49 @@ RequiredVariables::RequiredVariables(QWidget *parent) : QWidget(parent)
 }
 
 void RequiredVariables::updateTable(std::vector<Block*> *blocks) {
-    qDebug() << "update Table";
     n_rows = 0;
     table->setRowCount(5);
     std::vector<std::string> avaliable_vars;
     for (size_t i = 0; i < blocks->size(); ++i) {
-        for (size_t j = 0; j < ((*blocks)[i])->given_vars.size(); ++j) {
+        for (size_t j = 0; j < ((*blocks)[i])->GetGivenVars().size(); ++j) {
             if (n_rows >= 5) {
                 table->insertRow(table->rowCount());
             }
             QTableWidgetItem *tableItem1 = new QTableWidgetItem(QString::fromStdString(
-                                                                   ((*blocks)[i])->name + "::" + ((*blocks)[i])->given_vars[j].var_name
+                                                                   ((*blocks)[i])->GetName() + "::" + ((*blocks)[i])->GetGivenVars()[j].param_name
                                                                    ));
             tableItem1->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
             table->setItem(n_rows, 0, tableItem1);
             QComboBox *comboBox = new QComboBox;
             for (size_t k = 0; k < i; ++k) {
-                for (size_t w = 0; w < ((*blocks)[k])->solved_vars.size(); ++w)
+                for (size_t w = 0; w < ((*blocks)[k])->GetSolvedVars().size(); ++w)
                 comboBox->insertItem(comboBox->count(), QString::fromStdString(
-                                         ((*blocks)[k])->name + "::" + ((*blocks)[k])->solved_vars[w].var_name
+                                         ((*blocks)[k])->GetName() + "::" + ((*blocks)[k])->GetSolvedVars()[w].param_name
                                          ));
             }
             table->setCellWidget(n_rows, 1, comboBox);
             ++n_rows;
         }
     }
+}
+
+void RequiredVariables::run() {
+    std::vector<std::string> names;
+    for (size_t i = 0; i < n_rows; ++i) {
+        QTableWidgetItem *item = table->item(i, 0);
+        if (item != NULL) {
+            names.push_back(item->text().toStdString());
+        }
+    }
+    std::vector<std::string> values;
+    for (size_t i = 0; i < n_rows; ++i) {
+        values.push_back((qobject_cast<QComboBox*>(table->cellWidget(i, 1))->
+                         itemData(qobject_cast<QComboBox*>(table->cellWidget(i, 1))->currentIndex())).toString().toStdString());
+    }
+    std::vector<Parameter> parameters;
+    for (size_t i = 0; i < names.size(); ++i) {
+        Parameter parameter(names[i], values[i]);
+        parameters.push_back(parameter);
+    }
+    emit send(&parameters);
 }

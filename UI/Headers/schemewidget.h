@@ -19,17 +19,22 @@
 #include <QDragMoveEvent>
 #include <QDragLeaveEvent>
 #include <QDropEvent>
-#include "block.h"
+#include "block.hpp"
 #include "blockwidget.h"
 #include "newblockwidget.h"
+#include "netclient.hpp"
+#include "netlibraryclient.hpp"
 #include <qevent.h>
+#include "serializer.hpp"
 
 class SchemeWidget : public QWidget
 {
     Q_OBJECT
 public:
     SchemeWidget(QWidget *parent = nullptr);
+    virtual ~SchemeWidget() {};
     BlockWidget* makeWidget(Block *block);
+    NetClient netClient;
 
 private:
     std::vector<Block*> blocks;
@@ -39,6 +44,7 @@ private:
 public slots:
     void addBlock(Block*);
     void updateWidgets();
+    void run(std::vector<Parameter>* parameters);
 
 
 protected:
@@ -52,6 +58,7 @@ protected:
 signals:
     void schemeChanged();
     void updateSignal(std::vector<Block*> *blocks);
+    void resultsRecieved(std::string);
 };
 
 #endif // SCHEME_H

@@ -10,11 +10,13 @@
 #include <qstring.h>
 #include <QFrame>
 #include <vector>
-#include <thread>
-#include "block.h"
+#include <string>
+#include "block.hpp"
 #include "blockwidget.h"
 #include "newblockwidget.h"
 #include "schemewidget.h"
+#include "netlibraryclient.hpp"
+#include "parser.hpp"
 
 class QPaintEvent;
 
@@ -23,7 +25,8 @@ class QTListOfBlocks : public QWidget
     Q_OBJECT
 public:
     QTListOfBlocks(QWidget *parent = nullptr, SchemeWidget *scheme = nullptr);
-    int get_list_of_blocks(std::vector<Block>* blocks);
+    virtual ~QTListOfBlocks() {};
+    int get_list_of_blocks();
 
 public slots:
     void updateWidgets();

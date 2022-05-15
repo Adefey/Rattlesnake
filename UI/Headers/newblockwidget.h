@@ -12,7 +12,8 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QPoint>
-#include "block.h"
+#include <string>
+#include "block.hpp"
 
 #include <QDebug>
 
@@ -21,6 +22,7 @@ class NewBlockWidget : public QFrame
     Q_OBJECT
 public:
     explicit NewBlockWidget(QWidget *parent = nullptr, Block block = {});
+    virtual ~NewBlockWidget() {};
     Block block;
 
 protected:

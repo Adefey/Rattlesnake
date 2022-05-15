@@ -3,8 +3,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    UI *ui = new UI(this);
     createTopToolBar();
+    UI *ui = new UI(this, runAction);
     addToolBar(Qt::TopToolBarArea, ptb);
     setCentralWidget(ui);
 }
@@ -25,16 +25,7 @@ void MainWindow::createTopToolBar()
 //    toolButton->setMenu(menu);
 //    toolButton->setPopupMode(QToolButton::InstantPopup);
 //    ptb->addWidget(toolButton);
-    QAction *runAction = new QAction(this);
-    QObject::connect(runAction, &QAction::triggered, this, &MainWindow::run);
+    runAction = new QAction(this);
     ptb->addAction(runAction);
-}
-
-void MainWindow::run() {
-    qDebug() << "run";
-}
-
-MainWindow::~MainWindow()
-{
 }
 

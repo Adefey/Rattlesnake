@@ -3,12 +3,10 @@
 NewBlockWidget::NewBlockWidget(QWidget *parent, Block bl) : QFrame(parent)
 {
     block = bl;
-    qDebug() << bl.color;
     this->setCursor(QCursor(Qt::OpenHandCursor));
 }
 
 void NewBlockWidget::mousePressEvent(QMouseEvent *event) {
-    qDebug() << block.color;
     if (event->button() != Qt::LeftButton) {
         //event->ignore();
         return;
@@ -27,19 +25,19 @@ void NewBlockWidget::mousePressEvent(QMouseEvent *event) {
     painter.end();
 
     Qt::DropAction dropAction = drag->exec(Qt::CopyAction);
-    qDebug() << block.color;
     emit blockPressed(cloneBlock(block));
 }
 
 Block* NewBlockWidget::cloneBlock(Block block) {
-    Block *new_block = new Block;
-    new_block->solver_path = block.solver_path;
-    new_block->given_vars = block.given_vars;
-    new_block->solved_vars = block.solved_vars;
-    new_block->name = block.name;
-    new_block->description = block.description;
-    new_block->author_name = block.author_name;
-    new_block->color = block.color;
+    std::string solver_path = block.GetSolverPath();
+    std::vector<Parameter> given_vars = block.GetGivenVars();
+    std::vector<Parameter> solved_vars = block.GetSolvedVars();
+    std::string name = block.GetName();
+    std::string description = block.GetDescription();
+    std::string author_name = block.GetAuthorName();
+    int color = block.GetColor();
+    Block *new_block = new Block(
+        solver_path, given_vars, solved_vars, name, description, author_name, color);
     return new_block;
 }
 

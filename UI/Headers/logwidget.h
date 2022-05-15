@@ -6,12 +6,18 @@
 #include <QPlainTextEdit>
 #include <QHBoxLayout>
 #include <QDebug>
+#include <QString>
+#include <string>
+#include <vector>
+#include <block.hpp>
+#include <parser.hpp>
 
 class LogWidget : public QWidget
 {
     Q_OBJECT
 public:
     LogWidget(QWidget *parent = nullptr);
+    virtual ~LogWidget() {};
 
 private:
     QPlainTextEdit *txt;
@@ -19,7 +25,7 @@ private:
 public slots:
     void sayRequestedBlocks();
 //    void sendingScheme();
-//    void answer(float);
+    void answer(std::string result);
 
 protected:
     void dragEnterEvent(QDragEnterEvent* event);

@@ -14,6 +14,19 @@ void LogWidget::sayRequestedBlocks() {
     txt->appendPlainText("Отправлен запрос на получение списка блоков...");
 }
 
+void LogWidget::answer(std::string result) {
+    std::vector<Parameter> results;
+    if (!Parser::ParseParametersFromJsonString(result, results)) {
+        return;
+    }
+    txt->appendPlainText("Результаты получены:\n");
+    for (size_t i = 0; i < results.size(); ++i) {
+        QString name = QString::fromStdString(results[i].param_name);
+        QString value = QString::fromStdString(results[i].param_value);
+        txt->appendPlainText(name + ": " + value);
+    }
+}
+
 void LogWidget::dragEnterEvent(QDragEnterEvent* event) {
     event->ignore();
 }

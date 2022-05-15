@@ -12,7 +12,7 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QPoint>
-#include "block.h"
+#include "block.hpp"
 
 #include <QDebug>
 
@@ -21,6 +21,7 @@ class BlockWidget : public QFrame
     Q_OBJECT
 public:
     explicit BlockWidget(QWidget *parent = nullptr, Block *block = nullptr);
+    virtual ~BlockWidget() {};
 
 protected:
     virtual void mousePressEvent(QMouseEvent *qevent);
