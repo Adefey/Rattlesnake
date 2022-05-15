@@ -10,9 +10,11 @@ services:
     volumes:
       - ./server:/home
     ports:
-      - 14565:14565
+      - 8000:8000
     env_file:
       - ./server/cfg.txt
+    depends_on:
+      - mariadb
 
   mariadb:
     image: mariadb:latest

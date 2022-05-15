@@ -43,11 +43,10 @@ std::string Machine::MakeProcessStartString(const std::string &block_name) {
       result += user.block_scheme[i].GetSolverPath();
       std::vector<Parameter> given_vars = user.block_scheme[i].GetGivenVars();
       for (auto variable : given_vars) {
+        std::cout << variable.param_name << std::endl;
         for (auto existing_variable : user.variables) {
           if (variable.param_name == existing_variable.param_name) {
-            result +=
-                " " + variable.param_name + "=" + existing_variable.param_value;
-            break;
+            result += " " + existing_variable.param_value;
           }
         }
       }
@@ -76,6 +75,7 @@ std::string Machine::ProcessAllBlocks() {
       return "SCHEME FAILED";
     }
     std::vector<Parameter> block_output_vector = {};
+
     Parser::ParseParametersFromJsonString(block_output, block_output_vector);
     SyncVariables(block_output_vector);
   }

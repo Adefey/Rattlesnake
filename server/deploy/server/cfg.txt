@@ -1,4 +1,4 @@
-DBAddress=localhost
+DBAddress=mariadb
 DBUsername=amon
 DBPassword=14565
 DBDatabase=rattlesnake

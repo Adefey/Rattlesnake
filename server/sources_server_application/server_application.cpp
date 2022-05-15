@@ -8,39 +8,31 @@ ServerApplication::ServerApplication() {
 
 void ServerApplication::ProcessEvents() {
   //Точка входа подключений
-  std::cout << "Server launched\n" << '\n';
-  std::cout << "Адрес СУБД:" << AppInfo::GetDBAddress() << '\n';
-  std::cout << "Юзер СУБД:" << AppInfo::GetDBUsername() << '\n';
-  std::cout << "Пароль СУБД:" << AppInfo::GetDBPassword() << '\n';
-  std::cout << "База данных СУБД:" << AppInfo::GetDBDatabase() << '\n';
-  std::cout << "Таблица блоков СУБД:" << AppInfo::GetDBBlockTable() << '\n';
-  std::cout << "Таблица логов СУБД:" << AppInfo::GetDBLogTable() << '\n';
+  std::cout << "Server launched\n" << std::endl;
+  std::cout << "Адрес СУБД:" << AppInfo::GetDBAddress() << std::endl;
+  std::cout << "Юзер СУБД:" << AppInfo::GetDBUsername() << std::endl;
+  std::cout << "Пароль СУБД:" << AppInfo::GetDBPassword() << std::endl;
+  std::cout << "База данных СУБД:" << AppInfo::GetDBDatabase() << std::endl;
+  std::cout << "Таблица блоков СУБД:" << AppInfo::GetDBBlockTable()
+            << std::endl;
+  std::cout << "Таблица логов СУБД:" << AppInfo::GetDBLogTable() << std::endl;
   std::cout << "Максимальное число онлайн машин:"
-            << AppInfo::GetMaxMachinesCount() << '\n';
-  std::cout << "Интервал обновления:" << AppInfo::GetRefreshPeriod() << '\n';
-  User user;
+            << AppInfo::GetMaxMachinesCount() << std::endl;
+  std::cout << "Интервал обновления:" << AppInfo::GetRefreshPeriod()
+            << std::endl;
   while (true) {
-    std::cout << "Working..." << '\n';
-    //
-    std::vector<Parameter> a = {};
-    std::vector<Parameter> b = {};
-    user.block_scheme.push_back(Block("./blocks/main.py", a, b, "main.py",
-                                      "main example", "adefe", 255));
-    user.block_scheme.push_back(Block("./blocks/main2.py", a, b, "main2.py",
-                                      "main2 example", "adefe", 155));
+    std::cout << "Working..." << std::endl;
+    /* //Не трогайте
+    User user;
+    user.block_scheme = db_helper.RequestAllBlocks();
+    user.variables.push_back(Parameter("a", "10"));
+    user.variables.push_back(Parameter("b", "20"));
     std::string result = machine_factory.ProcessMachine(user);
-    std::cout << result;
-    std::vector<Parameter> res = {};
-    Parser::ParseParametersFromJsonString(result, res);
-    for (size_t i = 0; i < res.size(); ++i) {
-      std::cout << res[i].param_name << " : " << res[i].param_value
-                << std::endl;
-    }
+    std::cout << result << '\n';
     break;
-    //
-    /*
-     *
-     * NetMessage message;
+    */
+    User user;
+    NetMessage message;
     std::string header = "";
     if (net_server.AcceptConnection(user.user_socket)) {
       if (!NetLibraryServer::ReceiveMessage(user.user_socket, message)) {
@@ -65,8 +57,8 @@ void ServerApplication::ProcessEvents() {
       break;
     }
     }
+    std::cout << std::endl;
     usleep(AppInfo::GetRefreshPeriod());
-    */
   }
 }
 
