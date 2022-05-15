@@ -45,6 +45,7 @@ protected:
 
 signals:
     void requestedBlocks();
+    void errorAppeared(int);
 };
 
 #endif // QTLISTOFBLOCKS_H

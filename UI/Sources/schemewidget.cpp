@@ -114,10 +114,12 @@ void SchemeWidget::run(std::vector<Parameter>* parameters) {
     std::vector<Parameter> true_parameters = *parameters;
     std::string jsonParams = Serializer::ToJsonString(true_parameters);
     if (!NetLibraryClient::SendSchemeJson(netClient, jsonBlocks, jsonParams)) {
+        emit errorAppeared(3);
         return;
     }
     std::string result;
     if (!NetLibraryClient::ReceiveResultsJson(netClient, result)) {
+        emit errorAppeared(4);
         return;
     }
     emit resultsRecieved(result);

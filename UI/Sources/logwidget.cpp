@@ -27,6 +27,26 @@ void LogWidget::answer(std::string result) {
     }
 }
 
+void errorLog(int cs) {
+    switch (cs)
+    {
+    case 1:
+        txt->appendPlainText("Невозможно подключиться к серверу");
+        break;
+    case 2:
+        txt->appendPlainText("Неудалось получить список доступных блоков");
+        break;
+    case 3:
+        txt->appendPlainText("Неудалось отправить схему");
+        break;
+    case 4:
+        txt->appendPlainText("Неудалось получить результат");
+        break;
+    default:
+        break;
+    }
+}
+
 void LogWidget::dragEnterEvent(QDragEnterEvent* event) {
     event->ignore();
 }
