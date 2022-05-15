@@ -22,15 +22,10 @@ bool NetServer::InitializeServer(uint16_t port) {
 }
 
 bool NetServer::AcceptConnection(NetSocket& value) const {
-  fd_set s_set = {1, server_socket_.GetSocket()};
-  timeval timeout = {0, 0};
-  int select_res = select(0, &s_set, 0, 0, &timeout);
-  if (select_res) {
-    int client_socket = accept(server_socket_.GetSocket(), nullptr, nullptr);
-    if (client_socket > -1) {
-      value.SetSocket(client_socket);
-      return true;
-    }
+  int client_socket = accept(server_socket_.GetSocket(), nullptr, nullptr);
+  if (client_socket > -1) {
+    value.SetSocket(client_socket);
+    return true;
   }
   return false;
 }
