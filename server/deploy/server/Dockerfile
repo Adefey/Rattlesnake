@@ -33,7 +33,6 @@ RUN apt update && apt install -y \
 
 COPY . /home
 
-CMD neofetch && \
-    cd /home/ && \
+CMD cd /home/ && \
     ./RattlesnakeServer
 

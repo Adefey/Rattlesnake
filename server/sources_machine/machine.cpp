@@ -43,7 +43,6 @@ std::string Machine::MakeProcessStartString(const std::string &block_name) {
       result += user.block_scheme[i].GetSolverPath();
       std::vector<Parameter> given_vars = user.block_scheme[i].GetGivenVars();
       for (auto variable : given_vars) {
-        std::cout << variable.param_name << std::endl;
         for (auto existing_variable : user.variables) {
           if (variable.param_name == existing_variable.param_name) {
             result += " " + existing_variable.param_value;

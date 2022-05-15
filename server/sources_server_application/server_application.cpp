@@ -10,20 +10,21 @@ ServerApplication::ServerApplication() {
 void ServerApplication::ProcessEvents() {
   //Точка входа подключений
   std::cout << "Server launched\n" << std::endl;
-  std::cout << "Адрес СУБД:" << AppInfo::GetDBAddress() << std::endl;
-  std::cout << "Юзер СУБД:" << AppInfo::GetDBUsername() << std::endl;
-  std::cout << "Пароль СУБД:" << AppInfo::GetDBPassword() << std::endl;
-  std::cout << "База данных СУБД:" << AppInfo::GetDBDatabase() << std::endl;
-  std::cout << "Таблица блоков СУБД:" << AppInfo::GetDBBlockTable()
+  std::cout << "Адрес СУБД: " << AppInfo::GetDBAddress() << std::endl;
+  std::cout << "Юзер СУБД: " << AppInfo::GetDBUsername() << std::endl;
+  std::cout << "Пароль СУБД: " << AppInfo::GetDBPassword() << std::endl;
+  std::cout << "База данных СУБД: " << AppInfo::GetDBDatabase() << std::endl;
+  std::cout << "Таблица блоков СУБД: " << AppInfo::GetDBBlockTable()
             << std::endl;
-  std::cout << "Таблица логов СУБД:" << AppInfo::GetDBLogTable() << std::endl;
-  std::cout << "Максимальное число онлайн машин:"
+  std::cout << "Таблица логов СУБД: " << AppInfo::GetDBLogTable() << std::endl;
+  std::cout << "Максимальное число онлайн машин: "
             << AppInfo::GetMaxMachinesCount() << std::endl;
-  std::cout << "Интервал обновления:" << AppInfo::GetRefreshPeriod()
+  std::cout << "Интервал обновления: " << AppInfo::GetRefreshPeriod()
             << std::endl;
+  std::cout << "Порт: " << AppInfo::GetPort() << std::endl;
   while (true) {
-    std::cout << "Working..." << std::endl;
-    /* //Не трогайте
+    std::cout << "Работает, ждем соединений" << std::endl;
+    /* //Не трогайте, это юзкейс на всякой случай
     User user;
     user.block_scheme = db_helper.RequestAllBlocks();
     user.variables.push_back(Parameter("a", "10"));
