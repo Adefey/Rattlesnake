@@ -24,12 +24,14 @@ Splitter::Splitter(QWidget *parent, QAction *runAction)
     QSplitter *Vsplitter = new QSplitter(Qt::Horizontal);
 
     QObject::connect(sch, SIGNAL(updateSignal(std::vector<Block*>*)), reqv, SLOT(updateTable(std::vector<Block*>*)));
-    QObject::connect(lstblks, SIGNAL(requestedBlocks()), log, SLOT(sayRequestedBlocks()));
+    QObject::connect(lstblks, SIGNAL(requestedBlocks(int)), log, SLOT(sayRequestedBlocks(int)));
     QObject::connect(runAction, &QAction::triggered, reqv, &RequiredVariables::run);
+    //QObject::connect(runAction, &QAction::triggered, log, &LogWidget::sendingScheme);
     QObject::connect(reqv, SIGNAL(send(std::vector<Parameter>*)), sch, SLOT(run(std::vector<Parameter>*)));
     QObject::connect(sch, SIGNAL(resultsRecieved(std::string)), log, SLOT(answer(std::string)));
     QObject::connect(lstblks, SIGNAL(error(int)), log, SLOT(errorLog(int)));
     QObject::connect(sch, SIGNAL(errorAppeared(int)), log, SLOT(errorLog(int)));
+    QObject::connect(sch, SIGNAL(schemeSent()), log, SLOT(schemeSent()));
 
     Hsplitter->addWidget(requiredVariables);
     Hsplitter->addWidget(scheme);

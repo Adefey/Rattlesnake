@@ -8,9 +8,19 @@ LogWidget::LogWidget(QWidget *parent)
     hbox->addWidget(txt);
 }
 
-void LogWidget::sayRequestedBlocks() {
+void LogWidget::sayRequestedBlocks(int a) {
     qDebug() << "Log";
-    txt->appendPlainText("Отправлен запрос на получение списка блоков...");
+    switch (a)
+    {
+    case 0:
+        txt->appendPlainText("Отправлен запрос на получение списка блоков...");
+        break;
+    case 1:
+        txt->appendPlainText("Блоки получены.");
+        break;
+    default:
+        break;
+    }
 }
 
 void LogWidget::answer(std::string result) {
@@ -24,6 +34,14 @@ void LogWidget::answer(std::string result) {
         QString value = QString::fromStdString(results[i].param_value);
         txt->appendPlainText(name + ": " + value);
     }
+}
+
+void LogWidget::sendingScheme() {
+    txt->appendPlainText("Попытка отправить схему на сервер...");
+}
+
+void LogWidget::schemeSent() {
+    txt->appendPlainText("Схема успешно отправлена на сервер.");
 }
 
 void LogWidget::errorLog(int cs) {
