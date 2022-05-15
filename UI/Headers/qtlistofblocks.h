@@ -9,6 +9,7 @@
 #include <QLabel>
 #include <qstring.h>
 #include <QFrame>
+#include <QPushButton>
 #include <vector>
 #include <string>
 #include "block.hpp"
@@ -17,8 +18,7 @@
 #include "schemewidget.h"
 #include "netlibraryclient.hpp"
 #include "parser.hpp"
-
-class QPaintEvent;
+#include <iostream>
 
 class QTListOfBlocks : public QWidget
 {
@@ -30,12 +30,14 @@ public:
 
 public slots:
     void updateWidgets();
+    void handleButton();
 
 private:
     NewBlockWidget* makeWidget(Block *block);
     QVBoxLayout *vbox;
     std::vector<Block> blocks;
     SchemeWidget *sch;
+    QPushButton *button;
 
 protected:
     void paintEvent(QPaintEvent*);
@@ -45,7 +47,7 @@ protected:
 
 signals:
     void requestedBlocks();
-    void errorAppeared(int);
+    void error(int);
 };
 
 #endif // QTLISTOFBLOCKS_H

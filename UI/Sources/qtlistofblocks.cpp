@@ -3,24 +3,25 @@
 QTListOfBlocks::QTListOfBlocks(QWidget *parent, SchemeWidget *scheme) : QWidget(parent)
 {
     sch = scheme;
-    int res = get_list_of_blocks();
-    if (res) {
-        return;
-    }
+    button = new QPushButton("Получить блоки");
+
     QVBoxLayout *mainlayout = new QVBoxLayout(parent);
     QWidget *w = new QWidget;
     vbox = new QVBoxLayout(w);
     vbox->setSpacing(20);
     vbox->setAlignment(Qt::AlignCenter);
-
-    updateWidgets();
+    mainlayout->addWidget(button);
+    QObject::connect(button, SIGNAL (released()), this, SLOT (handleButton()));
 
     QScrollArea *scrollArea = new QScrollArea(this);
     scrollArea->setWidget(w);
+    scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
+    scrollArea->setWidgetResizable(true);
     mainlayout->addWidget(scrollArea);
 }
 
 void QTListOfBlocks::updateWidgets() {
+    vbox->update();
     if ( vbox != NULL )
     {
         QLayoutItem* item;
@@ -40,19 +41,24 @@ void QTListOfBlocks::updateWidgets() {
 int QTListOfBlocks::get_list_of_blocks()
 {
     emit requestedBlocks();
+    std::cout << "1" << std::endl;
     bool accessible_server = NetLibraryClient::SendBlocksRequest(sch->netClient);
+    std::cout << "2" << std::endl;
     if (!accessible_server) {
-        emit errorAppeared(1);
-        return -1;
+        emit error(1);
+        return 0;
     }
+    std::cout << "3" << std::endl;
     std::string jsonBlocks;
     if (!NetLibraryClient::ReceiveBlocksJson(sch->netClient, jsonBlocks)) {
-        emit errorAppeared(2);
-        return -1;
+        emit error(2);
+        return 0;
     }
+    std::cout << "4" << std::endl;
     if (!Parser::ParseBlocksFromJsonString(jsonBlocks, blocks)) {
-        return -1;
+        return 0;
     }
+    std::cout << "5" << std::endl;
     return 0;
 }
 
@@ -79,6 +85,15 @@ NewBlockWidget* QTListOfBlocks::makeWidget(Block *block) {
     frame->setStyleSheet("background-color: #b3b3b3; border: 2px solid black");
     frame->setFrameShape(QFrame::StyledPanel);
     return frame;
+}
+
+void QTListOfBlocks::handleButton() {
+    blocks.clear();
+    int res = get_list_of_blocks();
+    if (res) {
+        return;
+    }
+    updateWidgets();
 }
 
 void QTListOfBlocks::paintEvent(QPaintEvent*) {

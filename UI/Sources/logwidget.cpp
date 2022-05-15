@@ -5,7 +5,6 @@ LogWidget::LogWidget(QWidget *parent)
     QHBoxLayout *hbox = new QHBoxLayout(parent);
     txt = new QPlainTextEdit(this);
     txt->QPlainTextEdit::setReadOnly(true);
-    txt->appendPlainText("Отправлен запрос на получение списка блоков...");
     hbox->addWidget(txt);
 }
 
@@ -34,13 +33,13 @@ void LogWidget::errorLog(int cs) {
         txt->appendPlainText("Невозможно подключиться к серверу");
         break;
     case 2:
-        txt->appendPlainText("Неудалось получить список доступных блоков");
+        txt->appendPlainText("Не удалось получить список доступных блоков");
         break;
     case 3:
-        txt->appendPlainText("Неудалось отправить схему");
+        txt->appendPlainText("Не удалось отправить схему");
         break;
     case 4:
-        txt->appendPlainText("Неудалось получить результат");
+        txt->appendPlainText("Не удалось получить результат");
         break;
     default:
         break;
