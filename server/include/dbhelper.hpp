@@ -15,20 +15,13 @@
 class DBHelper {
 
 private:
-  std::string db_address;
-  std::string db_username;
-  std::string db_password;
-  std::string db_database;
-  std::vector<Parameter> Separate(std::string sentence);
-  std::vector<Block> RequestQuery(const std::string &command);
+  static std::vector<Parameter> Separate(std::string sentence);
+  static std::vector<std::vector<std::string>>
+  RequestQuery(const std::string &command);
 
 public:
-  DBHelper();
-  DBHelper(const std::string &address, const std::string &username,
-           const std::string &password, const std::string &database);
-  Block RequestBlock(const std::string &name); // DEPRECATED
-  std::vector<Block> RequestAllBlocks();
-  void LogData(const std::string &data);
+  static std::vector<Block> RequestAllBlocks();
+  static void LogData(const std::string &data);
 };
 
 #endif

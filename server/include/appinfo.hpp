@@ -21,6 +21,7 @@ public:
   static std::string GetDBDatabase();
   static std::string GetDBBlockTable();
   static std::string GetDBLogTable();
+  static std::string GetMachineName();
   static size_t GetMaxMachinesCount();
   static size_t GetRefreshPeriod();
   static size_t GetPort();

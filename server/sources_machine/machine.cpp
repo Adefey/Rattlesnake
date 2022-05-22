@@ -1,16 +1,38 @@
 #include <machine.hpp>
 
+bool Machine::HasParameter(const std::string &name) {
+  for (size_t i = 0; i < user.variables.size(); ++i) {
+    if (user.variables[i].param_name == name) {
+      return true;
+    }
+  }
+  return false;
+}
+
+std::string Machine::GetParamValueByName(const std::string &name) {
+  for (size_t i = 0; i < user.variables.size(); ++i) {
+    if (user.variables[i].param_name == name) {
+      return user.variables[i].param_value;
+    }
+  }
+  return "";
+}
+
+void Machine::SetParamValueByName(const std::string &name,
+                                  const std::string &value) {
+  for (size_t i = 0; i < user.variables.size(); ++i) {
+    if (user.variables[i].param_name == name) {
+      user.variables[i].param_value = value;
+      return;
+    }
+  }
+}
+
 void Machine::SyncVariables(std::vector<Parameter> params) {
   for (auto element : params) {
-    bool asigned = false;
-    for (size_t i = 0; i < user.variables.size(); ++i) {
-      if (user.variables[i].param_name == element.param_name) {
-        user.variables[i].param_value = element.param_value;
-        asigned = true;
-        break;
-      }
-    }
-    if (!asigned) {
+    if (HasParameter(element.param_name)) {
+      SetParamValueByName(element.param_name, element.param_value);
+    } else {
       user.variables.push_back(element);
     }
   }
@@ -36,20 +58,23 @@ std::string Machine::ProcessOneBlock(const std::string &launch_string) {
   return result;
 }
 
-std::string Machine::MakeProcessStartString(const std::string &block_name) {
+std::string Machine::MakeProcessStartString(const Block &block) {
   std::string result = "python3 ";
-  for (size_t i = 0; i < user.block_scheme.size(); ++i) {
-    if (user.block_scheme[i].GetName() == block_name) {
-      result += user.block_scheme[i].GetSolverPath();
-      std::vector<Parameter> given_vars = user.block_scheme[i].GetGivenVars();
-      for (auto variable : given_vars) {
-        for (auto existing_variable : user.variables) {
-          if (variable.param_name == existing_variable.param_name) {
-            result += " " + existing_variable.param_value;
-          }
-        }
-      }
-      break;
+  result += block.GetSolverPath();
+  std::vector<Parameter> given_vars = block.GetGivenVars();
+  for (auto variable : given_vars) {
+    //В переменных внутри блока пусто, если ожидается, что туда значения будут
+    //загружаться из user.variables по имени параметра. Если там не пусто,
+    //значит там лежит имя другого параметра, по которому тоже из user.variables
+    //надо взять значения. Типа переопределение имени параметра чтобы разрешать
+    //конфликты имен
+    if (variable.param_value == "" || variable.param_value == "0") {
+      //Если это - пустое, значит надо обратиться к user.variables, где лежат
+      //все переменные
+      result += " " + GetParamValueByName(variable.param_name);
+    } else {
+      //Иначе - там лежит имя переменной для связывания
+      result += " " + GetParamValueByName(variable.param_value);
     }
   }
   return result;
@@ -65,8 +90,7 @@ Machine::Machine(const std::string &start_param_scheme,
 
 std::string Machine::ProcessAllBlocks() {
   for (size_t i = 0; i < user.block_scheme.size(); ++i) {
-    std::string start_string =
-        MakeProcessStartString(user.block_scheme[i].GetName());
+    std::string start_string = MakeProcessStartString(user.block_scheme[i]);
     std::string block_output = "";
     try {
       block_output = ProcessOneBlock(start_string);

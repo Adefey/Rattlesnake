@@ -3,17 +3,8 @@
 #include <gtest/gtest.h>
 #include <server_application.hpp>
 
-TEST(DBHelperTest, RequestBlockTest) {
-  DBHelper helper;
-  EXPECT_NO_THROW(helper.RequestBlock(""));
-}
-
 TEST(DBHelperTest, RequestAllBlocksTest) {
-  DBHelper helper;
-  EXPECT_NO_THROW(helper.RequestAllBlocks());
+  EXPECT_NO_THROW(DBHelper::RequestAllBlocks());
 }
 
-TEST(DBHelperTest, LogDataTest) {
-  DBHelper helper;
-  EXPECT_NO_THROW(helper.LogData(""));
-}
+TEST(DBHelperTest, LogDataTest) { EXPECT_NO_THROW(DBHelper::LogData("")); }

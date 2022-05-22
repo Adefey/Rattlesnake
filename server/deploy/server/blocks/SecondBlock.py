@@ -3,7 +3,7 @@ import sys
 
 def main():
     res = int(sys.argv[1]); #FirstBlock_alpha
-    SecondBlock_alpha = res + 14565;
+    SecondBlock_alpha = res  / 1000;
     data = "[{\"param_name\":\"SecondBlock_alpha\",\"param_value\":\""+str(SecondBlock_alpha)+"\"}]"
     print(data)
 

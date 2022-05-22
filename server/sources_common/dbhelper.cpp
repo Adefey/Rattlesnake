@@ -21,8 +21,12 @@ std::vector<Parameter> DBHelper::Separate(std::string sentence) {
   return res;
 }
 
-std::vector<Block> DBHelper::RequestQuery(const std::string &command) {
-  //Использую Си стиль, так как mysql.h это сишная библиотека
+std::vector<std::vector<std::string>>
+DBHelper::RequestQuery(const std::string &command) {
+  std::string db_address = AppInfo::GetDBAddress();
+  std::string db_username = AppInfo::GetDBUsername();
+  std::string db_password = AppInfo::GetDBPassword();
+  std::string db_database = AppInfo::GetDBDatabase();
   MYSQL *connection;
   MYSQL_RES *res;
   MYSQL_ROW row;
@@ -43,44 +47,45 @@ std::vector<Block> DBHelper::RequestQuery(const std::string &command) {
     delete[] query;
     throw std::runtime_error("Unable to send a request");
   }
-  std::vector<Block> blocks = {};
   res = mysql_store_result(connection);
+
+  std::vector<std::vector<std::string>> result;
   while ((row = mysql_fetch_row(res)) != NULL) {
-    std::string solver_path = row[1];
-    std::string given_vars = row[2];
-    std::string solved_vars = row[3];
-    std::string name = row[4];
-    std::string description = row[5];
-    std::string author_name = row[6];
-    int color = std::stoi(row[7]);
+    result.resize(result.size() + 1);
+    result.back().push_back(row[1]);
+    result.back().push_back(row[2]);
+    result.back().push_back(row[3]);
+    result.back().push_back(row[4]);
+    result.back().push_back(row[5]);
+    result.back().push_back(row[6]);
+    result.back().push_back(row[7]);
+  }
+  mysql_free_result(res);
+  mysql_close(connection);
+  delete[] query;
+  return result;
+}
+
+std::vector<Block> DBHelper::RequestAllBlocks() {
+  std::string query = "select * from " + AppInfo::GetDBBlockTable();
+  std::vector<std::vector<std::string>> answer = RequestQuery(query);
+
+  std::vector<Block> blocks = {};
+  for (auto block_data : answer) {
+    std::string solver_path = block_data[0];
+    std::string given_vars = block_data[1];
+    std::string solved_vars = block_data[2];
+    std::string name = block_data[3];
+    std::string description = block_data[4];
+    std::string author_name = block_data[5];
+    int color = std::stoi(block_data[6]);
     std::vector<Parameter> given = Separate(given_vars);
     std::vector<Parameter> solved = Separate(solved_vars);
     Block buf = Block(solver_path, given, solved, name, description,
                       author_name, color);
     blocks.push_back(buf);
   }
-  mysql_free_result(res);
-  mysql_close(connection);
-  delete[] query;
-  return blocks;
-}
 
-DBHelper::DBHelper() {}
-
-DBHelper::DBHelper(const std::string &address, const std::string &username,
-                   const std::string &password, const std::string &database)
-    : db_address(address), db_username(username), db_password(password),
-      db_database(database) {}
-
-Block DBHelper::RequestBlock(const std::string &name) { // DEPRECATED
-  std::string query = "select * from " + AppInfo::GetDBBlockTable() +
-                      " where name=\'" + name + "\'";
-  std::vector<Block> blocks = RequestQuery(query);
-  return blocks[0];
-}
-std::vector<Block> DBHelper::RequestAllBlocks() {
-  std::string query = "select * from " + AppInfo::GetDBBlockTable();
-  std::vector<Block> blocks = RequestQuery(query);
   return blocks;
 }
 void DBHelper::LogData(const std::string &data) {

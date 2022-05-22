@@ -3,9 +3,9 @@
 MachineFactory::MachineFactory() {}
 
 std::string MachineFactory::MakeStartString(const User &user) {
-
+  std::string machine_name = AppInfo::GetMachineName();
   std::string result =
-      "./RattlesnakeMachine \'" +
+      "./" + machine_name + " \'" +
       Serializer::ToJsonString((std::vector<Block> &)user.block_scheme) +
       "\' \'" +
       Serializer::ToJsonString((std::vector<Parameter> &)user.variables) + '\'';
