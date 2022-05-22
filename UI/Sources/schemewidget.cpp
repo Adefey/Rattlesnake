@@ -49,7 +49,7 @@ void SchemeWidget::correctNames() {
             std::string solver_path = blocks[i - 1]->GetSolverPath();
             std::vector<Parameter> given_vars = blocks[i - 1]->GetGivenVars();
             std::vector<Parameter> solved_vars = blocks[i - 1]->GetSolvedVars();
-            std::string name = blocks[i - 1]->GetName();
+            std::string name = blocks[i - 1]->GetName() + "_" + std::to_string(j);
             std::string description = blocks[i - 1]->GetDescription();
             std::string author_name = blocks[i - 1]->GetAuthorName();
             int color = blocks[i - 1]->GetColor();
@@ -100,7 +100,11 @@ BlockWidget* SchemeWidget::makeWidget(Block *block) {
     frame->setMinimumWidth(200);
     frame->setMaximumWidth(200);
     frame->setMinimumHeight(100);
-    frame->setStyleSheet("background-color: #b3b3b3; border: 2px solid black");
+    int color = block->GetColor();
+    int red = (color & 0x00FF0000) >> 16;
+    int green = (color & 0x0000FF00) >> 8;
+    int blue = (color & 0x000000FF) >> 0;
+    frame->setStyleSheet("background-color: rgb(" + QString::number(red) + ", " + QString::number(green) + ", " + QString::number(blue) + "); border: 2px solid black");
     frame->setFrameShape(QFrame::StyledPanel);
     return frame;
 }
@@ -120,9 +124,32 @@ void SchemeWidget::run(std::vector<Parameter>* parameters) {
         solved, (blocks[i])->GetName(), (blocks[i])->GetDescription(), (blocks[i])->GetAuthorName(), (blocks[i])->GetColor());
         true_blocks.push_back(bl);
     }
+    for (size_t i = 1; i < true_blocks.size(); ++i) {
+        for (size_t j = 0; j < true_blocks[i].GetGivenVars().size(); ++j) {
+            for (size_t z = 0; z < parameters->size(); ++z) {
+                if ((*parameters)[z].param_name == (true_blocks[i].GetGivenVars())[j].param_name) {
+                    Parameter true_parameter = {(*parameters)[z].param_value, ""};
+                    true_blocks[i].given_vars_[j] = true_parameter;
+                } else {
+                    Parameter true_parameter = {(true_blocks[i].GetGivenVars())[j].param_name, ""};
+                    true_blocks[i].given_vars_[j] = true_parameter;
+                }
+            }
+        }
+        // std::string solver_path = true_blocks[i].GetSolverPath();
+        // std::vector<Parameter> given_vars = true_blocks[i].GetGivenVars();
+        // std::vector<Parameter> solved_vars = true_blocks[i].GetSolvedVars();
+        // std::string name = true_blocks[i].GetName();
+        // std::string description = true_blocks[i].GetDescription();
+        // std::string author_name = true_blocks[i].GetAuthorName();
+        // int color = true_blocks[i].GetColor();
+        // Block new_block = Block(
+        //         solver_path, true_params, solved_vars, name, description, author_name, color);
+        // true_blocks[i] = new_block;
+    }
     std::string jsonBlocks = Serializer::ToJsonString(true_blocks);
 
-    // std::cout << jsonBlocks << std::endl;
+    std::cout << jsonBlocks << std::endl;
 
     std::vector<Parameter> true_parameters = *parameters;
     std::string jsonParams = Serializer::ToJsonString(true_parameters);
