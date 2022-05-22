@@ -111,10 +111,10 @@ void SchemeWidget::run(std::vector<Parameter>* parameters) {
         std::vector<Parameter> given = (blocks[i])->GetGivenVars();
         std::vector<Parameter> solved = (blocks[i])->GetSolvedVars();
         for (size_t j = 0; j < given.size(); ++j) {
-            given[j].param_name = /*(blocks[i])->GetName() + "::" + */given[j].param_name;
+            given[j].param_name = (blocks[i])->GetName() + "::" + given[j].param_name;
         }
         for (size_t j = 0; j < solved.size(); ++j) {
-            solved[j].param_name = /*(blocks[i])->GetName() + "::" + */solved[j].param_name;
+            solved[j].param_name = (blocks[i])->GetName() + "::" + solved[j].param_name;
         }
         Block bl = Block((blocks[i])->GetSolverPath(), given,
         solved, (blocks[i])->GetName(), (blocks[i])->GetDescription(), (blocks[i])->GetAuthorName(), (blocks[i])->GetColor());
