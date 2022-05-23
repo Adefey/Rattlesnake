@@ -29,26 +29,26 @@ TEST(block_tests, get_fields_names_test) {
 TEST(block_tests, empty_block_fields_test) {
   Block empty_block;
 
-  std::string solver_path = empty_block.GetSolverPath();
+  std::string solver_path = empty_block.solver_path;
   std::string empty_string;
   EXPECT_EQ(solver_path, empty_string);
 
-  std::string name = empty_block.GetName();
+  std::string name = empty_block.name;
   EXPECT_EQ(name, empty_string);
 
-  std::string description = empty_block.GetDescription();
+  std::string description = empty_block.description;
   EXPECT_EQ(description, empty_string);
 
-  std::string author_name = empty_block.GetAuthorName();
+  std::string author_name = empty_block.author_name;
   EXPECT_EQ(author_name, empty_string);
 
-  int color = empty_block.GetColor();
+  int color = empty_block.color;
   EXPECT_EQ(color, -1);
 
-  std::vector<Parameter> params = empty_block.GetSolvedVars();
+  std::vector<Parameter> params = empty_block.solved_vars;
   EXPECT_TRUE(params.empty());
 
-  params = empty_block.GetGivenVars();
+  params = empty_block.given_vars;
   EXPECT_TRUE(params.empty());
 }
 
@@ -60,9 +60,10 @@ TEST(block_tests, fill_solved_params_test) {
   params.emplace_back(Parameter());
   params.emplace_back(Parameter());
 
-  empty_block.FillSolved(params);
+  empty_block.solved_vars.clear();
+  empty_block.solved_vars = params;
 
-  std::vector<Parameter> params_from_block = empty_block.GetSolvedVars();
+  std::vector<Parameter> params_from_block = empty_block.solved_vars;
 
   ASSERT_EQ(params_from_block.size(), params.size());
 

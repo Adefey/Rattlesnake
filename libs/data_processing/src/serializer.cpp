@@ -16,13 +16,13 @@ void to_json(nlohmann::json& json_value, const Parameter& parameter) {
 }
 
 void to_json(nlohmann::json& json_value, const Block& block) {
-  json_value = nlohmann::json{{"solver_path", block.GetSolverPath()},
-                              {"given_vars", block.GetGivenVars()},
-                              {"solved_vars", block.GetSolvedVars()},
-                              {"name", block.GetName()},
-                              {"description", block.GetDescription()},
-                              {"author_name", block.GetAuthorName()},
-                              {"color", block.GetColor()}};
+  json_value = nlohmann::json{{"solver_path", block.solver_path},
+                              {"given_vars", block.given_vars},
+                              {"solved_vars", block.solved_vars},
+                              {"name", block.name},
+                              {"description", block.description},
+                              {"author_name", block.author_name},
+                              {"color", block.color}};
 }
 
 std::string Serializer::ToJsonString(const Block& value) {
