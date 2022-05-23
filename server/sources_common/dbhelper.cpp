@@ -3,20 +3,14 @@
 std::vector<Parameter> DBHelper::Separate(std::string sentence) {
   sentence += ' ';
   std::vector<std::string> word_vector;
-  std::string result_word;
-  for (size_t i = 0; i < sentence.size(); ++i) {
-    char character = sentence[i];
-    if (character == ' ' && result_word.size() != 0) {
-      word_vector.push_back(result_word);
-      result_word = "";
-    } else {
-      result_word += character;
-    }
+  std::stringstream ss(sentence);
+  std::string tmp = "";
+  while (getline(ss, tmp, ' ')) {
+    word_vector.push_back(tmp);
   }
-
   std::vector<Parameter> res = {};
   for (auto e : word_vector) {
-    res.push_back(Parameter(e, "0"));
+    res.push_back(Parameter(e, ""));
   }
   return res;
 }

@@ -63,21 +63,31 @@ std::string Machine::MakeProcessStartString(const Block &block) {
   result += block.GetSolverPath();
   std::vector<Parameter> given_vars = block.GetGivenVars();
   for (auto variable : given_vars) {
-    //В переменных внутри блока пусто, если ожидается, что туда значения будут
-    //загружаться из user.variables по имени параметра. Если там не пусто,
-    //значит там лежит имя другого параметра, по которому тоже из user.variables
-    //надо взять значения. Типа переопределение имени параметра чтобы разрешать
-    //конфликты имен
-    if (variable.param_value == "" || variable.param_value == "0") {
-      //Если это - пустое, значит надо обратиться к user.variables, где лежат
-      //все переменные
-      result += " " + GetParamValueByName(variable.param_name);
-    } else {
-      //Иначе - там лежит имя переменной для связывания
-      result += " " + GetParamValueByName(variable.param_value);
-    }
+    result += " " + GetParamValueByName(variable.param_name);
   }
   return result;
+}
+
+std::vector<Parameter> Machine::ProcessBlockOutput(const std::string &data,
+                                                   const Block &block) {
+  //Этот метод по выводу блока составляет массив именованных переменных. Я
+  //отказался от вывода из питона json-строки, потому что во-первых эту строку
+  //надо составлять вручную на питоне и это костыльно, во вторых, для разрешения
+  //конфликтов имен мы можем менять в блоке имена входных и выходных переменных,
+  //поэтому питон возвращает просто какие-то значения и они записываются в
+  //массив переменных по именам, указанных в block.solved_vars
+  std::vector<Parameter> vars = {};
+  std::vector<Parameter> solved_vars = block.GetSolvedVars();
+  std::vector<std::string> strings = {};
+  std::stringstream ss(data);
+  std::string tmp = "";
+  while (getline(ss, tmp, ' ')) {
+    strings.push_back(tmp);
+  }
+  for (size_t i = 0; i < solved_vars.size(); ++i) {
+    vars.push_back(Parameter(solved_vars[i].param_name, strings[i]));
+  }
+  return vars;
 }
 
 Machine::Machine() {}
@@ -97,9 +107,8 @@ std::string Machine::ProcessAllBlocks() {
     } catch (std::runtime_error const &) {
       return "SCHEME FAILED";
     }
-    std::vector<Parameter> block_output_vector = {};
-
-    Parser::ParseParametersFromJsonString(block_output, block_output_vector);
+    std::vector<Parameter> block_output_vector =
+        ProcessBlockOutput(block_output, user.block_scheme[i]);
     SyncVariables(block_output_vector);
   }
   std::string result = Serializer::ToJsonString(user.variables);

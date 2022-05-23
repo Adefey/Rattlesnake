@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <cstdio>
+#include <cstring>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -30,6 +32,8 @@ private:
   bool HasParameter(const std::string &name);
   std::string MakeProcessStartString(const Block &block);
   void SyncVariables(std::vector<Parameter> params);
+  std::vector<Parameter> ProcessBlockOutput(const std::string &data,
+                                            const Block &block);
 
 public:
   Machine();

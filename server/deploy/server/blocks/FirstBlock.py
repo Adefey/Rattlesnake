@@ -7,9 +7,7 @@ def main():
     b = int(sys.argv[2]);
     FirstBlock_alpha = a * 10;
     FirstBlock_beta = b / 10;
-    time.sleep(5)
-    data = "[{\"param_name\":\"FirstBlock_alpha\",\"param_value\":\""+str(FirstBlock_alpha)+"\"},{\"param_name\":\"FirstBlock_beta\",\"param_value\":\""+str(FirstBlock_beta)+"\"}]"
-    print(data)
+    print(FirstBlock_alpha, FirstBlock_beta, sep=' ', end='')
 
 
 if __name__=='__main__':

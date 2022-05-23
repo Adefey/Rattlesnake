@@ -4,8 +4,7 @@ import sys
 def main():
     res = int(sys.argv[1]); #FirstBlock_alpha
     SecondBlock_alpha = res  / 1000;
-    data = "[{\"param_name\":\"SecondBlock_alpha\",\"param_value\":\""+str(SecondBlock_alpha)+"\"}]"
-    print(data)
+    print(SecondBlock_alpha, sep=' ', end='')
 
 if __name__=='__main__':
     main();
