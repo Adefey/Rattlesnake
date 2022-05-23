@@ -10,6 +10,11 @@ BlockWidget::BlockWidget(QWidget *parent, Block *block) : QFrame(parent)
 }
 
 void BlockWidget::mousePressEvent(QMouseEvent *event) {
+    // if (event->button() == Qt::RightButton) {
+    //     std::cout << "OK";
+    //     emit blockDeleted(bl->name_);
+    //     return;
+    // }
     if (event->button() != Qt::LeftButton) {
         event->ignore();
         return;

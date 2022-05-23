@@ -29,13 +29,13 @@ void NewBlockWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 Block* NewBlockWidget::cloneBlock(Block block) {
-    std::string solver_path = block.GetSolverPath();
-    std::vector<Parameter> given_vars = block.GetGivenVars();
-    std::vector<Parameter> solved_vars = block.GetSolvedVars();
-    std::string name = block.GetName();
-    std::string description = block.GetDescription();
-    std::string author_name = block.GetAuthorName();
-    int color = block.GetColor();
+    std::string solver_path = block.solver_path;
+    std::vector<Parameter> given_vars = block.given_vars;
+    std::vector<Parameter> solved_vars = block.solved_vars;
+    std::string name = block.name;
+    std::string description = block.description;
+    std::string author_name = block.author_name;
+    int color = block.color;
     Block *new_block = new Block(
         solver_path, given_vars, solved_vars, name, description, author_name, color);
     return new_block;
