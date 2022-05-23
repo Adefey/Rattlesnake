@@ -9,12 +9,13 @@
 #include <string>
 #include <vector>
 
+#include <appinfo.hpp>
 #include <block.hpp>
 #include <parser.hpp>
 #include <serializer.hpp>
 #include <user.hpp>
 
-#define BUF_SIZE 128
+#define BUF_SIZE 256
 
 #ifndef MACHINEFACTORY
 #define MACHINEFACTORY

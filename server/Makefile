@@ -15,7 +15,7 @@ ServerApp=RattlesnakeServer
 Machine=RattlesnakeMachine
 #Compilation
 Compiler=g++
-Flags=-I $(Include) -I ../libs/network/include/ -I ../libs/data_processing/include/ -L $(Libraries) -L /usr/lib/ -L ../libs/build/data_processing/ -L ../libs/build/network/ -O2 -std=c++2a -Wall -Werror -Wpedantic
+Flags=-I $(Include) -I ../libs/network/include/ -I ../libs/data_processing/include/ -L $(Libraries) -L /usr/lib/ -L ../libs/build/data_processing/ -L ../libs/build/network/ -O0 -std=c++2a -Wall -Werror -Wpedantic
 TestFlags=-lgtest -lpthread -coverage -lgcov
 Archiver=ar
 
@@ -45,7 +45,7 @@ make_binaries:	$(SourcesCommon)appinfo.cpp $(SourcesCommon)dbhelper.cpp $(Source
 	$(Archiver) -crv $(Libraries)libmachine_factory.a $(Binaries)machine_factory.o
 
 make_server_app: $(Binaries)appinfo.o  $(Binaries)dbhelper.o $(Binaries)machine_factory.o $(Binaries)main_server.o $(Binaries)server_application.o
-	$(Compiler) $(Flags)  $(Binaries)main_server.o $(Binaries)server_application.o -o $(ResultServerApp)$(ServerApp) -lappinfo -ldbhelper -lmachine_factory -ldata_processing -lnetwork -lmysqlclient
+	$(Compiler) $(Flags) $(Binaries)main_server.o $(Binaries)server_application.o -o $(ResultServerApp)$(ServerApp) -lappinfo -ldbhelper -lmachine_factory -ldata_processing -lnetwork -lmysqlclient
 
 $(Binaries)main_server.o : $(SourcesServerApp)main_server.cpp
 	$(Compiler) $(Flags) -c $(SourcesServerApp)main_server.cpp -o $(Binaries)main_server.o
@@ -53,8 +53,8 @@ $(Binaries)main_server.o : $(SourcesServerApp)main_server.cpp
 $(Binaries)server_application.o : $(SourcesServerApp)server_application.cpp
 	$(Compiler) $(Flags) -c $(SourcesServerApp)server_application.cpp -o $(Binaries)server_application.o
 
-make_machine: $(Binaries)appinfo.o  $(Binaries)dbhelper.o $(Binaries)main_machine.o $(Binaries)machine.o
-	$(Compiler) $(Flags)   $(Binaries)main_machine.o $(Binaries)machine.o -o $(ResultMachine)$(Machine) -lappinfo -ldbhelper -ldata_processing -lnetwork -lmysqlclient
+make_machine: $(Binaries)appinfo.o $(Binaries)dbhelper.o $(Binaries)main_machine.o $(Binaries)machine.o
+	$(Compiler) $(Flags) $(Binaries)main_machine.o $(Binaries)machine.o -o $(ResultMachine)$(Machine) -lappinfo -ldbhelper -ldata_processing -lnetwork -lmysqlclient
 
 $(Binaries)main_machine.o : $(SourcesMachine)main_machine.cpp
 	$(Compiler) $(Flags) -c $(SourcesMachine)main_machine.cpp -o $(Binaries)main_machine.o

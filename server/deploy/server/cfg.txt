@@ -7,3 +7,4 @@ DBLogTable=logs
 MaxMachinesCount=20
 Port=8000
 RefreshPeriod=500000
+MachineName=RattlesnakeMachine

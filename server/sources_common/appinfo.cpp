@@ -16,7 +16,7 @@ std::string AppInfo::GetProperty(const std::string &propertyName) {
     }
   }
   reader.close();
-  throw std::runtime_error("Unable to connect");
+  throw std::runtime_error("Unable to find property");
 }
 
 std::string AppInfo::GetDBAddress() { return GetProperty("DBAddress"); }
@@ -25,6 +25,7 @@ std::string AppInfo::GetDBPassword() { return GetProperty("DBPassword"); }
 std::string AppInfo::GetDBDatabase() { return GetProperty("DBDatabase"); }
 std::string AppInfo::GetDBBlockTable() { return GetProperty("DBBlockTable"); }
 std::string AppInfo::GetDBLogTable() { return GetProperty("DBLogTable"); }
+std::string AppInfo::GetMachineName() { return GetProperty("MachineName"); }
 size_t AppInfo::GetMaxMachinesCount() {
   return std::stoi(GetProperty("MaxMachinesCount"));
 }

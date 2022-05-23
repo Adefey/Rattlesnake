@@ -15,6 +15,7 @@ services:
       - ./server/cfg.txt
     depends_on:
       - mariadb
+    read_only: true
 
   mariadb:
     image: mariadb:latest
