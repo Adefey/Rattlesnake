@@ -114,21 +114,21 @@ TEST(parser_tests, parse_block) {
       R"({"solver_path":"path","given_vars":[{"param_name":"key", "param_value":"value"}],"solved_vars":[],"name":"block_name","description":"block_description","author_name":"block_author_name","color":12})";
   EXPECT_TRUE(Parser::ParseBlockFromJsonString(correct_string, block));
 
-  EXPECT_EQ(block.GetSolverPath(), "path");
+  EXPECT_EQ(block.solver_path, "path");
 
-  std::vector<Parameter> vars = block.GetGivenVars();
+  std::vector<Parameter> vars = block.given_vars;
   ASSERT_EQ(vars.size(), 1);
   EXPECT_EQ(vars[0].param_name, "key");
   EXPECT_EQ(vars[0].param_value, "value");
 
   vars.clear();
-  vars = block.GetSolvedVars();
+  vars = block.solved_vars;
   EXPECT_TRUE(vars.empty());
 
-  EXPECT_EQ(block.GetName(), "block_name");
-  EXPECT_EQ(block.GetDescription(), "block_description");
-  EXPECT_EQ(block.GetAuthorName(), "block_author_name");
-  EXPECT_EQ(block.GetColor(), 12);
+  EXPECT_EQ(block.name, "block_name");
+  EXPECT_EQ(block.description, "block_description");
+  EXPECT_EQ(block.author_name, "block_author_name");
+  EXPECT_EQ(block.color, 12);
 }
 
 TEST(parser_tests, parse_blocks) {
@@ -147,19 +147,19 @@ TEST(parser_tests, parse_blocks) {
   EXPECT_TRUE(Parser::ParseBlocksFromJsonString(correct_string, blocks));
   ASSERT_EQ(blocks.size(), 2);
 
-  EXPECT_EQ(blocks[0].GetSolverPath(), "path");
+  EXPECT_EQ(blocks[0].solver_path, "path");
 
-  std::vector<Parameter> vars = blocks[0].GetGivenVars();
+  std::vector<Parameter> vars = blocks[0].given_vars;
   ASSERT_EQ(vars.size(), 1);
   EXPECT_EQ(vars[0].param_name, "key");
   EXPECT_EQ(vars[0].param_value, "value");
 
   vars.clear();
-  vars = blocks[0].GetSolvedVars();
-  EXPECT_TRUE(vars.empty());
+  vars = blocks[0].given_vars;
+  EXPECT_TRUE(!vars.empty());
 
-  EXPECT_EQ(blocks[0].GetName(), "block_name");
-  EXPECT_EQ(blocks[0].GetDescription(), "block_description");
-  EXPECT_EQ(blocks[0].GetAuthorName(), "block_author_name");
-  EXPECT_EQ(blocks[0].GetColor(), 12);
+  EXPECT_EQ(blocks[0].name, "block_name");
+  EXPECT_EQ(blocks[0].description, "block_description");
+  EXPECT_EQ(blocks[0].author_name, "block_author_name");
+  EXPECT_EQ(blocks[0].color, 12);
 }

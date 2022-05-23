@@ -66,10 +66,10 @@ TEST(serializer_tests, from_block_to_string) {
   bool res = Parser::ParseBlockFromJsonString(result, result_block);
   ASSERT_TRUE(res);
 
-  EXPECT_EQ(empty_block.GetColor(), result_block.GetColor());
-  EXPECT_EQ(empty_block.GetAuthorName(), result_block.GetAuthorName());
-  EXPECT_EQ(empty_block.GetDescription(), result_block.GetDescription());
-  EXPECT_EQ(empty_block.GetName(), result_block.GetName());
+  EXPECT_EQ(empty_block.color, result_block.color);
+  EXPECT_EQ(empty_block.author_name, result_block.author_name);
+  EXPECT_EQ(empty_block.description, result_block.description);
+  EXPECT_EQ(empty_block.name, result_block.name);
 
   std::vector<Parameter> empty_params;
   Block block("path", empty_params, empty_params, "block_name", "block_descr", "block_author_name",
@@ -79,10 +79,10 @@ TEST(serializer_tests, from_block_to_string) {
   res = Parser::ParseBlockFromJsonString(result, result_block);
 
   ASSERT_TRUE(res);
-  EXPECT_EQ(block.GetColor(), result_block.GetColor());
-  EXPECT_EQ(block.GetAuthorName(), result_block.GetAuthorName());
-  EXPECT_EQ(block.GetDescription(), result_block.GetDescription());
-  EXPECT_EQ(block.GetName(), result_block.GetName());
+  EXPECT_EQ(block.color, result_block.color);
+  EXPECT_EQ(block.author_name, result_block.author_name);
+  EXPECT_EQ(block.description, result_block.description);
+  EXPECT_EQ(block.name, result_block.name);
 }
 
 TEST(serializer_tests, from_blocks_to_string) {
@@ -105,9 +105,9 @@ TEST(serializer_tests, from_blocks_to_string) {
   ASSERT_EQ(result_blocks.size(), blocks.size());
 
   for (size_t i = 0; i < blocks.size(); ++i) {
-    EXPECT_EQ(blocks[i].GetColor(), result_blocks[i].GetColor());
-    EXPECT_EQ(blocks[i].GetAuthorName(), result_blocks[i].GetAuthorName());
-    EXPECT_EQ(blocks[i].GetDescription(), result_blocks[i].GetDescription());
-    EXPECT_EQ(blocks[i].GetName(), result_blocks[i].GetName());
+    EXPECT_EQ(blocks[i].color, result_blocks[i].color);
+    EXPECT_EQ(blocks[i].author_name, result_blocks[i].author_name);
+    EXPECT_EQ(blocks[i].description, result_blocks[i].description);
+    EXPECT_EQ(blocks[i].name, result_blocks[i].name);
   }
 }

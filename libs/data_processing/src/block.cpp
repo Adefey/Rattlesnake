@@ -13,62 +13,27 @@ Parameter::Parameter(std::string name, std::string value) {
 }
 
 Block::Block() {
-  solver_path_ = "";
-  name_ = "";
-  description_ = "";
-  author_name_ = "";
-  color_ = -1;
+  solver_path = "";
+  name = "";
+  description = "";
+  author_name = "";
+  color = -1;
 }
 
-void Block::FillSolved(std::vector<Parameter>& solved_vars) {
-  solved_vars_.clear();
-  for (const auto& param : solved_vars) {
-    solved_vars_.emplace_back(param);
-  }
-}
-
-Block::Block(std::string solver_path, std::vector<Parameter>& given_vars,
-             std::vector<Parameter>& solved_vars, std::string name, std::string description,
-             std::string author_name, int color) {
-  solver_path_ = std::move(solver_path);
-  given_vars_ = std::vector<Parameter>(given_vars);
-  solved_vars_ = std::vector<Parameter>(solved_vars);
-  name_ = std::move(name);
-  description_ = std::move(description);
-  author_name_ = std::move(author_name);
-  color_ = color;
+Block::Block(std::string solver_path_param, std::vector<Parameter>& given_vars_param,
+             std::vector<Parameter>& solved_vars_param, std::string name_param, std::string description_param,
+             std::string author_name_param, int color_param) {
+  solver_path = std::move(solver_path_param);
+  given_vars = std::vector<Parameter>(given_vars_param);
+  solved_vars = std::vector<Parameter>(solved_vars_param);
+  name = std::move(name_param);
+  description = std::move(description_param);
+  author_name = std::move(author_name_param);
+  color = color_param;
 }
 
 std::vector<std::string> Block::GetFieldsNames() {
   std::vector<std::string> result{
       {"solver_path", "given_vars", "solved_vars", "name", "description", "author_name", "color"}};
   return result;
-}
-
-std::string Block::GetSolverPath() const {
-  return solver_path_;
-}
-
-std::vector<Parameter> Block::GetGivenVars() const {
-  return given_vars_;
-}
-
-std::vector<Parameter> Block::GetSolvedVars() const {
-  return solved_vars_;
-}
-
-std::string Block::GetName() const {
-  return name_;
-}
-
-std::string Block::GetDescription() const {
-  return description_;
-}
-
-std::string Block::GetAuthorName() const {
-  return author_name_;
-}
-
-int Block::GetColor() const {
-  return color_;
 }

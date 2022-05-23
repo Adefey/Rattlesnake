@@ -36,36 +36,30 @@ void from_json(const nlohmann::json& json_value, Parameter& parameter) {
 }
 
 void from_json(const nlohmann::json& json_value, Block& block) {
-  std::string solver_path;
-  std::vector<Parameter> given_vars;
-  std::vector<Parameter> solved_vars;
-  std::string name;
-  std::string description;
-  std::string author_name;
-  int color = -1;
+  block.solved_vars.clear();
+  block.given_vars.clear();
 
   if (json_value.find("solver_path") != json_value.end()) {
-    json_value.at("solver_path").get_to(solver_path);
+    json_value.at("solver_path").get_to(block.solver_path);
   }
   if (json_value.find("given_vars") != json_value.end()) {
-    json_value.at("given_vars").get_to(given_vars);
+    json_value.at("given_vars").get_to(block.given_vars);
   }
   if (json_value.find("solved_vars") != json_value.end()) {
-    json_value.at("solved_vars").get_to(solved_vars);
+    json_value.at("solved_vars").get_to(block.solved_vars);
   }
   if (json_value.find("name") != json_value.end()) {
-    json_value.at("name").get_to(name);
+    json_value.at("name").get_to(block.name);
   }
   if (json_value.find("description") != json_value.end()) {
-    json_value.at("description").get_to(description);
+    json_value.at("description").get_to(block.description);
   }
   if (json_value.find("author_name") != json_value.end()) {
-    json_value.at("author_name").get_to(author_name);
+    json_value.at("author_name").get_to(block.author_name);
   }
   if (json_value.find("color") != json_value.end()) {
-    json_value.at("color").get_to(color);
+    json_value.at("color").get_to(block.color);
   }
-  block = Block(solver_path, given_vars, solved_vars, name, description, author_name, color);
 }
 
 bool Parser::ParseParameterFromJsonString(const std::string& val, Parameter& result) {
