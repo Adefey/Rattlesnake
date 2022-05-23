@@ -15,7 +15,7 @@ std::string Machine::GetParamValueByName(const std::string &name) {
       return user.variables[i].param_value;
     }
   }
-  return "";
+  throw std::runtime_error("Parameter value not found");
 }
 
 void Machine::SetParamValueByName(const std::string &name,
@@ -26,6 +26,7 @@ void Machine::SetParamValueByName(const std::string &name,
       return;
     }
   }
+  throw std::runtime_error("Parameter value not found");
 }
 
 void Machine::SyncVariables(std::vector<Parameter> params) {
@@ -99,6 +100,7 @@ Machine::Machine(const std::string &start_param_scheme,
 }
 
 std::string Machine::ProcessAllBlocks() {
+  std::string result = "";
   for (size_t i = 0; i < user.block_scheme.size(); ++i) {
     std::string start_string = MakeProcessStartString(user.block_scheme[i]);
     std::string block_output = "";
@@ -107,6 +109,6 @@ std::string Machine::ProcessAllBlocks() {
         ProcessBlockOutput(block_output, user.block_scheme[i]);
     SyncVariables(block_output_vector);
   }
-  std::string result = Serializer::ToJsonString(user.variables);
+  result = Serializer::ToJsonString(user.variables);
   return result;
 }

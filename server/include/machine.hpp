@@ -11,7 +11,6 @@
 #include <appinfo.hpp>
 #include <block.hpp>
 #include <dbhelper.hpp>
-#include <netserver.hpp>
 #include <parser.hpp>
 #include <serializer.hpp>
 #include <user.hpp>
@@ -25,7 +24,6 @@ class Machine {
 
 private:
   User user;
-  NetServer net_server;
   std::string ProcessOneBlock(const std::string &launch_string);
   std::string GetParamValueByName(const std::string &name);
   void SetParamValueByName(const std::string &name, const std::string &value);
