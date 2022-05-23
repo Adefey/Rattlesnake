@@ -26,12 +26,12 @@ DBHelper::RequestQuery(const std::string &command) {
   MYSQL_ROW row;
   connection = mysql_init(NULL);
   if (!connection) {
-    throw std::runtime_error("Descriptor not obtained");
+    throw std::runtime_error("Descriptor has not been obtained");
   }
   if (!mysql_real_connect(connection, db_address.c_str(), db_username.c_str(),
                           db_password.c_str(), db_database.c_str(), 0, NULL,
                           0)) {
-    throw std::runtime_error("Unable to connect");
+    throw std::runtime_error("Unable to connect to DB");
   }
   mysql_set_character_set(connection, "utf8");
   size_t l = command.length() + 1;

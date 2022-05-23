@@ -81,11 +81,11 @@ void ServerApplication::ProcessUser(User &user, NetMessage &message) {
     Parser::ParseParametersFromJsonString(message.GetContent(), user.variables);
     std::string result = machine_factory.ProcessMachine(user);
     NetLibraryServer::SendResultsJson(user.user_socket, result);
-  } catch (const std::runtime_error &) {
-    DBHelper::LogData("Неудачная попытка обработки схемы");
-    std::cout
-        << "Не выполнен запрос на обработку схемы. Лог на базу данных отправлен"
-        << std::endl;
+  } catch (const std::runtime_error &error) {
+    DBHelper::LogData(error.what());
+    std::cout << "Не выполнен запрос на обработку схемы. Лог на базу данных "
+                 "отправлен."
+              << std::endl;
     return;
   }
   DBHelper::LogData("Удачная попытка обработки схемы");
@@ -97,8 +97,8 @@ void ServerApplication::ProcessStat(User &user) {
   try {
     std::string result = Serializer::ToJsonString(DBHelper::RequestAllBlocks());
     NetLibraryServer::SendBlocksJson(user.user_socket, result);
-  } catch (const std::runtime_error &) {
-    DBHelper::LogData("Неудачная попытка запроса на отправку доступных блоков");
+  } catch (const std::runtime_error &error) {
+    DBHelper::LogData(error.what());
     std::cout << "Не выполнен запрос на отправку доступных блоков. Лог на базу "
                  "данных отправлен"
               << std::endl;

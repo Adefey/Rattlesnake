@@ -44,7 +44,7 @@ std::string Machine::ProcessOneBlock(const std::string &launch_string) {
   FILE *process_output;
 
   if (!(process_output = popen(launch_string.c_str(), "r"))) {
-    throw std::runtime_error("Unable to open process");
+    throw std::runtime_error("Unable to open process (Block)");
   }
 
   while (fgets(buf, BUF_SIZE, process_output)) {
@@ -52,7 +52,7 @@ std::string Machine::ProcessOneBlock(const std::string &launch_string) {
   }
 
   if (pclose(process_output)) {
-    throw std::runtime_error("No such block or it threw error");
+    throw std::runtime_error("Block exited with error");
   }
 
   return result;
@@ -60,8 +60,8 @@ std::string Machine::ProcessOneBlock(const std::string &launch_string) {
 
 std::string Machine::MakeProcessStartString(const Block &block) {
   std::string result = "python3 ";
-  result += block.GetSolverPath();
-  std::vector<Parameter> given_vars = block.GetGivenVars();
+  result += block.solver_path;
+  std::vector<Parameter> given_vars = block.given_vars;
   for (auto variable : given_vars) {
     result += " " + GetParamValueByName(variable.param_name);
   }
@@ -77,7 +77,7 @@ std::vector<Parameter> Machine::ProcessBlockOutput(const std::string &data,
   //поэтому питон возвращает просто какие-то значения и они записываются в
   //массив переменных по именам, указанных в block.solved_vars
   std::vector<Parameter> vars = {};
-  std::vector<Parameter> solved_vars = block.GetSolvedVars();
+  std::vector<Parameter> solved_vars = block.solved_vars;
   std::vector<std::string> strings = {};
   std::stringstream ss(data);
   std::string tmp = "";
@@ -102,11 +102,7 @@ std::string Machine::ProcessAllBlocks() {
   for (size_t i = 0; i < user.block_scheme.size(); ++i) {
     std::string start_string = MakeProcessStartString(user.block_scheme[i]);
     std::string block_output = "";
-    try {
-      block_output = ProcessOneBlock(start_string);
-    } catch (std::runtime_error const &) {
-      return "SCHEME FAILED";
-    }
+    block_output = ProcessOneBlock(start_string);
     std::vector<Parameter> block_output_vector =
         ProcessBlockOutput(block_output, user.block_scheme[i]);
     SyncVariables(block_output_vector);

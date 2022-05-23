@@ -16,7 +16,7 @@ std::string AppInfo::GetProperty(const std::string &propertyName) {
     }
   }
   reader.close();
-  throw std::runtime_error("Unable to connect");
+  throw std::runtime_error("Unable to find property");
 }
 
 std::string AppInfo::GetDBAddress() { return GetProperty("DBAddress"); }
