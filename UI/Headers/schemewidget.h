@@ -13,6 +13,7 @@
 #include <QLabel>
 #include <vector>
 #include <map>
+#include <set>
 #include <QDebug>
 #include <QMetaObject>
 #include <QDragEnterEvent>
@@ -44,6 +45,7 @@ private:
 
 public slots:
     void addBlock(Block*);
+    void deleteBlock(std::string);
     void updateWidgets();
     void run(std::vector<Parameter>* parameters);
 

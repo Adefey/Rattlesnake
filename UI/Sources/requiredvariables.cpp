@@ -18,21 +18,21 @@ void RequiredVariables::updateTable(std::vector<Block*> *blocks) {
     table->setRowCount(5);
     std::vector<std::string> avaliable_vars;
     for (size_t i = 0; i < blocks->size(); ++i) {
-        for (size_t j = 0; j < ((*blocks)[i])->GetGivenVars().size(); ++j) {
+        for (size_t j = 0; j < ((*blocks)[i])->given_vars.size(); ++j) {
             if (n_rows >= 5) {
                 table->insertRow(table->rowCount());
             }
             QTableWidgetItem *tableItem1 = new QTableWidgetItem(QString::fromStdString(
-                                                                   ((*blocks)[i])->GetName() + "::" + ((*blocks)[i])->GetGivenVars()[j].param_name
+                                                                   ((*blocks)[i])->name + "::" + ((*blocks)[i])->given_vars[j].param_name
                                                                    ));
             tableItem1->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
             table->setItem(n_rows, 0, tableItem1);
             QComboBox *comboBox = new QComboBox;
             comboBox->setEditable(true);
             for (size_t k = 0; k < i; ++k) {
-                for (size_t w = 0; w < ((*blocks)[k])->GetSolvedVars().size(); ++w)
+                for (size_t w = 0; w < ((*blocks)[k])->solved_vars.size(); ++w)
                 comboBox->insertItem(comboBox->count(), QString::fromStdString(
-                                         ((*blocks)[k])->GetName() + "::" + ((*blocks)[k])->GetSolvedVars()[w].param_name
+                                         ((*blocks)[k])->name + "::" + ((*blocks)[k])->solved_vars[w].param_name
                                          ));
             }
             table->setCellWidget(n_rows, 1, comboBox);

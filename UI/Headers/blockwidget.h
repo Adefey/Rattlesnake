@@ -13,6 +13,8 @@
 #include <QPainter>
 #include <QPoint>
 #include "block.hpp"
+#include <iostream>
+#include <string>
 
 #include <QDebug>
 
@@ -32,6 +34,7 @@ private:
 
 signals:
     void blockPressed(Block *bl);
+    void blockDeleted(std::string name_to_delete);
 };
 
 #endif // BLOCKWIDGET_H
