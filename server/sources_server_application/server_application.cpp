@@ -27,14 +27,19 @@ void ServerApplication::ProcessEvents() {
     User user;
     NetMessage message;
     std::string header = "";
-    if (net_server.AcceptConnection(user.user_socket)) {
-      if (!NetLibraryServer::ReceiveMessage(user.user_socket, message)) {
-        user.user_socket.CloseSocket();
-        continue;
+    try {
+      if (net_server.AcceptConnection(user.user_socket)) {
+        if (!NetLibraryServer::ReceiveMessage(user.user_socket, message)) {
+          user.user_socket.CloseSocket();
+          continue;
+        } else {
+          header = message.GetHeader();
+        }
       } else {
-        header = message.GetHeader();
+        continue;
       }
-    } else {
+    } catch (const std::invalid_argument &error) {
+      DBHelper::LogData(error.what());
       continue;
     }
     pid_t pid = fork();
