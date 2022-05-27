@@ -8,6 +8,7 @@
 
 #include <appinfo.hpp>
 #include <block.hpp>
+#include <blockinfo.hpp>
 #include <dbhelper.hpp>
 #include <machine_factory.hpp>
 #include <netlibraryserver.hpp>

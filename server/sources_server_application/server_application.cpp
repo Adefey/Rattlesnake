@@ -3,6 +3,7 @@
 ServerApplication::ServerApplication() {
   int port = AppInfo::GetPort();
   net_server.InitializeServer(port);
+  DBHelper::PrepareTables();
 }
 
 void ServerApplication::ProcessEvents() {
@@ -51,9 +52,8 @@ void ServerApplication::ProcessEvents() {
         break;
       }
       }
-      break;
-      // Тут дочерний процесс выходит из цикла, возвращается в файл
-      // main_server.cpp и возвращает 0
+      exit(EXIT_SUCCESS);
+      // Тут дочерний процесс выходит
     } else {
       continue;
     }
@@ -80,6 +80,7 @@ void ServerApplication::ProcessUser(User &user, NetMessage &message) {
     std::cout << "Запрос - переменные:" << message.GetContent() << std::endl;
     Parser::ParseParametersFromJsonString(message.GetContent(), user.variables);
     std::string result = machine_factory.ProcessMachine(user);
+    std::cout << "Результат - параметры:" << result << std::endl;
     NetLibraryServer::SendResultsJson(user.user_socket, result);
   } catch (const std::runtime_error &error) {
     DBHelper::LogData(error.what());
@@ -96,6 +97,7 @@ void ServerApplication::ProcessStat(User &user) {
   std::cout << "Получил запрос отправку доступных блоков" << std::endl;
   try {
     std::string result = Serializer::ToJsonString(DBHelper::RequestAllBlocks());
+    std::cout << "Результат - блоки:" << result << std::endl;
     NetLibraryServer::SendBlocksJson(user.user_socket, result);
   } catch (const std::runtime_error &error) {
     DBHelper::LogData(error.what());

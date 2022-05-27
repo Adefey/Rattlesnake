@@ -101,13 +101,17 @@ Machine::Machine(const std::string &start_param_scheme,
 
 std::string Machine::ProcessAllBlocks() {
   std::string result = "";
-  for (size_t i = 0; i < user.block_scheme.size(); ++i) {
-    std::string start_string = MakeProcessStartString(user.block_scheme[i]);
-    std::string block_output = "";
-    block_output = ProcessOneBlock(start_string);
-    std::vector<Parameter> block_output_vector =
-        ProcessBlockOutput(block_output, user.block_scheme[i]);
-    SyncVariables(block_output_vector);
+  try {
+    for (size_t i = 0; i < user.block_scheme.size(); ++i) {
+      std::string start_string = MakeProcessStartString(user.block_scheme[i]);
+      std::string block_output = "";
+      block_output = ProcessOneBlock(start_string);
+      std::vector<Parameter> block_output_vector =
+          ProcessBlockOutput(block_output, user.block_scheme[i]);
+      SyncVariables(block_output_vector);
+    }
+  } catch (const std::runtime_error &error) {
+    DBHelper::LogData(error.what());
   }
   result = Serializer::ToJsonString(user.variables);
   return result;
