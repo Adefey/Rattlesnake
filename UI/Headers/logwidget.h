@@ -33,6 +33,9 @@ protected:
     void dragEnterEvent(QDragEnterEvent* event);
     void dragMoveEvent(QDragMoveEvent* event);
     void dragLeaveEvent(QDragLeaveEvent* event);
+
+signals:
+    void updateTable(const std::vector<Parameter>&);
 };
 
 #endif // LOGWIDGET_H

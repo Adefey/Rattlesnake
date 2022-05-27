@@ -7,6 +7,7 @@
 #include <QFrame>
 #include <QSplitter>
 #include <QAction>
+#include <QApplication>
 #include "qtlistofblocks.h"
 #include "schemewidget.h"
 #include "logwidget.h"

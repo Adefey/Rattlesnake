@@ -7,6 +7,7 @@ Splitter::Splitter(QWidget *parent, QAction *runAction)
 
     QWidget *scheme = new QWidget;
     scheme->acceptDrops();
+    scheme->setAcceptDrops(true);
 
     QWidget *requiredVariables = new QWidget;
     RequiredVariables *reqv = new RequiredVariables(requiredVariables);
@@ -19,6 +20,9 @@ Splitter::Splitter(QWidget *parent, QAction *runAction)
 
     QWidget *listofblocks = new QWidget;
     SchemeWidget *sch = new SchemeWidget(scheme);
+    sch->acceptDrops();
+    sch->setAcceptDrops(true);
+    qApp->installEventFilter(sch);
     QTListOfBlocks *lstblks = new QTListOfBlocks(listofblocks, sch);
     //listofblocks->setFrameShape(QFrame::StyledPanel);
     QSplitter *Vsplitter = new QSplitter(Qt::Horizontal);
@@ -32,30 +36,33 @@ Splitter::Splitter(QWidget *parent, QAction *runAction)
     QObject::connect(lstblks, SIGNAL(error(int)), log, SLOT(errorLog(int)));
     QObject::connect(sch, SIGNAL(errorAppeared(int)), log, SLOT(errorLog(int)));
     QObject::connect(sch, SIGNAL(schemeSent()), log, SLOT(schemeSent()));
+    QObject::connect(log, SIGNAL(updateTable(const std::vector<Parameter>&)), reqv, SLOT(updateAnswers(const std::vector<Parameter>&)));
 
-    Hsplitter->addWidget(requiredVariables);
     Hsplitter->addWidget(scheme);
     Hsplitter->addWidget(lg);
-    QList<int> sizes1({500, 800, 200});
+    QList<int> sizes1({800, 200});
     Hsplitter->setSizes(sizes1);
 
     Vsplitter->addWidget(listofblocks);
     Vsplitter->addWidget(Hsplitter);
+    Vsplitter->addWidget(requiredVariables);
 
-    QList<int> sizes2({200, 1000});
+    QList<int> sizes2({300, 800, 400});
     Vsplitter->setSizes(sizes2);
 
     hbox->addWidget(Vsplitter);
+
+    this->setAcceptDrops(false);
 }
 
 void Splitter::dragEnterEvent(QDragEnterEvent* event) {
-    event->acceptProposedAction();
+    event->ignore();
 }
 
 void Splitter::dragMoveEvent(QDragMoveEvent* event) {
-    event->accept();
+    event->ignore();
 }
 
 void Splitter::dragLeaveEvent(QDragLeaveEvent* event) {
-    event->accept();
+    event->ignore();
 }

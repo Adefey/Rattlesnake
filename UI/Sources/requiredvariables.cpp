@@ -2,7 +2,7 @@
 
 RequiredVariables::RequiredVariables(QWidget *parent) : QWidget(parent)
 {
-    QHBoxLayout *mainlayout = new QHBoxLayout(parent);
+    QVBoxLayout *mainlayout = new QVBoxLayout(parent);
     table = new QTableWidget;
     mainlayout->addWidget(table);
     mainlayout->setAlignment(Qt::AlignCenter);
@@ -10,7 +10,17 @@ RequiredVariables::RequiredVariables(QWidget *parent) : QWidget(parent)
     table->setRowCount(5);
     QList<QString> ListOfHeaderLabels = {"Переменная", "Значение"};
     table->setHorizontalHeaderLabels(ListOfHeaderLabels);
-    table->adjustSize();
+    QHeaderView* header = table->horizontalHeader();
+    header->setSectionResizeMode(QHeaderView::Stretch);
+
+    answers = new QTableWidget;
+    mainlayout->addWidget(answers);
+    answers->setColumnCount(2);
+    answers->setRowCount(5);
+    answers->setHorizontalHeaderLabels(ListOfHeaderLabels);
+    answers->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    header = answers->horizontalHeader();
+    header->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 void RequiredVariables::updateTable(std::vector<Block*> *blocks) {
@@ -38,6 +48,21 @@ void RequiredVariables::updateTable(std::vector<Block*> *blocks) {
             table->setCellWidget(n_rows, 1, comboBox);
             ++n_rows;
         }
+    }
+}
+
+void RequiredVariables::updateAnswers(const std::vector<Parameter> &ans) {
+    n_rows_answers = 0;
+    answers->setRowCount(5);
+    for (size_t i = 0; i < ans.size(); ++i) {
+        if (n_rows_answers >= 5) {
+            answers->insertRow(answers->rowCount());
+        }
+        QTableWidgetItem *tableItem1 = new QTableWidgetItem(QString::fromStdString(ans[i].param_name));
+        QTableWidgetItem *tableItem2 = new QTableWidgetItem(QString::fromStdString(ans[i].param_value));
+        answers->setItem(n_rows_answers, 0, tableItem1);
+        answers->setItem(n_rows_answers, 1, tableItem2);
+        ++n_rows_answers;
     }
 }
 

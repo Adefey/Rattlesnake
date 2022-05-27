@@ -11,8 +11,11 @@ BlockWidget::BlockWidget(QWidget *parent, Block *block) : QFrame(parent)
 
 void BlockWidget::mousePressEvent(QMouseEvent *event) {
     // if (event->button() == Qt::RightButton) {
-    //     std::cout << "OK";
-    //     emit blockDeleted(bl->name_);
+    //     std::cout << "1" << std::endl;
+    //     QSizePolicy sp_retain = this->sizePolicy();
+    //     sp_retain.setRetainSizeWhenHidden(false);
+    //     this->setSizePolicy(sp_retain);
+    //     emit blockDeleted(this);
     //     return;
     // }
     if (event->button() != Qt::LeftButton) {

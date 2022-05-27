@@ -27,7 +27,9 @@
 #include "netclient.hpp"
 #include "netlibraryclient.hpp"
 #include <qevent.h>
+#include <unistd.h>
 #include "serializer.hpp"
+#include "appinfo.h"
 
 class SchemeWidget : public QWidget
 {
@@ -41,22 +43,24 @@ public:
 private:
     std::vector<Block*> blocks;
     QVBoxLayout *vbox;
+    QWidget *w;
     void correctNames();
+    QScrollArea *scrollArea;
+    int findCounter(const std::string str);
 
 public slots:
     void addBlock(Block*);
-    void deleteBlock(std::string);
+    void deleteBlock(BlockWidget*);
     void updateWidgets();
     void run(std::vector<Parameter>* parameters);
 
-
 protected:
     void paintEvent(QPaintEvent*);
-    virtual void dropEvent(QDropEvent *event);
+    virtual void dropEvent(QDropEvent *event) override;
     virtual void dragMoveEvent(QDragMoveEvent* event);
-    virtual void dragEnterEvent(QDragEnterEvent* event);
+    virtual void dragEnterEvent(QDragEnterEvent* event) override;
     virtual void dragLeaveEvent(QDragLeaveEvent *event);
-    bool eventFilter(QObject *obj, QEvent *event);
+    virtual bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
 
 signals:
     void schemeChanged();

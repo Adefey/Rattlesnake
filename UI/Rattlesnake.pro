@@ -21,7 +21,8 @@ SOURCES += \
     qtlistofblocks.cpp \
     requiredvariables.cpp \
     schemewidget.cpp \
-    splitter.cpp
+    splitter.cpp \
+    rattlesnake-ico.qrc
 
 HEADERS += \
     UI.h \
