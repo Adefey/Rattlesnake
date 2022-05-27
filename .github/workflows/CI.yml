@@ -53,3 +53,8 @@ jobs:
         with:
           name: RattlesnakeClient
           path: ./UI/build/Rattlesnake
+      - name: save client application config
+        uses: actions/upload-artifact@v3
+        with:
+          name: cfg.txt
+          path: ./UI/build/cfg.txt
