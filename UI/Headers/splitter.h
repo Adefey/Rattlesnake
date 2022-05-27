@@ -26,6 +26,8 @@ protected:
     void dragMoveEvent(QDragMoveEvent* event);
     void dragLeaveEvent(QDragLeaveEvent* event);
 signals:
-    
+    void create();
+    void save();
+    void open();
 };
 #endif // SPLITTER_H

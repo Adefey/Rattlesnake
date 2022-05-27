@@ -66,6 +66,13 @@ void RequiredVariables::updateAnswers(const std::vector<Parameter> &ans) {
     }
 }
 
+void RequiredVariables::clear() {
+    table->setRowCount(0);
+    table->setRowCount(5);
+    answers->setRowCount(0);
+    answers->setRowCount(5);
+}
+
 void RequiredVariables::run() {
     std::vector<std::string> names;
     for (size_t i = 0; i < n_rows; ++i) {
@@ -80,6 +87,10 @@ void RequiredVariables::run() {
     }
     std::vector<Parameter> parameters;
     for (size_t i = 0; i < names.size(); ++i) {
+        if (values[i] == "") {
+            QMessageBox::warning(this, "Ошибка", "Не введены начальные данные");
+            return;
+        }
         Parameter parameter(names[i], values[i]);
         parameters.push_back(parameter);
     }

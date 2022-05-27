@@ -2,7 +2,12 @@
 
 SchemeWidget::SchemeWidget(QWidget *parent) : QWidget(parent)
 {
-    netClient.SetServerAddress(AppInfo::GetIP().c_str(), AppInfo::GetPort());
+    std::string ip = AppInfo::GetIP();
+    if (ip == "ERROR") {
+        QMessageBox::warning(this, "Ошибка", "Не найден файл cfg.txt");
+        QCoreApplication::quit();
+    }
+    netClient.SetServerAddress(ip.c_str(), AppInfo::GetPort());
     QHBoxLayout *mainlayout = new QHBoxLayout(parent);
     w = new QWidget(this);
     vbox = new QVBoxLayout(w);
@@ -137,6 +142,19 @@ void SchemeWidget::deleteBlock(BlockWidget* blockToDelete) {
     std::cout << "4" << std::endl;
     correctNames();
     std::cout << "5" << std::endl;
+}
+
+void SchemeWidget::clear() {
+    if ( vbox != NULL )
+    {
+        QLayoutItem* item;
+        while ( ( item = vbox->takeAt( 0 ) ) != NULL )
+        {
+            delete item->widget();
+            delete item;
+        }
+    }
+    blocks.clear();
 }
 
 void SchemeWidget::run(std::vector<Parameter>* parameters) {

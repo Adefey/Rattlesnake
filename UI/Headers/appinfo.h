@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <QMessageBox>
 
 #include <parser.hpp>
 

@@ -5,6 +5,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     createTopToolBar();
     UI *ui = new UI(this, runAction);
+    QObject::connect(create, &QAction::triggered, ui, &UI::create);
+    QObject::connect(save, &QAction::triggered, ui, &UI::save);
+    QObject::connect(open, &QAction::triggered, ui, &UI::open);
     addToolBar(Qt::TopToolBarArea, ptb);
     this->setAcceptDrops(false);
     ui->setAcceptDrops(false);

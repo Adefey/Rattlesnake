@@ -20,6 +20,8 @@
 #include <QDragMoveEvent>
 #include <QDragLeaveEvent>
 #include <QDropEvent>
+#include <QMessageBox>
+#include <QCoreApplication>
 #include <iostream>
 #include "block.hpp"
 #include "blockwidget.h"
@@ -53,6 +55,7 @@ public slots:
     void deleteBlock(BlockWidget*);
     void updateWidgets();
     void run(std::vector<Parameter>* parameters);
+    void clear();
 
 protected:
     void paintEvent(QPaintEvent*);

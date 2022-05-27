@@ -9,6 +9,7 @@
 #include <qstring.h>
 #include <QComboBox>
 #include <QHeaderView>
+#include <QMessageBox>
 #include <vector>
 #include "block.hpp"
 #include <unistd.h>
@@ -31,6 +32,7 @@ public slots:
     void updateTable(std::vector<Block*> *blocks);
     void updateAnswers(const std::vector<Parameter> &ans);
     void run();
+    void clear();
 
 signals:
     void send(std::vector<Parameter>*);

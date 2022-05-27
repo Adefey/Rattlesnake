@@ -11,6 +11,11 @@ class UI : public QWidget
 public:
     explicit UI(QObject *parent = nullptr, QAction *runAction = nullptr);
     virtual ~UI() {};
+
+signals:
+    void create();
+    void save();
+    void open();
 };
 
 #endif // UI_H
