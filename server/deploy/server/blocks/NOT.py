@@ -13,7 +13,7 @@ import math
 def main():
     a = float(sys.argv[1])
     res = 1
-    if a == 1:
+    if a != 0:
         res = 0
     print(res, sep=' ', end='')
 

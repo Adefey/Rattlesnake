@@ -16,7 +16,7 @@ services:
     depends_on:
       - mariadb
     read_only: true
-    restart: on-failure:10
+    restart: always
 
   mariadb:
     image: mariadb:latest
