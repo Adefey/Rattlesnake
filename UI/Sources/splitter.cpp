@@ -37,6 +37,8 @@ Splitter::Splitter(QWidget *parent, QAction *runAction)
     QObject::connect(sch, SIGNAL(errorAppeared(int)), log, SLOT(errorLog(int)));
     QObject::connect(sch, SIGNAL(schemeSent()), log, SLOT(schemeSent()));
     QObject::connect(log, SIGNAL(updateTable(const std::vector<Parameter>&)), reqv, SLOT(updateAnswers(const std::vector<Parameter>&)));
+    QObject::connect(this, SIGNAL(create()), reqv, SLOT(clear()));
+    QObject::connect(this, SIGNAL(create()), sch, SLOT(clear()));
 
     Hsplitter->addWidget(scheme);
     Hsplitter->addWidget(lg);

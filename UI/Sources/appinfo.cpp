@@ -4,7 +4,7 @@ std::string AppInfo::GetProperty(const std::string &propertyName) {
   std::ifstream reader;
   reader.open(config_path);
   if (reader.fail()) {
-    throw std::runtime_error("Unable to open file");
+    return "ERROR";
   }
   std::string line = "";
   while (std::getline(reader, line)) {
