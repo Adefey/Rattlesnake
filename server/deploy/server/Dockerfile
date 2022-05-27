@@ -34,5 +34,6 @@ RUN apt update && apt install -y \
 COPY . /home
 
 CMD cd /home/ && \
+    sleep 2 && \
     ./RattlesnakeServer
 

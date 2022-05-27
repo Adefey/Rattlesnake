@@ -10,12 +10,13 @@ services:
     volumes:
       - ./server:/home
     ports:
-      - 8000:8000
+      - 8080:8080
     env_file:
       - ./server/cfg.txt
     depends_on:
       - mariadb
     read_only: true
+    restart: on-failure:10
 
   mariadb:
     image: mariadb:latest
@@ -25,3 +26,4 @@ services:
       - ./mariadb/mariadb_env.txt
     ports:
       - 3306:3306
+    command: --max_allowed_packet=268435456
