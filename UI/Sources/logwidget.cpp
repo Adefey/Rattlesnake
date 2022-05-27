@@ -9,7 +9,6 @@ LogWidget::LogWidget(QWidget *parent)
 }
 
 void LogWidget::sayRequestedBlocks(int a) {
-    qDebug() << "Log";
     switch (a)
     {
     case 0:
@@ -28,12 +27,15 @@ void LogWidget::answer(std::string result) {
     if (!Parser::ParseParametersFromJsonString(result, results)) {
         return;
     }
+    emit updateTable(results);
+    txt->appendPlainText("####################");
     txt->appendPlainText("Результаты получены:\n");
     for (size_t i = 0; i < results.size(); ++i) {
         QString name = QString::fromStdString(results[i].param_name);
         QString value = QString::fromStdString(results[i].param_value);
         txt->appendPlainText(name + ": " + value);
     }
+    txt->appendPlainText("####################");
 }
 
 void LogWidget::sendingScheme() {
@@ -58,6 +60,9 @@ void LogWidget::errorLog(int cs) {
         break;
     case 4:
         txt->appendPlainText("Не удалось получить результат");
+        break;
+    case 5:
+        txt->appendPlainText("Пустая схема");
         break;
     default:
         break;

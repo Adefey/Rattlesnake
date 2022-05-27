@@ -23,7 +23,8 @@ class BlockWidget : public QFrame
     Q_OBJECT
 public:
     explicit BlockWidget(QWidget *parent = nullptr, Block *block = nullptr);
-    virtual ~BlockWidget() {};
+    virtual ~BlockWidget() = default;
+    int pos;
 
 protected:
     virtual void mousePressEvent(QMouseEvent *qevent);
@@ -34,7 +35,7 @@ private:
 
 signals:
     void blockPressed(Block *bl);
-    void blockDeleted(std::string name_to_delete);
+    void blockDeleted(BlockWidget* blockToDelete);
 };
 
 #endif // BLOCKWIDGET_H

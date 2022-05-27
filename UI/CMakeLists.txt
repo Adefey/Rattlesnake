@@ -38,7 +38,13 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 file(GLOB_RECURSE HEADERS ../UI/Headers/*.h)
 
-add_executable(Rattlesnake main.cpp ${SOURCES} ${HEADERS})
+set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/Sources/rattlesnake-ico.qrc")
+
+set(RESOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/Sources/rattlesnake-ico.rcc"
+)
+
+add_executable(Rattlesnake main.cpp ${SOURCES} ${HEADERS} ${APP_ICON_RESOURCE_WINDOWS} ${RESOURCES})
 
 find_package(Qt5 REQUIRED COMPONENTS Core)
 find_package(Qt5Widgets REQUIRED)
@@ -65,3 +71,6 @@ add_executable(UITest ${TESTS})
 set (CMAKE_CXX_FLAGS "-DQT_NO_VERSION_TAGGING -fPIC")
 target_include_directories(UITest PRIVATE Headers ../libs/data_processing/include ../libs/network/include)
 target_link_libraries(UITest PUBLIC ${GTEST_LIBRARIES} ${Qt5Core_LIBRARIES} ${Qt5Widgets_LIBRARIES} pthread data_processing network UI)
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Sources/cfg.txt
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

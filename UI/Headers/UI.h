@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QWidget>
-#include"splitter.h"
+#include "splitter.h"
 
 class UI : public QWidget
 {

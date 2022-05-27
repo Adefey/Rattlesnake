@@ -66,5 +66,6 @@
         "valarray": "cpp",
         "variant": "cpp",
         "semaphore": "cpp"
-    }
+    },
+    "cmake.configureOnOpen": true
 }

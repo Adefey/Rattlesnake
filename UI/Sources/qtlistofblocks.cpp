@@ -38,14 +38,6 @@ void QTListOfBlocks::updateWidgets() {
     }
 }
 
-// std::string solver_path_;
-//   std::vector<Parameter> given_vars_;
-//   std::vector<Parameter> solved_vars_;
-//   std::string name_;
-//   std::string description_;
-//   std::string author_name_;
-//   int color_;
-
 int QTListOfBlocks::get_list_of_blocks()
 {
     // emit requestedBlocks(0);
@@ -97,26 +89,30 @@ NewBlockWidget* QTListOfBlocks::makeWidget(Block *block) {
     QGridLayout *layout = new QGridLayout(frame);
     QLabel *name = new QLabel;
     name->setText(QString::fromStdString(block->name));
+    name->setStyleSheet("QLabel { color : black; }");
     name->setAlignment(Qt::AlignCenter);
     for (size_t i = 0; i < block->given_vars.size(); ++i) {
         QLabel *givenVar = new QLabel;
         givenVar->setText(QString::fromStdString(block->given_vars[i].param_name));
+        givenVar->setStyleSheet("QLabel { color : black; }");
         layout->addWidget(givenVar, i + 1, 0);
     }
     for (size_t i = 0; i < block->solved_vars.size(); ++i) {
         QLabel *givenVar = new QLabel;
         givenVar->setText(QString::fromStdString(block->solved_vars[i].param_name));
+        givenVar->setStyleSheet("QLabel { color : black; }");
         layout->addWidget(givenVar, i + 1, 1);
     }
     layout->addWidget(name, 0, 0);
-    frame->setMinimumWidth(200);
-    frame->setMaximumWidth(200);
-    frame->setMinimumHeight(100);
+    frame->setMinimumWidth(300);
+    frame->setMaximumWidth(300);
+    frame->setMinimumHeight(150);
+    frame->setToolTip(QString::fromStdString(block->description));
     int color = block->color;
     int red = (color & 0x00FF0000) >> 16;
     int green = (color & 0x0000FF00) >> 8;
     int blue = (color & 0x000000FF) >> 0;
-    frame->setStyleSheet("background-color: rgb(" + QString::number(red) + ", " + QString::number(green) + ", " + QString::number(blue) + "); border: 2px solid black");
+    frame->setStyleSheet("background-color: rgb(" + QString::number(red) + ", " + QString::number(green) + ", " + QString::number(blue) + "); border: 2px solid black; color : black; ");
     frame->setFrameShape(QFrame::StyledPanel);
     return frame;
 }
