@@ -2,11 +2,13 @@
 
 std::vector<Parameter> DBHelper::Separate(std::string sentence) {
   sentence += ' ';
-  std::vector<std::string> word_vector;
+  std::vector<std::string> word_vector = {};
   std::stringstream ss(sentence);
-  std::string tmp = "";
-  while (getline(ss, tmp, ' ')) {
-    word_vector.push_back(tmp);
+  if (sentence != " " && sentence != "") {
+    std::string tmp = "";
+    while (getline(ss, tmp, ' ')) {
+      word_vector.push_back(tmp);
+    }
   }
   std::vector<Parameter> res = {};
   for (auto e : word_vector) {
