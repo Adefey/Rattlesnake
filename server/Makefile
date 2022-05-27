@@ -27,7 +27,7 @@ clean_dirs:
 	rm -f $(ResultMachine)*
 	rm -f $(ResultServerApp)*
 	rm -f $(Libraries)*
-	find $(Test) -type f -not -name "appinfo_test.cpp" -not -name "dbhelper_test.cpp" -not -name "machine_factory_test.cpp" -not -name "machine_test.cpp" -not -name "server_application_test.cpp" -not -name "test_machine.cpp" -not -name "test_server.cpp" -delete
+	find $(Test) -type f -not -name "appinfo_test.cpp" -not -name "blockinfo_test.cpp" -not -name "dbhelper_test.cpp" -not -name "machine_factory_test.cpp" -not -name "machine_test.cpp" -not -name "server_application_test.cpp" -not -name "test_machine.cpp" -not -name "test_server.cpp" -delete
 	rm -rf $(Test)report*
 
 check:
@@ -64,34 +64,31 @@ $(Binaries)main_machine.o : $(SourcesMachine)main_machine.cpp
 $(Binaries)machine.o : $(SourcesMachine)machine.cpp
 	$(Compiler) $(Flags) -c $(SourcesMachine)machine.cpp -o $(Binaries)machine.o
 
-make_test_binaries: $(SourcesCommon)appinfo.cpp $(SourcesCommon)dbhelper.cpp $(SourcesCommon)machine_factory.cpp
+make_test_binaries: $(SourcesCommon)appinfo.cpp $(SourcesCommon)blockinfo.cpp $(SourcesCommon)dbhelper.cpp $(SourcesCommon)machine_factory.cpp
 	$(Compiler) $(Flags) -c $(SourcesCommon)appinfo.cpp -o $(Test)appinfo.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(SourcesCommon)blockinfo.cpp -o $(Test)blockinfo.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(SourcesCommon)dbhelper.cpp -o $(Test)dbhelper.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(SourcesCommon)machine_factory.cpp -o $(Test)machine_factory.o $(TestFlags)
+	$(Compiler) $(Flags) -c $(SourcesMachine)machine.cpp -o $(Test)machine.o $(TestFlags)
+	$(Compiler) $(Flags) -c $(SourcesServerApp)server_application.cpp -o $(Test)server_application.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(Test)appinfo_test.cpp -o $(Test)appinfo_test.o $(TestFlags)
+	$(Compiler) $(Flags) -c $(Test)blockinfo_test.cpp -o $(Test)blockinfo_test.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(Test)dbhelper_test.cpp -o $(Test)dbhelper_test.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(Test)machine_factory_test.cpp -o $(Test)machine_factory_test.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(Test)machine_test.cpp -o $(Test)machine_test.o $(TestFlags)
 	$(Compiler) $(Flags) -c $(Test)server_application_test.cpp -o $(Test)server_application_test.o $(TestFlags)
 
-make_test_server: $(Test)appinfo.o $(Test)dbhelper.o $(Test)machine_factory.o $(Test)test_server.o $(Test)server_application.o $(Test)dbhelper_test.o $(Test)machine_factory_test.o  $(Test)server_application_test.o
-	$(Compiler) $(Flags) $(Test)dbhelper.o $(Test)appinfo.o $(Test)blockinfo.o $(Test)machine_factory.o $(Test)test_server.o $(Test)server_application.o $(Test)appinfo_test.o $(Test)dbhelper_test.o $(Test)machine_factory_test.o $(Test)server_application_test.o  -o $(Test)$(ServerApp)TEST $(TestFlags) -ldata_processing -lnetwork -lmysqlclient
+make_test_server: $(Test)blockinfo_test.o $(Test)appinfo_test.o $(Test)test_server.o $(Test)dbhelper_test.o $(Test)machine_factory_test.o  $(Test)server_application_test.o
+	$(Compiler) $(Flags) $(Test)server_application.o $(Test)machine_factory.o $(Test)dbhelper.o $(Test)blockinfo.o $(Test)appinfo.o $(Test)test_server.o $(Test)server_application_test.o $(Test)machine_factory_test.o $(Test)dbhelper_test.o $(Test)appinfo_test.o $(Test)blockinfo_test.o $  -o $(Test)$(ServerApp)TEST $(TestFlags) -ldata_processing -lnetwork -lmysqlclient
 
 $(Test)test_server.o : $(Test)test_server.cpp
 	$(Compiler) $(Flags) -c $(Test)test_server.cpp -o $(Test)test_server.o $(TestFlags)
 
-$(Test)server_application.o : $(SourcesServerApp)server_application.cpp
-	$(Compiler) $(Flags) -c $(SourcesServerApp)server_application.cpp -o $(Test)server_application.o $(TestFlags)
-
-make_test_machine: $(Test)appinfo.o $(Test)dbhelper.o $(Test)test_machine.o $(Test)machine.o $(Test)machine_test.o
-	$(Compiler) $(Flags) $(Test)dbhelper.o $(Test)appinfo.o $(Test)blockinfo.o $(Test)test_machine.o $(Test)machine.o $(Test)machine_test.o -o $(Test)$(Machine)TEST $(TestFlags) -ldata_processing -lnetwork -lmysqlclient
+make_test_machine: $(Test)blockinfo_test.o $(Test)appinfo_test.o $(Test)test_machine.o $(Test)dbhelper_test.o $(Test)machine_test.o
+	$(Compiler) $(Flags) $(Test)machine.o $(Test)dbhelper.o $(Test)blockinfo.o $(Test)appinfo.o $(Test)machine_test.o $(Test)test_machine.o -o $(Test)$(Machine)TEST $(TestFlags) -ldata_processing -lnetwork -lmysqlclient
 
 $(Test)test_machine.o : $(Test)test_machine.cpp
 	$(Compiler) $(Flags) -c $(Test)test_machine.cpp -o $(Test)test_machine.o $(TestFlags)
-
-$(Test)machine.o : $(SourcesMachine)machine.cpp
-	$(Compiler) $(Flags) -c $(SourcesMachine)machine.cpp -o $(Test)machine.o $(TestFlags)
 
 run_tests:
 	valgrind $(Test)$(ServerApp)TEST --leak-check=full || true

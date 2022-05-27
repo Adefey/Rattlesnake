@@ -4,6 +4,26 @@
 #include <server_application.hpp>
 
 TEST(ServerApplicationTest, ProcessEventsTest) {
-  ServerApplication server;
-  EXPECT_NO_THROW(server.ProcessEvents());
+  EXPECT_ANY_THROW({
+    ServerApplication server;
+    server.ProcessEvents();
+  });
+}
+
+TEST(ServerApplicationTest, ProcessUser) {
+  User u;
+  NetMessage message;
+  EXPECT_ANY_THROW({
+    ServerApplication server;
+    server.ProcessUser(u, message);
+  });
+}
+
+TEST(ServerApplicationTest, ProcessStat) {
+  User u;
+  NetMessage message;
+  EXPECT_ANY_THROW({
+    ServerApplication server;
+    server.ProcessStat(u);
+  });
 }

@@ -3,9 +3,8 @@
 #include <gtest/gtest.h>
 #include <server_application.hpp>
 
-TEST(MachineFactoryTest, ProcessMachineTest) {
+TEST(MachineFactoryTest, MakeStartString) {
   MachineFactory machine_factory;
   User u;
-  EXPECT_NO_THROW(machine_factory.ProcessMachine(u));
-  EXPECT_NE(machine_factory.ProcessMachine(u), std::string(""));
+  EXPECT_ANY_THROW(machine_factory.ProcessMachine(u));
 }
