@@ -24,13 +24,11 @@ Splitter::Splitter(QWidget *parent, QAction *runAction)
     sch->setAcceptDrops(true);
     qApp->installEventFilter(sch);
     QTListOfBlocks *lstblks = new QTListOfBlocks(listofblocks, sch);
-    //listofblocks->setFrameShape(QFrame::StyledPanel);
     QSplitter *Vsplitter = new QSplitter(Qt::Horizontal);
 
     QObject::connect(sch, SIGNAL(updateSignal(std::vector<Block*>*)), reqv, SLOT(updateTable(std::vector<Block*>*)));
     QObject::connect(lstblks, SIGNAL(requestedBlocks(int)), log, SLOT(sayRequestedBlocks(int)));
     QObject::connect(runAction, &QAction::triggered, reqv, &RequiredVariables::run);
-    //QObject::connect(runAction, &QAction::triggered, log, &LogWidget::sendingScheme);
     QObject::connect(reqv, SIGNAL(send(std::vector<Parameter>*)), sch, SLOT(run(std::vector<Parameter>*)));
     QObject::connect(sch, SIGNAL(resultsRecieved(std::string)), log, SLOT(answer(std::string)));
     QObject::connect(lstblks, SIGNAL(error(int)), log, SLOT(errorLog(int)));

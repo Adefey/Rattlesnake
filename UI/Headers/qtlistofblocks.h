@@ -40,7 +40,6 @@ private:
     QPushButton *button;
 
 protected:
-    void paintEvent(QPaintEvent*);
     void dragEnterEvent(QDragEnterEvent* event);
     void dragMoveEvent(QDragMoveEvent* event);
     void dragLeaveEvent(QDragLeaveEvent* event);

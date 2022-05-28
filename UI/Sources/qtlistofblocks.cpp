@@ -126,10 +126,6 @@ void QTListOfBlocks::handleButton() {
     updateWidgets();
 }
 
-void QTListOfBlocks::paintEvent(QPaintEvent*) {
-    QPainter p(this);
-}
-
 void QTListOfBlocks::dragEnterEvent(QDragEnterEvent* event) {
     event->ignore();
 }
