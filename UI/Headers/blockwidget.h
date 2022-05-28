@@ -28,7 +28,6 @@ public:
 
 protected:
     virtual void mousePressEvent(QMouseEvent *qevent);
-    void dropEvent(QDropEvent* event);
 
 private:
     Block *bl;

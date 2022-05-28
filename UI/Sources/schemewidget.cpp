@@ -212,10 +212,7 @@ void SchemeWidget::paintEvent(QPaintEvent*) {
 }
 
 void SchemeWidget::dragMoveEvent(QDragMoveEvent* event) {
-//    if (event->mimeData()->hasFormat("qt-class/qcolor"))
-//    event->accept();
     event->accept();
-//    event->setAccepted(acceptDrops());
 }
 
 void SchemeWidget::dropEvent(QDropEvent* event) {
@@ -224,10 +221,7 @@ void SchemeWidget::dropEvent(QDropEvent* event) {
 }
 
 void SchemeWidget::dragEnterEvent(QDragEnterEvent* event) {
-//    if (event->mimeData()->hasFormat("qt-class/qcolor"))
-//    event->accept();
     event->acceptProposedAction();
-//    event->setAccepted(acceptDrops());
 }
 
 void SchemeWidget::dragLeaveEvent(QDragLeaveEvent* event) {
