@@ -16,10 +16,10 @@ void ServerApplication::ProcessEvents() {
   std::cout << "Таблица блоков СУБД: " << AppInfo::GetDBBlockTable()
             << std::endl;
   std::cout << "Таблица логов СУБД: " << AppInfo::GetDBLogTable() << std::endl;
-  std::cout << "Максимальное число онлайн машин: "
+  std::cout << "(Не используется) Максимальное число онлайн машин: "
             << AppInfo::GetMaxMachinesCount() << std::endl;
-  std::cout << "Интервал обновления: " << AppInfo::GetRefreshPeriod()
-            << std::endl;
+  std::cout << "(Не используется) Интервал обновления: "
+            << AppInfo::GetRefreshPeriod() << std::endl;
   std::cout << "Порт: " << AppInfo::GetPort() << std::endl;
   std::cout << "Имя машины: " << AppInfo::GetMachineName() << std::endl;
   while (true) {
