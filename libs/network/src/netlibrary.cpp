@@ -2,6 +2,8 @@
 
 #include <sys/socket.h>
 
+#include <stdexcept>
+
 bool NetLibrary::ReceiveString(NetSocket& socket, std::string& str, size_t str_size) {
   bool is_correct_recv = true;
   char* buffer = new char[str_size + 1];
@@ -41,20 +43,30 @@ bool NetLibrary::ReceiveData(NetSocket& socket, NetMessage& msg) {
   if (!ReceiveString(socket, header_length_str, base_string_length)) {
     return false;
   }
-  size_t header_length = std::stoul(header_length_str);
+
   std::string header;
-  if (!ReceiveString(socket, header, header_length)) {
-    return false;
+  try {
+    size_t header_length = std::stoul(header_length_str);
+    if (!ReceiveString(socket, header, header_length)) {
+      return false;
+    }
+  } catch (std::invalid_argument const& ex) {
+    throw std::invalid_argument("Incorrect header length received from client: " + header_length_str);
   }
 
   std::string content_length_str;
   if (!ReceiveString(socket, content_length_str, base_string_length)) {
     return false;
   }
-  size_t content_length = std::stoul(content_length_str);
+
   std::string content;
-  if (!ReceiveString(socket, content, content_length)) {
-    return false;
+  try {
+    size_t content_length = std::stoul(content_length_str);
+    if (!ReceiveString(socket, content, content_length)) {
+      return false;
+    }
+  } catch (std::invalid_argument const& ex) {
+    throw std::invalid_argument("Incorrect content length received from client: " + content_length_str);
   }
 
   msg = NetMessage(header, content);
