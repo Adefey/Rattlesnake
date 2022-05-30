@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/rattlesnake-ico.png</file>
+        <file>img/start-green-play-icon.png</file>
+    </qresource>
+</RCC>
