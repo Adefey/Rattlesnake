@@ -11,4 +11,4 @@ make_server:
 	make -C $(ServerFolder)
 
 make_client:
-	cd $(ClientFolder) && rm -rf build/ && mkdir build && cd build/ && cmake .. && cmake --build . && valgrind ./UITest || true && cd ../..
+	cd $(ClientFolder) && ./check.sh && rm -rf build/ && mkdir build && cd build/ && cmake .. && cmake --build . && valgrind ./UITest || true && cd ../..
