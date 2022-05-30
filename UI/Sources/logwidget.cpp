@@ -1,24 +1,23 @@
 #include "logwidget.h"
 
-LogWidget::LogWidget(QWidget *parent)
-{
-    QHBoxLayout *hbox = new QHBoxLayout(parent);
+LogWidget::LogWidget(QWidget* parent) {
+    QHBoxLayout* hbox = new QHBoxLayout(parent);
     txt = new QPlainTextEdit(this);
     txt->QPlainTextEdit::setReadOnly(true);
     hbox->addWidget(txt);
 }
 
 void LogWidget::sayRequestedBlocks(int a) {
-    switch (a)
-    {
-    case 0:
-        txt->appendPlainText("Отправлен запрос на получение списка блоков...");
-        break;
-    case 1:
-        txt->appendPlainText("Блоки получены.");
-        break;
-    default:
-        break;
+    switch (a) {
+        case 0:
+            txt->appendPlainText(
+                "Отправлен запрос на получение списка блоков...");
+            break;
+        case 1:
+            txt->appendPlainText("Блоки получены.");
+            break;
+        default:
+            break;
     }
 }
 
@@ -47,25 +46,24 @@ void LogWidget::schemeSent() {
 }
 
 void LogWidget::errorLog(int cs) {
-    switch (cs)
-    {
-    case 1:
-        txt->appendPlainText("Невозможно подключиться к серверу");
-        break;
-    case 2:
-        txt->appendPlainText("Не удалось получить список доступных блоков");
-        break;
-    case 3:
-        txt->appendPlainText("Не удалось отправить схему");
-        break;
-    case 4:
-        txt->appendPlainText("Не удалось получить результат");
-        break;
-    case 5:
-        txt->appendPlainText("Пустая схема");
-        break;
-    default:
-        break;
+    switch (cs) {
+        case 1:
+            txt->appendPlainText("Невозможно подключиться к серверу");
+            break;
+        case 2:
+            txt->appendPlainText("Не удалось получить список доступных блоков");
+            break;
+        case 3:
+            txt->appendPlainText("Не удалось отправить схему");
+            break;
+        case 4:
+            txt->appendPlainText("Не удалось получить результат");
+            break;
+        case 5:
+            txt->appendPlainText("Пустая схема");
+            break;
+        default:
+            break;
     }
 }
 

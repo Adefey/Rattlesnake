@@ -3,19 +3,19 @@
 
 #include <QObject>
 #include <QWidget>
+
 #include "splitter.h"
 
-class UI : public QWidget
-{
+class UI : public QWidget {
     Q_OBJECT
-public:
-    explicit UI(QObject *parent = nullptr, QAction *runAction = nullptr);
-    virtual ~UI() {};
+   public:
+    explicit UI(QObject* parent = nullptr, QAction* runAction = nullptr);
+    virtual ~UI(){};
 
-signals:
+   signals:
     void create();
     void save();
     void open();
 };
 
-#endif // UI_H
+#endif  // UI_H

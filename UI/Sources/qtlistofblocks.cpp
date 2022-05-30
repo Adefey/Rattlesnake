@@ -1,47 +1,46 @@
 #include "qtlistofblocks.h"
 
-QTListOfBlocks::QTListOfBlocks(QWidget *parent, SchemeWidget *scheme) : QWidget(parent)
-{
+QTListOfBlocks::QTListOfBlocks(QWidget* parent, SchemeWidget* scheme)
+    : QWidget(parent) {
     sch = scheme;
     button = new QPushButton("Получить блоки");
 
-    QVBoxLayout *mainlayout = new QVBoxLayout(parent);
-    QWidget *w = new QWidget;
+    QVBoxLayout* mainlayout = new QVBoxLayout(parent);
+    QWidget* w = new QWidget;
     vbox = new QVBoxLayout(w);
     vbox->setSpacing(20);
     vbox->setAlignment(Qt::AlignCenter);
     mainlayout->addWidget(button);
-    QObject::connect(button, SIGNAL (released()), this, SLOT (handleButton()));
+    QObject::connect(button, SIGNAL(released()), this, SLOT(handleButton()));
 
-    QScrollArea *scrollArea = new QScrollArea(this);
+    QScrollArea* scrollArea = new QScrollArea(this);
     scrollArea->setWidget(w);
-    scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     scrollArea->setWidgetResizable(true);
     mainlayout->addWidget(scrollArea);
 }
 
 void QTListOfBlocks::updateWidgets() {
     vbox->update();
-    if ( vbox != NULL )
-    {
+    if (vbox != NULL) {
         QLayoutItem* item;
-        while ( ( item = vbox->takeAt( 0 ) ) != NULL )
-        {
+        while ((item = vbox->takeAt(0)) != NULL) {
             delete item->widget();
             delete item;
         }
     }
     for (size_t i = 0; i < blocks.size(); ++i) {
-        NewBlockWidget *widget = makeWidget(&(blocks[i]));
+        NewBlockWidget* widget = makeWidget(&(blocks[i]));
         vbox->addWidget(widget);
-        QObject::connect(widget, SIGNAL(blockPressed(Block*)), sch, SLOT(addBlock(Block*)));
+        QObject::connect(widget, SIGNAL(blockPressed(Block*)), sch,
+                         SLOT(addBlock(Block*)));
     }
 }
 
-int QTListOfBlocks::get_list_of_blocks()
-{
+int QTListOfBlocks::get_list_of_blocks() {
     emit requestedBlocks(0);
-    bool accessible_server = NetLibraryClient::SendBlocksRequest(sch->netClient);
+    bool accessible_server =
+        NetLibraryClient::SendBlocksRequest(sch->netClient);
     if (!accessible_server) {
         emit error(1);
         return 0;
@@ -58,22 +57,24 @@ int QTListOfBlocks::get_list_of_blocks()
     return 0;
 }
 
-NewBlockWidget* QTListOfBlocks::makeWidget(Block *block) {
-    NewBlockWidget *frame = new NewBlockWidget(this, *block);
-    QGridLayout *layout = new QGridLayout(frame);
-    QLabel *name = new QLabel;
+NewBlockWidget* QTListOfBlocks::makeWidget(Block* block) {
+    NewBlockWidget* frame = new NewBlockWidget(this, *block);
+    QGridLayout* layout = new QGridLayout(frame);
+    QLabel* name = new QLabel;
     name->setText(QString::fromStdString(block->name));
     name->setStyleSheet("QLabel { color : black; }");
     name->setAlignment(Qt::AlignCenter);
     for (size_t i = 0; i < block->given_vars.size(); ++i) {
-        QLabel *givenVar = new QLabel;
-        givenVar->setText(QString::fromStdString(block->given_vars[i].param_name));
+        QLabel* givenVar = new QLabel;
+        givenVar->setText(
+            QString::fromStdString(block->given_vars[i].param_name));
         givenVar->setStyleSheet("QLabel { color : black; }");
         layout->addWidget(givenVar, i + 1, 0);
     }
     for (size_t i = 0; i < block->solved_vars.size(); ++i) {
-        QLabel *givenVar = new QLabel;
-        givenVar->setText(QString::fromStdString(block->solved_vars[i].param_name));
+        QLabel* givenVar = new QLabel;
+        givenVar->setText(
+            QString::fromStdString(block->solved_vars[i].param_name));
         givenVar->setStyleSheet("QLabel { color : black; }");
         layout->addWidget(givenVar, i + 1, 1);
     }
@@ -86,7 +87,10 @@ NewBlockWidget* QTListOfBlocks::makeWidget(Block *block) {
     int red = (color & 0x00FF0000) >> 16;
     int green = (color & 0x0000FF00) >> 8;
     int blue = (color & 0x000000FF) >> 0;
-    frame->setStyleSheet("background-color: rgb(" + QString::number(red) + ", " + QString::number(green) + ", " + QString::number(blue) + "); border: 2px solid black; color : black; ");
+    frame->setStyleSheet("background-color: rgb(" + QString::number(red) +
+                         ", " + QString::number(green) + ", " +
+                         QString::number(blue) +
+                         "); border: 2px solid black; color : black; ");
     frame->setFrameShape(QFrame::StyledPanel);
     return frame;
 }

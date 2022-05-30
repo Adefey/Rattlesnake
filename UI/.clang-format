@@ -1,0 +1,8 @@
+BasedOnStyle: Google
+ColumnLimit: 80
+UseTab: Never
+SpaceAfterTemplateKeyword: false
+AllowShortFunctionsOnASingleLine: Empty
+DerivePointerAlignment: false
+PointerAlignment: Left
+IndentWidth: 4

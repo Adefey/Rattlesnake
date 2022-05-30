@@ -1,56 +1,58 @@
 #ifndef SCHEME_H
 #define SCHEME_H
 
-#include <QObject>
-#include <QWidget>
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QGridLayout>
-#include <QScrollArea>
+#include <qevent.h>
 #include <qstring.h>
+#include <unistd.h>
+
+#include <QCoreApplication>
+#include <QDebug>
+#include <QDragEnterEvent>
+#include <QDragLeaveEvent>
+#include <QDragMoveEvent>
+#include <QDropEvent>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QGridLayout>
+#include <QHBoxLayout>
 #include <QLabel>
-#include <vector>
+#include <QMessageBox>
+#include <QMetaObject>
+#include <QObject>
+#include <QScrollArea>
+#include <QVBoxLayout>
+#include <QWidget>
+#include <iostream>
 #include <map>
 #include <set>
-#include <QDebug>
-#include <QMetaObject>
-#include <QDragEnterEvent>
-#include <QDragMoveEvent>
-#include <QDragLeaveEvent>
-#include <QDropEvent>
-#include <QMessageBox>
-#include <QCoreApplication>
-#include <iostream>
+#include <string>
+#include <vector>
+
+#include "appinfo.h"
 #include "block.hpp"
 #include "blockwidget.h"
-#include "newblockwidget.h"
 #include "netclient.hpp"
 #include "netlibraryclient.hpp"
-#include <qevent.h>
-#include <unistd.h>
+#include "newblockwidget.h"
 #include "serializer.hpp"
-#include "appinfo.h"
 
-class SchemeWidget : public QWidget
-{
+class SchemeWidget : public QWidget {
     Q_OBJECT
-public:
-    SchemeWidget(QWidget *parent = nullptr);
-    virtual ~SchemeWidget() {};
-    BlockWidget* makeWidget(Block *block);
+   public:
+    SchemeWidget(QWidget* parent = nullptr);
+    virtual ~SchemeWidget() {}
+    BlockWidget* makeWidget(Block* block);
     NetClient netClient;
 
-private:
+   private:
     std::vector<Block*> blocks;
-    QVBoxLayout *vbox;
-    QWidget *w;
+    QVBoxLayout* vbox;
+    QWidget* w;
     void correctNames();
-    QScrollArea *scrollArea;
-    int findCounter(const std::string str);
+    QScrollArea* scrollArea;
+    int findCounter(const std::string& str);
 
-public slots:
+   public slots:
     void addBlock(Block*);
     void deleteBlock(BlockWidget*);
     void updateWidgets();
@@ -59,17 +61,17 @@ public slots:
     void save();
     void open(std::string& data, std::string& vars);
 
-protected:
+   protected:
     void paintEvent(QPaintEvent*);
-    virtual void dropEvent(QDropEvent *event) override;
+    virtual void dropEvent(QDropEvent* event);
     virtual void dragMoveEvent(QDragMoveEvent* event);
-    virtual void dragEnterEvent(QDragEnterEvent* event) override;
-    virtual void dragLeaveEvent(QDragLeaveEvent *event);
-    virtual bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
+    virtual void dragEnterEvent(QDragEnterEvent* event);
+    virtual void dragLeaveEvent(QDragLeaveEvent* event);
+    virtual bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
 
-signals:
+   signals:
     void schemeChanged();
-    void updateSignal(std::vector<Block*> *blocks);
+    void updateSignal(std::vector<Block*>* blocks);
     void resultsRecieved(std::string);
     void errorAppeared(int);
     void schemeSent();
@@ -77,4 +79,4 @@ signals:
     void openvars(std::string&);
 };
 
-#endif // SCHEME_H
+#endif  // SCHEME_H

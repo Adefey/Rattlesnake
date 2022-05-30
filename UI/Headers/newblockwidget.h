@@ -1,41 +1,40 @@
 #ifndef NEWBLOCKWIDGET_H
 #define NEWBLOCKWIDGET_H
 
-#include <QWidget>
-#include <QFrame>
-#include <QMouseEvent>
-#include <QMetaObject>
+#include <QCursor>
+#include <QDebug>
 #include <QDrag>
 #include <QDropEvent>
-#include <QCursor>
+#include <QFrame>
+#include <QMetaObject>
 #include <QMimeData>
-#include <QPixmap>
+#include <QMouseEvent>
 #include <QPainter>
+#include <QPixmap>
 #include <QPoint>
+#include <QWidget>
 #include <string>
+
 #include "block.hpp"
 
-#include <QDebug>
-
-class NewBlockWidget : public QFrame
-{
+class NewBlockWidget : public QFrame {
     Q_OBJECT
-public:
-    explicit NewBlockWidget(QWidget *parent = nullptr, Block block = {});
-    virtual ~NewBlockWidget() {};
+   public:
+    explicit NewBlockWidget(QWidget* parent = nullptr, Block block = {});
+    virtual ~NewBlockWidget() {}
     Block block;
 
-protected:
-    virtual void mousePressEvent(QMouseEvent *qevent);
+   protected:
+    virtual void mousePressEvent(QMouseEvent* qevent);
     void dragEnterEvent(QDragEnterEvent* event);
     void dragMoveEvent(QDragMoveEvent* event);
     void dragLeaveEvent(QDragLeaveEvent* event);
 
-private:
+   private:
     Block* cloneBlock(Block block);
 
-signals:
+   signals:
     void blockPressed(Block*);
 };
 
-#endif // NEWBLOCKWIDGET_H
+#endif  // NEWBLOCKWIDGET_H

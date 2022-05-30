@@ -1,52 +1,53 @@
 #ifndef QTLISTOFBLOCKS_H
 #define QTLISTOFBLOCKS_H
 
-#include <QObject>
-#include <QWidget>
-#include <QScrollArea>
-#include <QVBoxLayout>
+#include <qstring.h>
+
+#include <QFrame>
 #include <QGridLayout>
 #include <QLabel>
-#include <qstring.h>
-#include <QFrame>
+#include <QObject>
 #include <QPushButton>
-#include <vector>
+#include <QScrollArea>
+#include <QVBoxLayout>
+#include <QWidget>
+#include <iostream>
 #include <string>
+#include <vector>
+
 #include "block.hpp"
 #include "blockwidget.h"
-#include "newblockwidget.h"
-#include "schemewidget.h"
 #include "netlibraryclient.hpp"
+#include "newblockwidget.h"
 #include "parser.hpp"
-#include <iostream>
+#include "schemewidget.h"
 
-class QTListOfBlocks : public QWidget
-{
+class QTListOfBlocks : public QWidget {
     Q_OBJECT
-public:
-    QTListOfBlocks(QWidget *parent = nullptr, SchemeWidget *scheme = nullptr);
-    virtual ~QTListOfBlocks() {};
+   public:
+    QTListOfBlocks(QWidget* parent = nullptr, SchemeWidget* scheme = nullptr);
+    virtual ~QTListOfBlocks() {}
     int get_list_of_blocks();
 
-public slots:
+   public slots:
     void updateWidgets();
     void handleButton();
 
-private:
-    NewBlockWidget* makeWidget(Block *block);
-    QVBoxLayout *vbox;
+   private:
+    NewBlockWidget* makeWidget(Block* block);
+    QVBoxLayout* vbox;
     std::vector<Block> blocks;
-    SchemeWidget *sch;
-    QPushButton *button;
+    SchemeWidget* sch;
+    QPushButton* button;
 
-protected:
+   protected:
     void dragEnterEvent(QDragEnterEvent* event);
     void dragMoveEvent(QDragMoveEvent* event);
     void dragLeaveEvent(QDragLeaveEvent* event);
 
-signals:
+   signals:
     void requestedBlocks(int);
     void error(int);
 };
 
-#endif // QTLISTOFBLOCKS_H
+#endif  // QTLISTOFBLOCKS_H

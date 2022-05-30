@@ -1,41 +1,40 @@
 #ifndef LOGWIDGET_H
 #define LOGWIDGET_H
 
-#include <QObject>
-#include <QWidget>
-#include <QPlainTextEdit>
-#include <QHBoxLayout>
 #include <QDebug>
+#include <QHBoxLayout>
+#include <QObject>
+#include <QPlainTextEdit>
 #include <QString>
-#include <string>
-#include <vector>
+#include <QWidget>
 #include <block.hpp>
 #include <parser.hpp>
+#include <string>
+#include <vector>
 
-class LogWidget : public QWidget
-{
+class LogWidget : public QWidget {
     Q_OBJECT
-public:
-    LogWidget(QWidget *parent = nullptr);
-    virtual ~LogWidget() {};
+   public:
+    LogWidget(QWidget* parent = nullptr);
+    virtual ~LogWidget() {}
 
-private:
-    QPlainTextEdit *txt;
+   private:
+    QPlainTextEdit* txt;
 
-public slots:
+   public slots:
     void sayRequestedBlocks(int a);
     void sendingScheme();
     void answer(std::string result);
     void errorLog(int cs);
     void schemeSent();
 
-protected:
+   protected:
     void dragEnterEvent(QDragEnterEvent* event);
     void dragMoveEvent(QDragMoveEvent* event);
     void dragLeaveEvent(QDragLeaveEvent* event);
 
-signals:
+   signals:
     void updateTable(const std::vector<Parameter>&);
 };
 
-#endif // LOGWIDGET_H
+#endif  // LOGWIDGET_H

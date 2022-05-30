@@ -1,18 +1,17 @@
 #include "newblockwidget.h"
 
-NewBlockWidget::NewBlockWidget(QWidget *parent, Block bl) : QFrame(parent)
-{
+NewBlockWidget::NewBlockWidget(QWidget* parent, Block bl) : QFrame(parent) {
     block = bl;
     this->setCursor(QCursor(Qt::OpenHandCursor));
 }
 
-void NewBlockWidget::mousePressEvent(QMouseEvent *event) {
+void NewBlockWidget::mousePressEvent(QMouseEvent* event) {
     if (event->button() != Qt::LeftButton) {
         event->ignore();
         return;
     }
-    QDrag *drag = new QDrag(this);
-    QMimeData *mimeData = new QMimeData;
+    QDrag* drag = new QDrag(this);
+    QMimeData* mimeData = new QMimeData;
     QPainter painter(this);
     QPixmap pixmap(this->size());
     this->render(&pixmap);
