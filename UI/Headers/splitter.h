@@ -8,6 +8,8 @@
 #include <QSplitter>
 #include <QAction>
 #include <QApplication>
+#include <QFileDialog>
+#include <QFile>
 #include "qtlistofblocks.h"
 #include "schemewidget.h"
 #include "logwidget.h"
@@ -21,6 +23,12 @@ public:
     explicit Splitter(QWidget *parent = nullptr, QAction *runAction = nullptr);
     virtual ~Splitter() {};
 
+public slots:
+    void open();
+
+private:
+    void parseOpenFile(std::string& data, std::string& datascheme, std::string& datareqv);
+
 protected:
     void dragEnterEvent(QDragEnterEvent* event);
     void dragMoveEvent(QDragMoveEvent* event);
@@ -28,6 +36,6 @@ protected:
 signals:
     void create();
     void save();
-    void open();
+    void openscheme(std::string&, std::string&);
 };
 #endif // SPLITTER_H

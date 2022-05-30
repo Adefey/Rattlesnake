@@ -40,32 +40,6 @@ void QTListOfBlocks::updateWidgets() {
 
 int QTListOfBlocks::get_list_of_blocks()
 {
-    // emit requestedBlocks(0);
-    
-    // Parameter par1 = {"in1", "val1"};
-    // Parameter par2 = {"in2", "val2"};
-    // Parameter par3 = {"in3", "val3"};
-    // Parameter par11 = {"out1", "val1"};
-    // Parameter par21 = {"out2", "val2"};
-    // Parameter par31 = {"out3", "val3"};
-    // std::vector<Parameter> given_vars1 = {par1, par2};
-    // std::vector<Parameter> given_vars2 = {par2};
-    // std::vector<Parameter> given_vars3 = {par1, par2, par3};
-    // std::vector<Parameter> out_vars1 = {par11, par31};
-    // std::vector<Parameter> out_vars2 = {par21, par31};
-    // std::vector<Parameter> out_vars3 = {par11, par21};
-
-
-    // Block block1 = Block("path", given_vars1, out_vars1, "name_of_block", "blo", "poh", 14474495);
-    // Block block2 = Block("path", given_vars2, out_vars2, "Pupa", "blo", "poh", 16768220);
-    // Block block3 = Block("path", given_vars3, out_vars3, "Lupa", "blo", "poh", 14483420);
-    // blocks.push_back(block1);
-    // blocks.push_back(block2);
-    // blocks.push_back(block3);
-    
-    // emit requestedBlocks(0);
-    // return 0;
-
     emit requestedBlocks(0);
     bool accessible_server = NetLibraryClient::SendBlocksRequest(sch->netClient);
     if (!accessible_server) {

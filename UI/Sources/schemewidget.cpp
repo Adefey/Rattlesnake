@@ -207,6 +207,35 @@ void SchemeWidget::run(std::vector<Parameter>* parameters) {
     emit resultsRecieved(result);
 }
 
+void SchemeWidget::save() {
+    if (blocks.size() == 0) {
+        QMessageBox::warning(this, "Ошибка", "Невозможно сохранить пустой проект");
+        return;
+    }
+    std::vector<Block> true_blocks;
+    for (size_t i = 0; i < blocks.size(); ++i) {
+        Block newBlock = Block(blocks[i]->solver_path, blocks[i]->given_vars,
+        blocks[i]->solved_vars, blocks[i]->name, blocks[i]->description,
+        blocks[i]->author_name, blocks[i]->color);
+        true_blocks.push_back(newBlock);
+    }
+    std::string jsonBlocks = Serializer::ToJsonString(true_blocks);
+    emit saving(jsonBlocks);
+}
+
+void SchemeWidget::open(std::string& data, std::string& vars) {
+    std::vector<Block> true_blocks;
+    Parser::ParseBlocksFromJsonString(data, true_blocks);
+    blocks.clear();
+    for (size_t i = 0; i < true_blocks.size(); ++i) {
+        blocks.push_back(new Block(true_blocks[i].solver_path, true_blocks[i].given_vars,
+        true_blocks[i].solved_vars, true_blocks[i].name, true_blocks[i].description,
+        true_blocks[i].author_name, true_blocks[i].color));
+    }
+    updateWidgets();
+    emit openvars(vars);
+}
+
 void SchemeWidget::paintEvent(QPaintEvent*) {
     QPainter p(this);
 }

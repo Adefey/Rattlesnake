@@ -56,6 +56,8 @@ public slots:
     void updateWidgets();
     void run(std::vector<Parameter>* parameters);
     void clear();
+    void save();
+    void open(std::string& data, std::string& vars);
 
 protected:
     void paintEvent(QPaintEvent*);
@@ -71,6 +73,8 @@ signals:
     void resultsRecieved(std::string);
     void errorAppeared(int);
     void schemeSent();
+    void saving(std::string&);
+    void openvars(std::string&);
 };
 
 #endif // SCHEME_H

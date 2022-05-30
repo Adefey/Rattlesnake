@@ -19,7 +19,7 @@ void MainWindow::createTopToolBar()
     ptb = new QToolBar(this);
 
     QMenu *menu = new QMenu();
-    create = new QAction("Создать", this);
+    create = new QAction("Очистить", this);
     save = new QAction("Сохранить", this);
     open = new QAction("Открыть", this);
     ext = new QAction("Выход", this);
