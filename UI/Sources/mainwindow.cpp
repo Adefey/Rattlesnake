@@ -1,10 +1,8 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-{
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     createTopToolBar();
-    UI *ui = new UI(this, runAction);
+    UI* ui = new UI(this, runAction);
     QObject::connect(create, &QAction::triggered, ui, &UI::create);
     QObject::connect(save, &QAction::triggered, ui, &UI::save);
     QObject::connect(open, &QAction::triggered, ui, &UI::open);
@@ -14,12 +12,11 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(ui);
 }
 
-void MainWindow::createTopToolBar()
-{
+void MainWindow::createTopToolBar() {
     ptb = new QToolBar(this);
 
-    QMenu *menu = new QMenu();
-    create = new QAction("Создать", this);
+    QMenu* menu = new QMenu();
+    create = new QAction("Очистить", this);
     save = new QAction("Сохранить", this);
     open = new QAction("Открыть", this);
     ext = new QAction("Выход", this);

@@ -1,7 +1,6 @@
 #include "blockwidget.h"
 
-BlockWidget::BlockWidget(QWidget *parent, Block *block) : QFrame(parent)
-{
+BlockWidget::BlockWidget(QWidget* parent, Block* block) : QFrame(parent) {
     bl = block;
     this->setCursor(QCursor(Qt::OpenHandCursor));
     QSizePolicy sp_retain = this->sizePolicy();
@@ -9,13 +8,13 @@ BlockWidget::BlockWidget(QWidget *parent, Block *block) : QFrame(parent)
     this->setSizePolicy(sp_retain);
 }
 
-void BlockWidget::mousePressEvent(QMouseEvent *event) {
+void BlockWidget::mousePressEvent(QMouseEvent* event) {
     if (event->button() != Qt::LeftButton) {
         event->ignore();
         return;
     }
-    QDrag *drag = new QDrag(this);
-    QMimeData *mimeData = new QMimeData;
+    QDrag* drag = new QDrag(this);
+    QMimeData* mimeData = new QMimeData;
     QPainter painter(this);
     QPixmap pixmap(this->size());
     this->render(&pixmap);
@@ -30,4 +29,3 @@ void BlockWidget::mousePressEvent(QMouseEvent *event) {
     Qt::DropAction dropAction = drag->exec(Qt::MoveAction);
     this->setVisible(true);
 }
-

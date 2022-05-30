@@ -1,40 +1,39 @@
 #ifndef BLOCKWIDGET_H
 #define BLOCKWIDGET_H
 
-#include <QWidget>
-#include <QFrame>
-#include <QMouseEvent>
-#include <QMetaObject>
+#include <QCursor>
+#include <QDebug>
 #include <QDrag>
 #include <QDropEvent>
-#include <QCursor>
+#include <QFrame>
+#include <QMetaObject>
 #include <QMimeData>
-#include <QPixmap>
+#include <QMouseEvent>
 #include <QPainter>
+#include <QPixmap>
 #include <QPoint>
-#include "block.hpp"
+#include <QWidget>
 #include <iostream>
 #include <string>
 
-#include <QDebug>
+#include "block.hpp"
 
-class BlockWidget : public QFrame
-{
+class BlockWidget : public QFrame {
     Q_OBJECT
-public:
-    explicit BlockWidget(QWidget *parent = nullptr, Block *block = nullptr);
+   public:
+    explicit BlockWidget(QWidget* parent = nullptr, Block* block = nullptr);
     virtual ~BlockWidget() = default;
     int pos;
 
-protected:
-    virtual void mousePressEvent(QMouseEvent *qevent);
+   protected:
+    virtual void mousePressEvent(QMouseEvent* qevent);
 
-private:
-    Block *bl;
+   private:
+    Block* bl;
 
-signals:
-    void blockPressed(Block *bl);
+   signals:
+    void blockPressed(Block* bl);
     void blockDeleted(BlockWidget* blockToDelete);
 };
 
-#endif // BLOCKWIDGET_H
+#endif  // BLOCKWIDGET_H
