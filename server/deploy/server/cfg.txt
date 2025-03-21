@@ -1,0 +1,10 @@
+DBAddress=mariadb
+DBUsername=amon
+DBPassword=14565
+DBDatabase=rattlesnake
+DBBlockTable=blocks
+DBLogTable=logs
+MaxMachinesCount=20
+Port=8080
+RefreshPeriod=500000
+MachineName=RattlesnakeMachine
